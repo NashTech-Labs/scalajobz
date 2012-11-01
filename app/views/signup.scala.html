@@ -1,0 +1,16 @@
+@(signUpForm: Form[SignUpForm])
+@import helper._ 
+@main("Welcome to scalajobz.com") {
+
+
+
+<h2>Join ScalaJobz.com here</h2>
+
+@form(routes.Application.newUser) { 
+@inputText(signUpForm("EmailId"))
+@inputPassword(signUpForm("Password"))
+@inputPassword(signUpForm("Confirm Password"))
+
+<input type="submit" value="SignUp">
+
+} }
