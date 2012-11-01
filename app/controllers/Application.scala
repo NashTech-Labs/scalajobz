@@ -39,11 +39,12 @@ object Application extends Controller {
     signUpForm.bindFromRequest.fold(
       errors => BadRequest(views.html.index("There Was Some Errors During The Registration")),
       signUpForm => {
-        if (signUpForm.password == signUpForm.confirmPassword) SignUp.createUser(signUpForm.emailId, signUpForm.password)
-        Redirect(routes.Application.index)
-      }
-      
-    )
+        if (signUpForm.password == signUpForm.confirmPassword) {
+          SignUp.createUser(signUpForm.emailId, signUpForm.password)
+          //Redirect(routes.Application.index)
+          Ok("You've Signed Up Successfully")
+        } else Ok("Passwords Do Not match. Please try again")
+      })
   }
 
 }
