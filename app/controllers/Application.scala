@@ -14,6 +14,8 @@ import play.api.data._
 import play.api.data.Forms._
 import play.mvc.Http.Request
 import play.libs._
+import models.User
+import org.bson.types.ObjectId
 
 object Application extends Controller {
 
@@ -43,7 +45,8 @@ object Application extends Controller {
         if (!SignUp.findUserByEmail(signUpForm.emailId).isEmpty) Ok("This Email Is Already registered With ScalaJobz")
         else if (!signUpForm.password.equals(signUpForm.confirmPassword)) Ok("Passwords Do Not match. Please try again")
         else {
-          SignUp.createUser(signUpForm.emailId, signUpForm.password)
+          val newUser = User(new ObjectId, signUpForm.emailId, signUpForm.password)
+          SignUp.createUser(newUser)
           Ok("You've Signed Up Successfully")
         }
       })

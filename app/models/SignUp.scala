@@ -14,9 +14,8 @@ object SignUp {
   /**
    * Create New User
    */
-  def createUser(emailId: String, password: String) = {
-    val newUser = User(new ObjectId, emailId, password)
-    UserDAO.insert(newUser)
+  def createUser(user: User) = {
+    UserDAO.insert(user)
   }
 
   /**
