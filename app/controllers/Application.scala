@@ -39,11 +39,13 @@ object Application extends Controller {
     signUpForm.bindFromRequest.fold(
       errors => BadRequest(views.html.index("There Was Some Errors During The Registration")),
       signUpForm => {
-        if (signUpForm.password == signUpForm.confirmPassword) {
+
+        if (!SignUp.findUserByEmail(signUpForm.emailId).isEmpty) Ok("This Email Is Already registered With ScalaJobz")
+        else if (!signUpForm.password.equals(signUpForm.confirmPassword)) Ok("Passwords Do Not match. Please try again")
+        else {
           SignUp.createUser(signUpForm.emailId, signUpForm.password)
-          //Redirect(routes.Application.index)
           Ok("You've Signed Up Successfully")
-        } else Ok("Passwords Do Not match. Please try again")
+        }
       })
   }
 
