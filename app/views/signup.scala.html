@@ -5,12 +5,12 @@
 
 
 <h2>Join ScalaJobz.com here</h2>
+ <form action="/signup" method="post">
+        <input name="EmailId" type="text" placeholder="Email address"/><br/>
+        <input name="Password" type="password" placeholder="Password" /><br/>
+          <input name="Confirm Password" type="password" placeholder="Confirm Password" /><br/>
+        <input type="submit" value="Sign in" class="btn btn-primary"/>
+        </form>
 
-@form(routes.Application.newUser) { 
-@inputText(signUpForm("EmailId"))
-@inputPassword(signUpForm("Password"))
-@inputPassword(signUpForm("Confirm Password"))
 
-<input type="submit" value="SignUp">
-
-} }
+} 

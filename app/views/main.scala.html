@@ -1,15 +1,99 @@
 @(title: String)(content: Html)
 
 <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>@title</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
 
-<html>
-    <head>
-        <title>@title</title>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
-    </head>
-    <body>
-        @content
-    </body>
+    <!-- <link href="/css/less/bootstrap-web.less" rel="stylesheet/less" type="text/css"> -->
+    <!-- <script src="/js/less.min.js"></script> -->
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/main.css")" />
+     <link rel="stylesheet" href="@routes.Assets.at("stylesheets/font.css")" />
+
+   <script src="@routes.Assets.at("javascripts/jquery-1.7.2.min.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.at("javascripts/jquery.rotator.js")" type="text/javascript"></script>
+
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if IE 7]>
+      <link rel="stylesheet" href="/css/font-awesome-ie7.css">
+    <![endif]-->
+
+  </head>
+  <body>
+    
+    <div class="wrap">
+
+      <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container">
+
+            <div class="pull-right">
+              <ul style="margin-right: 0">
+                <li> <a class="menulink" href="/benefits">Find Jobs</a></li>                
+                <li><a class="menulink" href="/features/conversion-tracking">Post a job</a></li>
+                <li><a class="menulink" href="/pricing">Help</a></li>
+                <li style="padding-left: 15px"><a class="menulink" href="/login">Log In</a></li>
+              </ul>
+            </div>
+            <div class="pull-left">
+            <ul class="nav"> 
+              <li class="logo " style="padding: 0">
+                <a style="padding: 0" href="/"><img alt="Scala Jobz" widht="50" height="50" src="@routes.Assets.at("/images/scala.jpeg")" /></a></li>
+             <li><a class="menulink" href="/pricing">Scala Jobz</a></li>
+            </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div id="main"  class="container">
+
+ 
+
+   @content
+
+   
+
+ 
+
+</div>
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+  $('#slider').carouFredSel({
+    items: 1,
+    auto: {
+      duration: 500,
+      pauseDuration: 10000,
+      pauseOnHover: true
+    }
+  });
+
+});
+
+</script>
+      <div id="footer">
+
+       <div id="logos">
+  <img alt="Google AdWords, Microsoft AdCenter, Facebook" src="/images/website/logos.png" />  <p>
+    Improvely works everywhere <br />
+    you advertise online
+  </p>
+</div>
+      </div>
+
+    </div>
+
+
+   
+
+  </body>
 </html>
