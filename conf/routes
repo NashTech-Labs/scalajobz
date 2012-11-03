@@ -9,6 +9,9 @@ GET     /                           controllers.Application.index
 GET    /signup                      controllers.Application.signUpOnScalaJobz
 POST    /signup                      controllers.Application.newUser
 
+GET    /login                      controllers.Application.loginOnScalaJobz
+POST    /login                      controllers.Application.logIn
+
 GET    /postAJob                      controllers.PostAJobController.postAJob
 POST    /postAJob                      controllers.PostAJobController.newJob
 

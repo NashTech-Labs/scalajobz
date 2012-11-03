@@ -16,6 +16,8 @@ import play.mvc.Http.Request
 import play.libs._
 import models.User
 import org.bson.types.ObjectId
+import models.LogInForm
+import models.LogIn
 
 object Application extends Controller {
 
@@ -24,6 +26,15 @@ object Application extends Controller {
       "EmailId" -> nonEmptyText,
       "Password" -> nonEmptyText,
       "Confirm Password" -> nonEmptyText)(SignUpForm.apply)(SignUpForm.unapply))
+
+  /**
+   * Login Form Mapping
+   */
+
+  val logInForm = Form(
+    mapping(
+      "EmailId" -> nonEmptyText,
+      "Password" -> nonEmptyText)(LogInForm.apply)(LogInForm.unapply))
 
   def index = Action {
     Ok(views.html.index("Hi Welcome To scalajobz.com"))
@@ -53,6 +64,30 @@ object Application extends Controller {
           Ok("You've Signed Up Successfully")
         }
       })
+  }
+
+  /**
+   * Login On ScalaJobz
+   */
+
+  /**
+   * Create A New User
+   */
+  def logIn = Action { implicit request =>
+    logInForm.bindFromRequest.fold(
+      errors => BadRequest(views.html.index("There Was Some Errors During The Registration")),
+      logInForm => {
+        val users = LogIn.findUser(logInForm.emailId, logInForm.password)
+        if (!users.isEmpty) Ok("Login Succesfull")
+        else Ok("Login Unsuccessfull")
+      })
+  }
+  /**
+   * Login on scalajobz.com
+   */
+
+  def loginOnScalaJobz = Action {
+    Ok(views.html.login(logInForm))
   }
 
 }

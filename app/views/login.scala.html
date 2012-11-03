@@ -1,0 +1,18 @@
+@(loginForm: Form[LogInForm])
+@import helper._ 
+@main("Welcome to scalajobz.com") {
+
+
+
+<h2>Login to ScalaJobz.com here</h2>
+ <form action="/login" method="post">
+         Email Id :<br>
+        <input name="EmailId" type="text" placeholder="Email address"/><br/>
+        Password :<br>
+        <input name="Password" type="password" placeholder="Password" /><br/>
+        
+        <input type="submit" value="Login" class="btn btn-primary"/>
+        </form>
+
+
+} 
