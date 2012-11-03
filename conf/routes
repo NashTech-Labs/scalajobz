@@ -8,5 +8,10 @@ GET     /                           controllers.Application.index
 
 GET    /signup                      controllers.Application.signUpOnScalaJobz
 POST    /signup                      controllers.Application.newUser
+
+GET    /postAJob                      controllers.PostAJobController.postAJob
+#POST    /postAJob                      controllers.PostAJobController.newUser
+
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

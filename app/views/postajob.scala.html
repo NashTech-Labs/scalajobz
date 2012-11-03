@@ -1,0 +1,36 @@
+@(postAJobForm: Form[PostAJobForm])
+@import helper._ 
+@main("Welcome to scalajobz.com") {
+
+
+
+<h2>Post a job on ScalaJobz.com here</h2>
+ <form action="/postAJob" method="post">
+         Job Position : <br>
+        <input name="Position" type="text" placeholder="Position"/><br/>
+        
+          Company Name : <br>
+        <input name="Company" type="text" placeholder="Company" /><br/>
+        
+          Job Location : <br>
+          <input name="Location" type="text" placeholder="Location" /><br/>
+         
+         
+          @select(
+          postAJobForm("JobType"), 
+           PostAJob.jobType,
+           '_label -> "Job Type", '_default -> "-- Select Job Type --",
+                '_showConstraints -> false) 
+        
+            Email Addrss To Apply To : <br>
+          <input name="Email_Addrss_To_Apply_To" type="text" placeholder="Email Addrss To Apply To" /><br/>
+        
+            Job Description : <br>
+          <input name="Description" type="text" placeholder="Description" /><br/>
+          
+         
+          <input type="submit" value="Post Job" class="btn btn-primary"/>
+        </form>
+
+
+} 
