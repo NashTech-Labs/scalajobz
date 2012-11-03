@@ -29,7 +29,7 @@ object Application extends Controller {
     Ok(views.html.index("Hi Welcome To scalajobz.com"))
   }
 
-  /*
+  /**
    * Signup on scalajobz.com
    */
 
@@ -37,6 +37,9 @@ object Application extends Controller {
     Ok(views.html.signup(signUpForm))
   }
 
+  /**
+   * Create A New User
+   */
   def newUser = Action { implicit request =>
     signUpForm.bindFromRequest.fold(
       errors => BadRequest(views.html.index("There Was Some Errors During The Registration")),

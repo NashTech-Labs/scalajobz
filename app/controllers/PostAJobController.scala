@@ -13,6 +13,9 @@ import play.mvc.Http.Request
 import play.libs._
 import org.bson.types.ObjectId
 import models.PostAJobForm
+import models.Job
+import models.Job
+import models.PostAJob
 
 object PostAJobController extends Controller {
 
@@ -26,11 +29,28 @@ object PostAJobController extends Controller {
       "Description" -> nonEmptyText)(PostAJobForm.apply)(PostAJobForm.unapply))
 
   /**
-   * Post A Job on scalajobz.com
+   * Load  Job  Page on scalajobz.com
    */
 
   def postAJob = Action {
     Ok(views.html.postajob(postAJobForm))
+  }
+
+  /**
+   * Post A Job on scalajobz.com
+   */
+  def newJob = Action { implicit request =>
+    postAJobForm.bindFromRequest.fold(
+      errors => BadRequest(views.html.index("There Was Some Errors During The Registration")),
+      postAJobForm => {
+        if (postAJobForm.position == "" || postAJobForm.company == "" || postAJobForm.location == ""
+          || postAJobForm.jobType == "" || postAJobForm.emailAddress == "") Ok("Please Fill The Mendatory Fields")
+        else {
+          val job = Job(new ObjectId, postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.description)
+          PostAJob.addJob(job)
+          Ok("Your Job has been Posted")
+        }
+      })
   }
 
 }
