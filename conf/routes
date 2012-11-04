@@ -15,6 +15,8 @@ POST    /login                      controllers.Application.logIn
 GET    /postAJob                      controllers.PostAJobController.postAJob
 POST    /postAJob                      controllers.PostAJobController.newJob
 
+GET    /findAllJobs                      controllers.PostAJobController.findAllJobs
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

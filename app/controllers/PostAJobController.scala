@@ -45,13 +45,18 @@ object PostAJobController extends Controller {
       errors => BadRequest(views.html.index("There Was Some Errors During The Registration")),
       postAJobForm => {
         if (postAJobForm.position == "" || postAJobForm.company == "" || postAJobForm.location == ""
-          || postAJobForm.jobType == "" || postAJobForm.jobType.equals("-- Select Job Type --") ||postAJobForm.emailAddress == "") Ok("Please Fill The Mendatory Fields")
+          || postAJobForm.jobType == "" || postAJobForm.jobType.equals("-- Select Job Type --") || postAJobForm.emailAddress == "") Ok("Please Fill The Mendatory Fields")
         else {
-          val job = Job(new ObjectId, postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.description,new Date)
+          val job = Job(new ObjectId, postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.description, new Date)
           PostAJob.addJob(job)
           Ok("Your Job has been Posted")
         }
       })
+  }
+
+  def findAllJobs = Action { implicit request =>
+    val jobList = PostAJob.findAllJobs
+     Ok(views.html.jobs(jobList))
   }
 
 }

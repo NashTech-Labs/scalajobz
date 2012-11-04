@@ -27,6 +27,10 @@ object PostAJob {
     JobDAO.insert(job)
   }
 
+  def findAllJobs: List[Job] = {
+    JobDAO.find(MongoDBObject()).toList
+  }
+
 }
 
 object JobDAO extends SalatDAO[Job, ObjectId](collection = MongoHQConfig.mongoDB("job"))
