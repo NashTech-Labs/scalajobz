@@ -44,7 +44,7 @@ object PostAJobController extends Controller {
       errors => BadRequest(views.html.index("There Was Some Errors During The Registration")),
       postAJobForm => {
         if (postAJobForm.position == "" || postAJobForm.company == "" || postAJobForm.location == ""
-          || postAJobForm.jobType == "" || postAJobForm.emailAddress == "") Ok("Please Fill The Mendatory Fields")
+          || postAJobForm.jobType == "" || postAJobForm.jobType.equals("-- Select Job Type --") ||postAJobForm.emailAddress == "") Ok("Please Fill The Mendatory Fields")
         else {
           val job = Job(new ObjectId, postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.description)
           PostAJob.addJob(job)

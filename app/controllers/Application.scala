@@ -18,6 +18,7 @@ import models.User
 import org.bson.types.ObjectId
 import models.LogInForm
 import models.LogIn
+import utils.PasswordHashing
 
 object Application extends Controller {
 
@@ -59,7 +60,8 @@ object Application extends Controller {
         if (!SignUp.findUserByEmail(signUpForm.emailId).isEmpty) Ok("This Email Is Already registered With ScalaJobz")
         else if (!signUpForm.password.equals(signUpForm.confirmPassword)) Ok("Passwords Do Not match. Please try again")
         else {
-          val newUser = User(new ObjectId, signUpForm.emailId, signUpForm.password)
+          val encryptedPassword = (new PasswordHashing).encryptThePassword( signUpForm.password)
+          val newUser = User(new ObjectId, signUpForm.emailId, encryptedPassword)
           SignUp.createUser(newUser)
           Ok("You've Signed Up Successfully")
         }
@@ -77,7 +79,8 @@ object Application extends Controller {
     logInForm.bindFromRequest.fold(
       errors => BadRequest(views.html.index("There Was Some Errors During The Login")),
       logInForm => {
-        val users = LogIn.findUser(logInForm.emailId, logInForm.password)
+        val encryptedPassword = (new PasswordHashing).encryptThePassword(logInForm.password)
+        val users = LogIn.findUser(logInForm.emailId, encryptedPassword)
         if (!users.isEmpty) Ok("Login Succesfull")
         else Ok("Login Unsuccessfull")
       })
