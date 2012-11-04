@@ -4229,7 +4229,7 @@ body {
 #main {
 	background: #ffffff url(../images/website/border.png) top left repeat-x;
 	margin: 0px auto 30px auto;
-	width: 800px;
+	width: 960px;
 	height: 500px;
 	-webkit-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 	-moz-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -4713,7 +4713,7 @@ img.shadow-right {
 
 #logos {
 	margin: 0px auto 0 auto;
-	width: 800px;
+	width: 960px;
 	min-height: 60px;
 	background-color: #e4e4e4;
 	background-image: -moz-linear-gradient(top, #eeeeee, #d5d5d5);
