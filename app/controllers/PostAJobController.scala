@@ -16,6 +16,7 @@ import models.PostAJobForm
 import models.Job
 import models.Job
 import models.PostAJob
+import java.util.Date
 
 object PostAJobController extends Controller {
 
@@ -46,7 +47,7 @@ object PostAJobController extends Controller {
         if (postAJobForm.position == "" || postAJobForm.company == "" || postAJobForm.location == ""
           || postAJobForm.jobType == "" || postAJobForm.jobType.equals("-- Select Job Type --") ||postAJobForm.emailAddress == "") Ok("Please Fill The Mendatory Fields")
         else {
-          val job = Job(new ObjectId, postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.description)
+          val job = Job(new ObjectId, postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.description,new Date)
           PostAJob.addJob(job)
           Ok("Your Job has been Posted")
         }
