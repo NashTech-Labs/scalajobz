@@ -45,7 +45,7 @@ object Application extends Controller {
    */
 
   def signUpOnScalaJobz = Action {
-    Ok(views.html.signup(signUpForm))
+    Ok(views.html.signup(signUpForm,logInForm))
   }
 
   /**
@@ -75,7 +75,7 @@ object Application extends Controller {
    */
   def logIn = Action { implicit request =>
     logInForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.index("There Was Some Errors During The Registration")),
+      errors => BadRequest(views.html.index("There Was Some Errors During The Login")),
       logInForm => {
         val users = LogIn.findUser(logInForm.emailId, logInForm.password)
         if (!users.isEmpty) Ok("Login Succesfull")
@@ -87,7 +87,7 @@ object Application extends Controller {
    */
 
   def loginOnScalaJobz = Action {
-    Ok(views.html.login(logInForm))
+    Ok(views.html.signup(signUpForm,logInForm))
   }
 
 }
