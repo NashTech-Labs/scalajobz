@@ -94,5 +94,13 @@ object Application extends Controller {
   def loginOnScalaJobz = Action {
     Ok(views.html.login(logInForm))
   }
+  
+  /**
+   * Log Out
+   */
+  
+  def logOutFromScalaJobz=Action{
+     Ok(views.html.jobs(PostAJob.findAllJobs)).withNewSession
+  }
 
 }

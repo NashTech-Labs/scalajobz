@@ -17,6 +17,7 @@ POST    /postAJob                      controllers.PostAJobController.newJob
 
 GET    /findAllJobs                      controllers.PostAJobController.findAllJobs
 
+GET    /logout                          controllers.Application.logOutFromScalaJobz
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
