@@ -47,9 +47,11 @@ object PostAJobController extends Controller {
         if (postAJobForm.position == "" || postAJobForm.company == "" || postAJobForm.location == ""
           || postAJobForm.jobType == "" || postAJobForm.jobType.equals("-- Select Job Type --") || postAJobForm.emailAddress == "") Ok("Please Fill The Mendatory Fields")
         else {
+          if(request.session.get("userId")==None) Ok(views.html.login(Application.logInForm))
+          else{
           val job = Job(new ObjectId, new ObjectId(request.session.get("userId").get),postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.description, new Date)
           PostAJob.addJob(job)
-          Ok(views.html.jobs(PostAJob.findAllJobs))
+          Ok(views.html.jobs(PostAJob.findAllJobs))}
         }
       })
   }
