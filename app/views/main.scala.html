@@ -26,9 +26,8 @@
 						<ul style="margin-right: 0">
 							<li><a class="menulink" href="#">Find Jobs</a></li>
 							<li><a class="menulink" href="/postAJob">Post a job</a></li>
-							<li><a class="menulink" href="/signup">Sign Up</a></li>
-							<li style="padding-left: 15px"><a class="menulink" href="/login">Log
-									In</a></li>
+							<li><a class="menulink" href="findAllJobs">All Jobs</a></li>
+							<li><a class="menulink" href="/login">Login</a></li>
 						</ul>
 					</div>
 					<div class="pull-left">
@@ -36,18 +35,34 @@
 							<li class="logo " style="padding: 0"><a style="padding: 0"
 								href="/"><img alt="Scala Jobz" widht="50" height="50"
 									src="@routes.Assets.at("/images/scala-logo.png")" /></a></li>
-							<li><a class="menulink" href="/pricing">ScalaJobz.com</a></li>
+							<li style="padding: 0"><a class="menulink" href="#">ScalaJobz.com</a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
+		
+			<div id="logos">
+				<div class="pull-right">
+
+					<form action="" class="form-search" style="margin-top: 10px;">
+						<div class="input-append">
+							<input type="text" class="span2 search-query"> <input
+								type="submit" value="Search" class="btn btn-primary" />
+						</div>
+
+					</form>
+
+				</div>
+			</div>
+		
+
 
 		<div id="main" class="container">@content</div>
 
 		<div id="footer">
 			<div id="logos">
-				<p>Copyright Knoldus.com</p>
+				<p>Copyright &copy; Knoldus.com</p>
 			</div>
 		</div>
 

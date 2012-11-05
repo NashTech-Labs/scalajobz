@@ -1,19 +1,75 @@
-@(signUpForm: Form[SignUpForm])
+@(signUpForm: Form[SignUpForm],loginForm: Form[LogInForm]) 
 @import helper._ 
 @main("Welcome to scalajobz.com") {
 
+<div id="homewhite">
+	<div class="page">
+		<h1> Welcome to ScalaJobz.com</h1>
+			<div class="border-center">
+				<div class="box">
+					<div class="bordered">
+
+						<h2 class="box-heading">New User</h2>
+						<form action="/signup" method="post">
+							<div class="control-group">
+								<label class="control-label" for="EmailId">Email</label>
+								<div class="controls">
+									<input name="EmailId" type="text" placeholder="Email address" />
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="Password">Password</label>
+								<div class="controls">
+									<input name="Password" type="password" placeholder="Password" />
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="Confirm Password">Confirm Password</label>
+								<div class="controls">
+									<input name="Confirm Password" type="password"
+										placeholder="Confirm Password" />
+								</div>
+							</div>
+							<div class="control-group">
+								<div class="controls">
+									<input type="submit" value="Sign Up" class="btn btn-primary" />
+								</div>
+							</div>
+						</form>
+					</div>
 
 
-<h2>Join ScalaJobz.com here</h2>
- <form action="/signup" method="post">
-         Email Id :<br>
-        <input name="EmailId" type="text" placeholder="Email address"/><br/>
-        Password :<br>
-        <input name="Password" type="password" placeholder="Password" /><br/>
-         Confirm Password :<br>
-          <input name="Confirm Password" type="password" placeholder="Confirm Password" /><br/>
-        <input type="submit" value="Sign in" class="btn btn-primary"/>
-        </form>
+				</div>
+
+				<div class="box">
+					<div class="bordered">
+						<h2>Login Here</h2>
+						<form action="/login" method="post">
+							<div class="control-group">
+								<label class="control-label" for="EmailId">Email</label>
+								<div class="controls">
+									<input name="EmailId" type="text" placeholder="Email address" />
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="Password">Password</label>
+								<div class="controls">
+									<input name="Password" type="password" placeholder="Password" />
+								</div>
+							</div>
+
+							<div class="control-group">
+								<div class="controls">
+									<input type="submit" value="LogIn" class="btn btn-primary" />
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+</div>
 
 
-} 
+
+}
