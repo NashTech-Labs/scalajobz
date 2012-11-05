@@ -63,8 +63,9 @@ object Application extends Controller {
         else {
           val encryptedPassword = (new PasswordHashing).encryptThePassword(signUpForm.password)
           val newUser = User(new ObjectId, signUpForm.emailId, encryptedPassword)
-          SignUp.createUser(newUser)
-          Ok("You've Signed Up Successfully")
+          val userId = SignUp.createUser(newUser)
+          val userSession = request.session + ("userId" -> userId.get.toString)
+          Ok(views.html.jobs(PostAJob.findAllJobs)).withSession(userSession)
         }
       })
   }
@@ -73,9 +74,6 @@ object Application extends Controller {
    * Login On ScalaJobz
    */
 
-  /**
-   * Create A New User
-   */
   def logIn = Action { implicit request =>
     logInForm.bindFromRequest.fold(
       errors => BadRequest(views.html.index("There Was Some Errors During The Login", request.session.get("userId").getOrElse(null), PostAJob.findAllJobs)),
