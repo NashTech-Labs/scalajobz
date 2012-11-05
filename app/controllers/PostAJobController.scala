@@ -42,7 +42,7 @@ object PostAJobController extends Controller {
    */
   def newJob = Action { implicit request =>
     postAJobForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.index("There Was Some Errors During The Registration")),
+      errors => BadRequest(views.html.index("There Was Some Errors During The Registration",request.session.get("userId").getOrElse(null),PostAJob.findAllJobs)),
       postAJobForm => {
         if (postAJobForm.position == "" || postAJobForm.company == "" || postAJobForm.location == ""
           || postAJobForm.jobType == "" || postAJobForm.jobType.equals("-- Select Job Type --") || postAJobForm.emailAddress == "") Ok("Please Fill The Mendatory Fields")
