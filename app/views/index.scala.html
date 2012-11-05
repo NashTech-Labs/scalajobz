@@ -1,7 +1,39 @@
-@(message: String)
+@(message: String,userId:String,jobs: List[Job])
+@import java.text.SimpleDateFormat
 
+@format_date(date: java.util.Date) = @{
+	new SimpleDateFormat("MMM dd yyyy").format(date)
+}
 @main("Welcome to scalajobz.com") {
     
-    <h1>@message</h1>
+   
+    <div id="homewhite">
+	<div class="page">
+	 <h1>@message</h1>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Position</th>
+					<th>Company</th>
+					<th>Location</th>
+					<th>Type</th>
+					<th>Date Posted</th>
+				</tr>
+			<tbody>
+				@jobs.map { job =>
+				<tr>
+					<td>@job.position</td>
+					<td>@job.company</td>
+					<td>@job.location</td>
+					<td>@job.jobType</td>
+					<td>@format_date(job.datePosted)</td>
+				</tr>
+				}
+			</tbody>
+			</thead>
+		</table>
+	</div>
+</div>
+    
     
 }

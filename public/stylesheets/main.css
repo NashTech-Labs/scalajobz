@@ -9,10 +9,24 @@ audio,canvas,video {
 	*zoom: 1;
 }
 
-audio:not ([controls] ) {
-	display: none;
-}
+audio
+:not
+ 
+(
+[
+controls
+]
+ 
+)
+{
+display
+:
+ 
+none
+;
 
+
+}
 html {
 	font-size: 100%;
 	-webkit-text-size-adjust: 100%;
@@ -1184,6 +1198,7 @@ input:focus:required:invalid:focus,textarea:focus:required:invalid:focus,select:
 	-webkit-border-radius: 14px;
 	-moz-border-radius: 14px;
 	border-radius: 14px;
+	width: 100px;
 }
 
 .form-search input,.form-inline input,.form-horizontal input,.form-search textarea,.form-inline textarea,.form-horizontal textarea,.form-search select,.form-inline select,.form-horizontal select,.form-search .help-inline,.form-inline .help-inline,.form-horizontal .help-inline,.form-search .uneditable-input,.form-inline .uneditable-input,.form-horizontal .uneditable-input,.form-search .input-prepend,.form-inline .input-prepend,.form-horizontal .input-prepend,.form-search .input-append,.form-inline .input-append,.form-horizontal .input-append
@@ -1539,7 +1554,7 @@ table .span24 {
 	border-left: 4px solid transparent;
 	content: "";
 	opacity: 0.3;
-	filter: alpha(opacity = 30);
+	filter: alpha(opacity =   30);
 }
 
 .dropdown .caret {
@@ -1549,7 +1564,7 @@ table .span24 {
 
 .dropdown:hover .caret,.open .caret {
 	opacity: 1;
-	filter: alpha(opacity = 100);
+	filter: alpha(opacity =   100);
 }
 
 .dropdown-menu {
@@ -1713,7 +1728,7 @@ table .span24 {
 	color: #000000;
 	text-shadow: 0 1px 0 #ffffff;
 	opacity: 0.2;
-	filter: alpha(opacity = 20);
+	filter: alpha(opacity =   20);
 }
 
 .close:hover {
@@ -1721,7 +1736,7 @@ table .span24 {
 	text-decoration: none;
 	cursor: pointer;
 	opacity: 0.4;
-	filter: alpha(opacity = 40);
+	filter: alpha(opacity =   40);
 }
 
 button.close {
@@ -1762,7 +1777,7 @@ button.close {
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	*background-color: #e6e6e6;
 	/* Darken IE7 buttons by default so they stand out more given they won't have borders */
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=  false );
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=   false );
 	border: 1px solid #cccccc;
 	*border: 0;
 	border-bottom-color: #b3b3b3;
@@ -1829,7 +1844,7 @@ button.close {
 	background-color: #e6e6e6;
 	background-image: none;
 	opacity: 0.65;
-	filter: alpha(opacity = 65);
+	filter: alpha(opacity =   65);
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
 	box-shadow: none;
@@ -1896,7 +1911,7 @@ button.close {
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	*background-color: #2869dd;
 	/* Darken IE7 buttons by default so they stand out more given they won't have borders */
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=  false );
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=   false );
 }
 
 .btn-primary:hover,.btn-primary:active,.btn-primary.active,.btn-primary.disabled,.btn-primary[disabled]
@@ -1925,7 +1940,7 @@ button.close {
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	*background-color: #f89406;
 	/* Darken IE7 buttons by default so they stand out more given they won't have borders */
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=  false );
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=   false );
 }
 
 .btn-warning:hover,.btn-warning:active,.btn-warning.active,.btn-warning.disabled,.btn-warning[disabled]
@@ -1954,7 +1969,7 @@ button.close {
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	*background-color: #bd362f;
 	/* Darken IE7 buttons by default so they stand out more given they won't have borders */
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=  false );
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=   false );
 }
 
 .btn-danger:hover,.btn-danger:active,.btn-danger.active,.btn-danger.disabled,.btn-danger[disabled]
@@ -1983,7 +1998,7 @@ button.close {
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	*background-color: #51a351;
 	/* Darken IE7 buttons by default so they stand out more given they won't have borders */
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=  false );
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=   false );
 }
 
 .btn-success:hover,.btn-success:active,.btn-success.active,.btn-success.disabled,.btn-success[disabled]
@@ -2012,7 +2027,7 @@ button.close {
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	*background-color: #2f96b4;
 	/* Darken IE7 buttons by default so they stand out more given they won't have borders */
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=  false );
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=   false );
 }
 
 .btn-info:hover,.btn-info:active,.btn-info.active,.btn-info.disabled,.btn-info[disabled]
@@ -2041,7 +2056,7 @@ button.close {
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	*background-color: #222222;
 	/* Darken IE7 buttons by default so they stand out more given they won't have borders */
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=  false );
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=   false );
 }
 
 .btn-inverse:hover,.btn-inverse:active,.btn-inverse.active,.btn-inverse.disabled,.btn-inverse[disabled]
@@ -2244,7 +2259,7 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini {
 
 .btn:hover .caret,.open.btn-group .caret {
 	opacity: 1;
-	filter: alpha(opacity = 100);
+	filter: alpha(opacity =   100);
 }
 
 .btn-mini .caret {
@@ -2272,7 +2287,7 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini {
 	border-top-color: #ffffff;
 	border-bottom-color: #ffffff;
 	opacity: 0.75;
-	filter: alpha(opacity = 75);
+	filter: alpha(opacity =   75);
 }
 
 .alert {
@@ -2559,7 +2574,7 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini {
 	border-top-color: #ffffff;
 	border-bottom-color: #ffffff;
 	opacity: 1;
-	filter: alpha(opacity = 100);
+	filter: alpha(opacity =   100);
 }
 
 .tabs-stacked .open>a:hover {
@@ -2959,7 +2974,7 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini {
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	*background-color: #385671;
 	/* Darken IE7 buttons by default so they stand out more given they won't have borders */
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=  false );
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=   false );
 	-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 1px 0
 		rgba(255, 255, 255, .075);
 	-moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 1px 0
@@ -3041,7 +3056,7 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini {
 
 .navbar .nav li.dropdown.active .caret {
 	opacity: 1;
-	filter: alpha(opacity = 100);
+	filter: alpha(opacity =   100);
 }
 
 .navbar .nav li.dropdown.open>.dropdown-toggle,.navbar .nav li.dropdown.active>.dropdown-toggle,.navbar .nav li.dropdown.open.active>.dropdown-toggle
@@ -3263,7 +3278,7 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini {
 
 .modal-backdrop,.modal-backdrop.fade.in {
 	opacity: 0.8;
-	filter: alpha(opacity = 80);
+	filter: alpha(opacity =   80);
 }
 
 .modal {
@@ -3363,12 +3378,12 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini {
 	padding: 5px;
 	font-size: 11px;
 	opacity: 0;
-	filter: alpha(opacity = 0);
+	filter: alpha(opacity =   0);
 }
 
 .tooltip.in {
 	opacity: 0.8;
-	filter: alpha(opacity = 80);
+	filter: alpha(opacity =   80);
 }
 
 .tooltip.top {
@@ -4081,7 +4096,7 @@ to {
 	-moz-border-radius: 23px;
 	border-radius: 23px;
 	opacity: 0.5;
-	filter: alpha(opacity = 50);
+	filter: alpha(opacity =   50);
 }
 
 .carousel-control.right {
@@ -4093,7 +4108,7 @@ to {
 	color: #ffffff;
 	text-decoration: none;
 	opacity: 0.9;
-	filter: alpha(opacity = 90);
+	filter: alpha(opacity =   90);
 }
 
 .carousel-caption {
@@ -4322,7 +4337,7 @@ body {
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	*background-color: #0088cc;
 	/* Darken IE7 buttons by default so they stand out more given they won't have borders */
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=  false );
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=   false );
 }
 
 .page .btn-group .btn-primary:hover,.page .btn-group .btn-primary:active,.page .btn-group .btn-primary.active,.page .btn-group .btn-primary.disabled,.page .btn-group .btn-primary[disabled]
@@ -4349,7 +4364,6 @@ body {
 	overflow: hidden;
 	background: #E4E4E4;
 	color: #ffffff;
-	height: 300px;
 }
 
 .bordered img {
@@ -4775,6 +4789,7 @@ img.shadow-right {
 	width: 293px;
 	margin-right: 20px;
 }
+
 #homewhite .box-post {
 	float: left;
 	width: 600px;
@@ -4812,4 +4827,9 @@ img.shadow-right {
 .border-center {
 	padding-left: 140px;
 	padding-right: 30px;
+}
+
+.text-info {
+	color: #385671;
+	font-size: 20px;
 }

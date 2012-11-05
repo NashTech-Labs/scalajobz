@@ -19,6 +19,7 @@ import org.bson.types.ObjectId
 import models.LogInForm
 import models.LogIn
 import utils.PasswordHashing
+import models.PostAJob
 
 object Application extends Controller {
 
@@ -37,8 +38,8 @@ object Application extends Controller {
       "EmailId" -> nonEmptyText,
       "Password" -> nonEmptyText)(LogInForm.apply)(LogInForm.unapply))
 
-  def index = Action {
-    Ok(views.html.index("Hi Welcome To scalajobz.com"))
+  def index = Action { implicit request =>
+    Ok(views.html.index("Hi Welcome To scalajobz.com", request.session.get("userId").getOrElse(null), PostAJob.findAllJobs))
   }
 
   /**
@@ -46,7 +47,7 @@ object Application extends Controller {
    */
 
   def signUpOnScalaJobz = Action {
-    Ok(views.html.signup(signUpForm,logInForm))
+    Ok(views.html.signup(signUpForm))
   }
 
   /**
@@ -54,13 +55,13 @@ object Application extends Controller {
    */
   def newUser = Action { implicit request =>
     signUpForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.index("There Was Some Errors During The Registration")),
+      errors => BadRequest(views.html.index("Hi Welcome To scalajobz.com", request.session.get("userId").getOrElse(null), PostAJob.findAllJobs)),
       signUpForm => {
 
         if (!SignUp.findUserByEmail(signUpForm.emailId).isEmpty) Ok("This Email Is Already registered With ScalaJobz")
         else if (!signUpForm.password.equals(signUpForm.confirmPassword)) Ok("Passwords Do Not match. Please try again")
         else {
-          val encryptedPassword = (new PasswordHashing).encryptThePassword( signUpForm.password)
+          val encryptedPassword = (new PasswordHashing).encryptThePassword(signUpForm.password)
           val newUser = User(new ObjectId, signUpForm.emailId, encryptedPassword)
           SignUp.createUser(newUser)
           Ok("You've Signed Up Successfully")
@@ -77,12 +78,15 @@ object Application extends Controller {
    */
   def logIn = Action { implicit request =>
     logInForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.index("There Was Some Errors During The Login")),
+      errors => BadRequest(views.html.index("There Was Some Errors During The Login", request.session.get("userId").getOrElse(null), PostAJob.findAllJobs)),
       logInForm => {
         val encryptedPassword = (new PasswordHashing).encryptThePassword(logInForm.password)
         val users = LogIn.findUser(logInForm.emailId, encryptedPassword)
-        if (!users.isEmpty) Ok("Login Succesfull")
-        else Ok("Login Unsuccessfull")
+
+        if (!users.isEmpty) {
+          val userSession = request.session + ("userId" -> users(0).id.toString)
+          Ok(views.html.jobs(PostAJob.findAllJobs)).withSession(userSession)
+        } else Ok("Login Unsuccessfull")
       })
   }
   /**
@@ -90,8 +94,7 @@ object Application extends Controller {
    */
 
   def loginOnScalaJobz = Action {
-    Ok(views.html.signup(signUpForm,logInForm)
-        )
+    Ok(views.html.login(logInForm))
   }
 
 }
