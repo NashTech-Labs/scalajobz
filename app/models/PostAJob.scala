@@ -9,7 +9,7 @@ import com.mongodb.casbah.commons.MongoDBObject
 import java.util.Date
 
 case class PostAJobForm(position: String, company: String, location: String, jobType: String, emailAddress: String, description: String)
-case class Job(@Key("_id") id: ObjectId, position: String, company: String, location: String, jobType: String, emailAddress: String, description: String, datePosted: Date)
+case class Job(@Key("_id") id: ObjectId, userId :ObjectId,position: String, company: String, location: String, jobType: String, emailAddress: String, description: String, datePosted: Date)
 object PostAJob {
 
   /*
