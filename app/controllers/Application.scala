@@ -90,7 +90,8 @@ object Application extends Controller {
    */
 
   def loginOnScalaJobz = Action {
-    Ok(views.html.signup(signUpForm,logInForm))
+    Ok(views.html.signup(signUpForm,logInForm)
+        )
   }
 
 }
