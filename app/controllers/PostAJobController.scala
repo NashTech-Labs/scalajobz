@@ -33,8 +33,8 @@ object PostAJobController extends Controller {
    * Load  Job  Page on scalajobz.com
    */
 
-  def postAJob = Action {
-    Ok(views.html.postajob(postAJobForm))
+  def postAJob = Action { implicit request =>
+    Ok(views.html.postajob(postAJobForm, request.session.get("userId").getOrElse(null)))
   }
 
   /**
@@ -42,23 +42,19 @@ object PostAJobController extends Controller {
    */
   def newJob = Action { implicit request =>
     postAJobForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.index("There Was Some Errors During The Registration",request.session.get("userId").getOrElse(null),PostAJob.findAllJobs)),
+      errors => BadRequest(views.html.index("There Was Some Errors During The Registration", request.session.get("userId").getOrElse(null), PostAJob.findAllJobs)),
       postAJobForm => {
         if (postAJobForm.position == "" || postAJobForm.company == "" || postAJobForm.location == ""
           || postAJobForm.jobType == "" || postAJobForm.jobType.equals("-- Select Job Type --") || postAJobForm.emailAddress == "") Ok("Please Fill The Mendatory Fields")
         else {
-          if(request.session.get("userId")==None) Ok(views.html.login(Application.logInForm))
-          else{
-          val job = Job(new ObjectId, new ObjectId(request.session.get("userId").get),postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.description, new Date)
-          PostAJob.addJob(job)
-          Ok(views.html.jobs(PostAJob.findAllJobs))}
+          if (request.session.get("userId") == None) Ok(views.html.login(Application.logInForm, request.session.get("userId").getOrElse(null)))
+          else {
+            val job = Job(new ObjectId, new ObjectId(request.session.get("userId").get), postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.description, new Date)
+            PostAJob.addJob(job)
+            Ok(views.html.index("Hi Welcome To Scalajobz.com", request.session.get("userId").getOrElse(null), PostAJob.findAllJobs))
+          }
         }
       })
-  }
-
-  def findAllJobs = Action { implicit request =>
-    val jobList = PostAJob.findAllJobs
-     Ok(views.html.jobs(jobList))
   }
 
 }

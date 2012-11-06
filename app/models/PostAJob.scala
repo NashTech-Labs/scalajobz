@@ -28,7 +28,8 @@ object PostAJob {
   }
 
   def findAllJobs: List[Job] = {
-    JobDAO.find(MongoDBObject()).toList
+    //sort(orderBy = MongoDBObject("rocks" -> -1, "timeCreated" -> -1))
+    JobDAO.find(MongoDBObject()).sort(orderBy = MongoDBObject("datePosted" -> -1)).toList
   }
 
 }
