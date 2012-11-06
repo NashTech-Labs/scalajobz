@@ -856,8 +856,10 @@ select:focus,input[type="file"]:focus,input[type="radio"]:focus,input[type="chec
 }
 
 .input-xxlarge {
-	width: 530px;
+	width: 800px;
+	margin:15px 22px;
 }
+
 
 input[class*="span"],select[class*="span"],textarea[class*="span"],.uneditable-input[class*="span"],.row-fluid input[class*="span"],.row-fluid select[class*="span"],.row-fluid textarea[class*="span"],.row-fluid .uneditable-input[class*="span"]
 	{
@@ -1265,7 +1267,7 @@ legend+.control-group {
 	float: left;
 	width: 140px;
 	padding-top: 5px;
-	text-align: right;
+	text-align: left;
 }
 
 .form-horizontal .controls {
@@ -1381,11 +1383,12 @@ table {
 
 .table-striped tbody tr:nth-child(odd) td,.table-striped tbody tr:nth-child(odd) th
 	{
-	background-color: #f9f9f9;
+	background-color: #e4e4e4;
 }
 
 .table tbody tr:hover td,.table tbody tr:hover th {
-	background-color: #f5f5f5;
+	background-color: #2884dd;
+	color: white;
 }
 
 table .span1 {
@@ -4245,7 +4248,6 @@ body {
 	background: #ffffff url(../images/website/border.png) top left repeat-x;
 	margin: 0px auto 30px auto;
 	width: 960px;
-	height: 500px;
 	-webkit-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 	-moz-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -4833,3 +4835,19 @@ img.shadow-right {
 	color: #385671;
 	font-size: 20px;
 }
+
+
+/*Validations*/
+    label.valid {
+    width: 24px;
+    height: 24px;
+    background: url(../images/valid.png) center center no-repeat;
+    display: inline-block;
+    text-indent: -9999px;
+    }
+    label.error {
+    font-weight: bold;
+    color: red;
+    padding: 2px 8px;
+    margin-top: 2px;
+    }

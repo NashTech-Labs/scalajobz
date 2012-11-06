@@ -1,5 +1,5 @@
 @(postAJobForm: Form[PostAJobForm],userId:String) 
-@import helper._ 
+@import helper._
 @main("Welcome to ScalaJobz.com",userId) {
 
 <div id="homewhite">
@@ -8,7 +8,7 @@
 		<div class="border-center">
 			<div class="box-post">
 				<div class="bordered">
-					<form action="/postAJob" method="post">
+					<form class="form-horizontal" action="/postAJob" method="post">
 						<table>
 							<tr>
 								<td>
@@ -19,6 +19,8 @@
 										</div>
 									</div>
 								</td>
+							</tr>
+							<tr>
 								<td>
 									<div class="control-group">
 										<label class="control-label" for="Company"> Company
@@ -39,6 +41,8 @@
 										</div>
 									</div>
 								</td>
+							</tr>
+							<tr>
 								<td>
 									<div class="control-group">
 										<label class="control-label" for="JobType"> Job Type</label>
@@ -46,8 +50,7 @@
 											<select name="JobType">
 												<option>-- Select Job Type --</option>
 												@PostAJob.jobType.map{case(key, value)=>
-												<option value=@value>@key</option> 
-												}
+												<option value=@value>@key</option> }
 											</select>
 
 
@@ -59,26 +62,28 @@
 								<td>
 									<div class="control-group">
 										<label class="control-label" for="Email_Addrss_To_Apply_To">Email
-											Addrss To Apply To</label>
+											Address</label>
 										<div class="controls">
 											<input name="Email_Addrss_To_Apply_To" type="text"
 												placeholder="Email Addrss To Apply To" />
 										</div>
 									</div>
 								</td>
+							</tr>
+							<tr>
 								<td>
 									<div class="control-group">
 										<label class="control-label" for="Description">Job
 											Description</label>
 										<div class="controls">
-											<input name="Description" type="text"
-												placeholder="Description" />
+											<textarea name="Description" type="text" rows="3"
+												placeholder="Description" ></textarea>
 										</div>
 									</div>
 								</td>
 							</tr>
 							<tr>
-								<td colspan="2">
+								<td>
 									<div class="control-group">
 										<div class="controls">
 											<input type="submit" value="Post Job" class="btn btn-primary" />
