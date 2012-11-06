@@ -55,7 +55,7 @@ object Application extends Controller {
    */
   def newUser = Action { implicit request =>
     signUpForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.index("Hi Welcome To Scalajobz.com", request.session.get("userId").getOrElse(null), PostAJob.findAllJobs)),
+      errors => BadRequest(views.html.index("There Was Some Errors During The SignUp", request.session.get("userId").getOrElse(null), PostAJob.findAllJobs)),
       signUpForm => {
 
         if (!SignUp.findUserByEmail(signUpForm.emailId).isEmpty) Ok("This Email Is Already registered With ScalaJobz")
@@ -75,12 +75,13 @@ object Application extends Controller {
    */
 
   def logIn = Action { implicit request =>
+    println("hello")
     logInForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.index("There Was Some Errors During The Login", request.session.get("userId").getOrElse(null), PostAJob.findAllJobs)),
+      errors => BadRequest(views.html.index("There Was Some Errors During The Login", null, PostAJob.findAllJobs)),
       logInForm => {
         val encryptedPassword = (new PasswordHashing).encryptThePassword(logInForm.password)
         val users = LogIn.findUser(logInForm.emailId, encryptedPassword)
-
+        println("users" + users.size)
         if (!users.isEmpty) {
           val userSession = request.session + ("userId" -> users(0).id.toString)
           Ok(views.html.index("Hi Welcome To Scalajobz.com", users(0).id.toString, PostAJob.findAllJobs)).withSession(userSession)

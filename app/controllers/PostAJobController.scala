@@ -34,7 +34,10 @@ object PostAJobController extends Controller {
    */
 
   def postAJob = Action { implicit request =>
-    Ok(views.html.postajob(postAJobForm, request.session.get("userId").getOrElse(null)))
+    if (request.session.get("userId") == None)
+      Ok(views.html.login(Application.logInForm, request.session.get("userId").getOrElse(null)))
+    else
+      Ok(views.html.postajob(postAJobForm, request.session.get("userId").getOrElse(null)))
   }
 
   /**
