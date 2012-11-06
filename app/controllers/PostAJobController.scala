@@ -33,8 +33,8 @@ object PostAJobController extends Controller {
    * Load  Job  Page on scalajobz.com
    */
 
-  def postAJob = Action {
-    Ok(views.html.postajob(postAJobForm))
+  def postAJob = Action { implicit request =>
+    Ok(views.html.postajob(postAJobForm,request.session.get("userId").getOrElse(null)))
   }
 
   /**
@@ -47,18 +47,18 @@ object PostAJobController extends Controller {
         if (postAJobForm.position == "" || postAJobForm.company == "" || postAJobForm.location == ""
           || postAJobForm.jobType == "" || postAJobForm.jobType.equals("-- Select Job Type --") || postAJobForm.emailAddress == "") Ok("Please Fill The Mendatory Fields")
         else {
-          if(request.session.get("userId")==None) Ok(views.html.login(Application.logInForm))
+          if(request.session.get("userId")==None) Ok(views.html.login(Application.logInForm,request.session.get("userId").getOrElse(null)))
           else{
           val job = Job(new ObjectId, new ObjectId(request.session.get("userId").get),postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.description, new Date)
           PostAJob.addJob(job)
-          Ok(views.html.jobs(PostAJob.findAllJobs))}
+          Ok(views.html.jobs(PostAJob.findAllJobs,request.session.get("userId").getOrElse(null)))}
         }
       })
   }
 
   def findAllJobs = Action { implicit request =>
     val jobList = PostAJob.findAllJobs
-     Ok(views.html.jobs(jobList))
+     Ok(views.html.jobs(jobList,request.session.get("userId").getOrElse(null)))
   }
 
 }

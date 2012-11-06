@@ -1,10 +1,10 @@
-@(jobs: List[Job]) 
+@(jobs: List[Job],userId:String) 
 @import java.text.SimpleDateFormat
 
 @format_date(date: java.util.Date) = @{
 	new SimpleDateFormat("dd/MMM/yyyy").format(date)
 }
-@main("Welcome to scalajobz.com") {
+@main("Welcome to scalajobz.com",userId) {
 
 <div id="homewhite">
 	<div class="page">

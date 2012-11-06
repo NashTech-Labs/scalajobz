@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String,userId:String)(content: Html)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,36 +25,39 @@
 					<div class="pull-right">
 						<ul style="margin-right: 0">
 							<li><a class="menulink" href="#">Find Jobs</a></li>
-							<li><a class="menulink" href="/postAJob">Post a job</a></li>
 							<li><a class="menulink" href="findAllJobs">All Jobs</a></li>
-							<li><a class="menulink" href="/login">Login</a></li>
+							@if(userId != null) {
+							<li><a class="menulink" href="/postAJob">Post a job</a></li>
+							<li><a class="menulink" href="/logout ">Log Out</a></li>} else{
+							<li><a class="menulink" href="/login">Log In</a></li> }
+
 						</ul>
 					</div>
 					<div class="pull-left">
 						<ul class="nav">
 							<li class="logo " style="padding: 0"><a style="padding: 0"
 								href="/"><img alt="Scala Jobz" widht="50" height="50"
-									src="http://knoldus.files.wordpress.com/2012/11/2.png"/></a></li>
+									src="http://knoldus.files.wordpress.com/2012/11/2.png" /></a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
-		
-			<div id="logos">
-				<div class="pull-right">
 
-					<form action="" class="form-search" style="margin-top: 10px;">
-						<div class="input-append">
-							<input type="text" class="span2 search-query" size="100"> <input
-								type="submit" value="Search" class="btn btn-primary" />
-						</div>
+		<div id="logos">
+			<div class="pull-right">
 
-					</form>
+				<form action="" class="form-search" style="margin-top: 10px;">
+					<div class="input-append">
+						<input type="text" class="span2 search-query" size="100">
+						<input type="submit" value="Search" class="btn btn-primary" />
+					</div>
 
-				</div>
+				</form>
+
 			</div>
-		
+		</div>
+
 
 
 		<div id="main" class="container">@content</div>
