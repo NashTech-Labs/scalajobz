@@ -56,5 +56,15 @@ object PostAJobController extends Controller {
         }
       })
   }
+  
+  
+   /**
+   * Load  Job  Page on scalajobz.com
+   */
+
+  def findAJob = Action { implicit request =>
+    //TODO : Post the Keyword Here
+   Ok
+  }
 
 }

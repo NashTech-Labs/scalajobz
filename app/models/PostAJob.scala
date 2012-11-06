@@ -35,7 +35,6 @@ object PostAJob {
    * Search The Job
    */
   def searchTheJob(stringTobeSearched: String) = {
-
     var jobsFound: List[Job] = List()
     val allJobs = JobDAO.find(MongoDBObject()).toList
 
