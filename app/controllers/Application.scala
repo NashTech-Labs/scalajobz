@@ -39,7 +39,7 @@ object Application extends Controller {
       "Password" -> nonEmptyText)(LogInForm.apply)(LogInForm.unapply))
 
   def index = Action { implicit request =>
-    Ok(views.html.index("Hi Welcome To scalajobz.com", request.session.get("userId").getOrElse(null), PostAJob.findAllJobs))
+    Ok(views.html.index("Hi Welcome To Scalajobz.com", request.session.get("userId").getOrElse(null), PostAJob.findAllJobs))
   }
 
   /**
@@ -55,7 +55,7 @@ object Application extends Controller {
    */
   def newUser = Action { implicit request =>
     signUpForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.index("Hi Welcome To scalajobz.com", request.session.get("userId").getOrElse(null), PostAJob.findAllJobs)),
+      errors => BadRequest(views.html.index("Hi Welcome To Scalajobz.com", request.session.get("userId").getOrElse(null), PostAJob.findAllJobs)),
       signUpForm => {
 
         if (!SignUp.findUserByEmail(signUpForm.emailId).isEmpty) Ok("This Email Is Already registered With ScalaJobz")
@@ -65,7 +65,7 @@ object Application extends Controller {
           val newUser = User(new ObjectId, signUpForm.emailId, encryptedPassword)
           val userId = SignUp.createUser(newUser)
           val userSession = request.session + ("userId" -> userId.get.toString)
-          Ok(views.html.jobs(PostAJob.findAllJobs, userId.get.toString)).withSession(userSession)
+          Ok(views.html.index("Hi Welcome To Scalajobz.com", userId.get.toString, PostAJob.findAllJobs)).withSession(userSession)
         }
       })
   }
@@ -83,7 +83,7 @@ object Application extends Controller {
 
         if (!users.isEmpty) {
           val userSession = request.session + ("userId" -> users(0).id.toString)
-          Ok(views.html.jobs(PostAJob.findAllJobs, users(0).id.toString)).withSession(userSession)
+          Ok(views.html.index("Hi Welcome To Scalajobz.com", users(0).id.toString, PostAJob.findAllJobs)).withSession(userSession)
         } else Ok("Login Unsuccessfull")
       })
   }
@@ -100,7 +100,7 @@ object Application extends Controller {
    */
 
   def logOutFromScalaJobz = Action {
-    Ok(views.html.jobs(PostAJob.findAllJobs, null)).withNewSession
+    Ok(views.html.index("Hi Welcome To Scalajobz.com", null, PostAJob.findAllJobs)).withNewSession
   }
 
 }

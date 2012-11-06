@@ -15,7 +15,7 @@ POST    /login                      controllers.Application.logIn
 GET    /postAJob                      controllers.PostAJobController.postAJob
 POST    /postAJob                      controllers.PostAJobController.newJob
 
-GET    /findAllJobs                      controllers.PostAJobController.findAllJobs
+GET    /findAllJobs                     controllers.Application.index
 
 GET    /logout                          controllers.Application.logOutFromScalaJobz
 
