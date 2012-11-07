@@ -12,10 +12,10 @@ class SignUpTest extends FunSuite with BeforeAndAfter {
   
  
   test("create a user & find a user"){
-    val user = User(new ObjectId, "neelkanth@knoldus.com", "ABCD")
-    val userId = SignUp.createUser(user)
-    val users=SignUp.findUserByEmail("neelkanth@knoldus.com")
-    assert(users.size===1)
+    val employer = Employer(new ObjectId, "neelkanth@knoldus.com", "ABCD")
+    val employerId = SignUp.createUser(employer)
+    val employers=SignUp.findUserByEmail("neelkanth@knoldus.com")
+    assert(employers.size===1)
   }
 
 }

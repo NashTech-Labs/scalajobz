@@ -14,7 +14,7 @@ import play.api.data._
 import play.api.data.Forms._
 import play.mvc.Http.Request
 import play.libs._
-import models.User
+import models.Employer
 import org.bson.types.ObjectId
 import models.LogInForm
 import models.LogIn
@@ -39,7 +39,7 @@ object Application extends Controller {
       "Password" -> nonEmptyText)(LogInForm.apply)(LogInForm.unapply))
 
   def index = Action { implicit request =>
-    Ok(views.html.index("Hi Welcome To Scalajobz.com", request.session.get("userId").getOrElse(null), PostAJob.findAllJobs))
+    Ok(views.html.index("Hi Welcome To Scalajobz.com", request.session.get("employerId").getOrElse(null), PostAJob.findAllJobs))
   }
 
   /**
@@ -47,7 +47,7 @@ object Application extends Controller {
    */
 
   def signUpOnScalaJobz(flag: String) = Action { implicit request =>
-    Ok(views.html.signup(signUpForm, request.session.get("userId").getOrElse(null), flag))
+    Ok(views.html.signup(signUpForm, request.session.get("employerId").getOrElse(null), flag))
   }
 
   /**
@@ -62,13 +62,13 @@ object Application extends Controller {
         else if (!signUpForm.password.equals(signUpForm.confirmPassword)) Ok("Passwords Do Not match. Please try again")
         else {
           val encryptedPassword = (new PasswordHashing).encryptThePassword(signUpForm.password)
-          val newUser = User(new ObjectId, signUpForm.emailId, encryptedPassword)
-          val userId = SignUp.createUser(newUser)
-          val userSession = request.session + ("userId" -> userId.get.toString)
+          val newEmployer = Employer(new ObjectId, signUpForm.emailId, encryptedPassword)
+          val employerId = SignUp.createUser(newEmployer)
+          val userSession = request.session + ("employerId" -> employerId.get.toString)
           if (flag.equals("login"))
-            Ok(views.html.index("Hi Welcome To Scalajobz.com", userId.get.toString, PostAJob.findAllJobs)).withSession(userSession)
+            Ok(views.html.index("Hi Welcome To Scalajobz.com", employerId.get.toString, PostAJob.findAllJobs)).withSession(userSession)
           else
-            Ok(views.html.postajob(PostAJobController.postAJobForm, userId.get.toString)).withSession(userSession)
+            Ok(views.html.postajob(PostAJobController.postAJobForm, employerId.get.toString)).withSession(userSession)
 
         }
       })
@@ -84,14 +84,13 @@ object Application extends Controller {
       errors => BadRequest(views.html.index("There Was Some Errors During The Login", null, PostAJob.findAllJobs)),
       logInForm => {
         val encryptedPassword = (new PasswordHashing).encryptThePassword(logInForm.password)
-        val users = LogIn.findUser(logInForm.emailId, encryptedPassword)
-        println("users" + users.size)
-        if (!users.isEmpty) {
-          val userSession = request.session + ("userId" -> users(0).id.toString)
+        val employers = LogIn.findUser(logInForm.emailId, encryptedPassword)
+        if (!employers.isEmpty) {
+          val employerSession = request.session + ("employerId" -> employers(0).id.toString)
           if (flag.equals("login"))
-            Ok(views.html.index("Hi Welcome To Scalajobz.com", users(0).id.toString, PostAJob.findAllJobs)).withSession(userSession)
+            Ok(views.html.index("Hi Welcome To Scalajobz.com", employers(0).id.toString, PostAJob.findAllJobs)).withSession(employerSession)
           else
-            Ok(views.html.postajob(PostAJobController.postAJobForm, users(0).id.toString)).withSession(userSession)
+            Ok(views.html.postajob(PostAJobController.postAJobForm, employers(0).id.toString)).withSession(employerSession)
         } else Ok("Login Unsuccessfull")
       })
   }
@@ -100,7 +99,7 @@ object Application extends Controller {
    */
 
   def loginOnScalaJobz = Action { implicit request =>
-    Ok(views.html.login(logInForm, request.session.get("userId").getOrElse(null), "login"))
+    Ok(views.html.login(logInForm, request.session.get("employerId").getOrElse(null), "login"))
   }
 
   /**
