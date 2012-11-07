@@ -44,6 +44,7 @@ object PostAJobController extends Controller {
    * Post A Job on scalajobz.com
    */
   def newJob = Action { implicit request =>
+    println("New Job")
     postAJobForm.bindFromRequest.fold(
       errors => BadRequest(views.html.index("There Was Some Errors During The Registration", request.session.get("userId").getOrElse(null), PostAJob.findAllJobs)),
       postAJobForm => {
