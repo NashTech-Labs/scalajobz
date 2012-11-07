@@ -1,12 +1,16 @@
-@(message: String,userId:String,jobs: List[Job])
+@(alert: Alert,userId:String,jobs: List[Job])
 @import java.text.SimpleDateFormat
 
 @format_date(date: java.util.Date) = @{
 	new SimpleDateFormat("MMM dd yyyy").format(date)
 }
 @main("Welcome to Scalajobz.com",userId) {
-    
-   
+    @if(alert.alertType != null){
+   		<div class="alert alert-@alert.alertType">  
+  			<a class="close" data-dismiss="alert">×</a>  
+  			<strong>@alert.alertType ! </strong>@alert.message  
+		</div> 
+		}
     <div id="homewhite">
 	<div class="page">
 		<table class="table table-striped">
