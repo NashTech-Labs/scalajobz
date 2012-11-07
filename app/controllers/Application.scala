@@ -27,7 +27,7 @@ object Application extends Controller {
     mapping(
       "EmailId" -> nonEmptyText,
       "Password" -> nonEmptyText,
-      "Confirm Password" -> nonEmptyText)(SignUpForm.apply)(SignUpForm.unapply))
+      "ConfirmPassword" -> nonEmptyText)(SignUpForm.apply)(SignUpForm.unapply))
 
   /**
    * Login Form Mapping

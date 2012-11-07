@@ -8,14 +8,14 @@
 		<div class="border-center">
 			<div class="box-post">
 				<div class="bordered">
-					<form class="form-horizontal" action="/postAJob" method="post">
+					<form id="jobpost-form" class="form-horizontal" action="/postAJob" method="post">
 						<table>
 							<tr>
 								<td>
 									<div class="control-group">
 										<label class="control-label" for="Position">Position</label>
 										<div class="controls">
-											<input name="Position" type="text" placeholder="Position" />
+											<input id="Position" name="Position" type="text" placeholder="Position" class="input-large"/>
 										</div>
 									</div>
 								</td>
@@ -26,7 +26,7 @@
 										<label class="control-label" for="Company"> Company
 											Name</label>
 										<div class="controls">
-											<input name="Company" type="text" placeholder="Company" />
+											<input id="Company" name="Company" type="text" placeholder="Company" class="input-large"/>
 										</div>
 									</div>
 								</td>
@@ -37,7 +37,7 @@
 										<label class="control-label" for="Location"> Job
 											Location</label>
 										<div class="controls">
-											<input name="Location" type="text" placeholder="Location" />
+											<input id="Location" name="Location" type="text" placeholder="Location" class="input-large"/>
 										</div>
 									</div>
 								</td>
@@ -47,7 +47,7 @@
 									<div class="control-group">
 										<label class="control-label" for="JobType"> Job Type</label>
 										<div class="controls">
-											<select name="JobType">
+											<select id="JobType" name="JobType" class="input-large">
 												<option>-- Select Job Type --</option>
 												@PostAJob.jobType.map{case(key, value)=>
 												<option value=@value>@key</option> }
@@ -64,8 +64,8 @@
 										<label class="control-label" for="Email_Addrss_To_Apply_To">Email
 											Address</label>
 										<div class="controls">
-											<input name="Email_Addrss_To_Apply_To" type="text"
-												placeholder="Email Addrss To Apply To" />
+											<input id="Email_Addrss_To_Apply_To" name="Email_Addrss_To_Apply_To" type="text"
+												placeholder="Email Addrss To Apply To" class="input-large"/>
 										</div>
 									</div>
 								</td>
@@ -76,8 +76,8 @@
 										<label class="control-label" for="Description">Job
 											Description</label>
 										<div class="controls">
-											<textarea name="Description" type="text" rows="3"
-												placeholder="Description" ></textarea>
+											<textarea id="Description" name="Description" rows="3" 
+												placeholder="Description" class="input-large"></textarea>
 										</div>
 									</div>
 								</td>

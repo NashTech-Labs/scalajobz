@@ -18,23 +18,23 @@
 				<div class="box">
 					<div class="bordered">
 						<h2>Login Here</h2>
-						<form action="/login/@flag" method="post">
+						<form id="login-form" action="/login/@flag" method="post">
 							<div class="control-group">
 								<label class="control-label" for="EmailId">Email</label>
 								<div class="controls">
-									<input name="EmailId" type="text" placeholder="Email address" />
+									<input id="EmailId" name="EmailId" type="text" placeholder="Email address" class="input-large"/>
 								</div>
 							</div>
 							<div class="control-group">
 								<label class="control-label" for="Password">Password</label>
 								<div class="controls">
-									<input name="Password" type="password" placeholder="Password" />
+									<input id="Password" name="Password" type="password" placeholder="Password" class="input-large"/>
 								</div>
 							</div>
 
 							<div class="control-group">
 								<div class="controls">
-									<input type="submit" value="LogIn" class="btn btn-primary" />
+									<input type="submit" value="LogIn" class="btn btn-primary"/>
 								</div>
 							</div>
 						</form>

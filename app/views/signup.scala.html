@@ -17,25 +17,23 @@
 			<div class="box">
 				<div class="bordered">
 					<h2 class="box-heading">New User</h2>
-					<form action="/signup/@flag" method="post">
+					<form id="signup-form" action="/signup/@flag" method="post">
 						<div class="control-group">
 							<label class="control-label" for="EmailId">Email</label>
 							<div class="controls">
-								<input name="EmailId" type="text" placeholder="Email address" />
+								<input id="EmailId" name="EmailId" type="text" placeholder="Email address" class="input-large"/>
 							</div>
 						</div>
 						<div class="control-group">
 							<label class="control-label" for="Password">Password</label>
 							<div class="controls">
-								<input name="Password" type="password" placeholder="Password" />
+								<input id="Password" name="Password" type="password" placeholder="Password" class="input-large"/>
 							</div>
 						</div>
 						<div class="control-group">
-							<label class="control-label" for="Confirm Password">Confirm
-								Password</label>
+							<label class="control-label" for="ConfirmPassword">Confirm Password</label>
 							<div class="controls">
-								<input name="Confirm Password" type="password"
-									placeholder="Confirm Password" />
+								<input name="ConfirmPassword" type="password" id="ConfirmPassword"	placeholder="Confirm Password" class="input-large"/>
 							</div>
 						</div>
 						<div class="control-group">
@@ -49,7 +47,5 @@
 		</div>
 	</div>
 </div>
-
-
 
 }
