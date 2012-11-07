@@ -17,6 +17,7 @@ import models.Job
 import models.Job
 import models.PostAJob
 import java.util.Date
+import models.Alert
 
 object PostAJobController extends Controller {
 
@@ -35,7 +36,7 @@ object PostAJobController extends Controller {
 
   def postAJob = Action { implicit request =>
     if (request.session.get("userId") == None)
-      Ok(views.html.login(Application.logInForm, request.session.get("userId").getOrElse(null), "jobPost"))
+      Ok(views.html.login(new Alert(null, null), Application.logInForm, request.session.get("userId").getOrElse(null), "jobPost"))
     else
       Ok(views.html.postajob(postAJobForm, request.session.get("userId").getOrElse(null)))
   }
@@ -46,29 +47,28 @@ object PostAJobController extends Controller {
   def newJob = Action { implicit request =>
     println("New Job")
     postAJobForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.index("There Was Some Errors During The Registration", request.session.get("userId").getOrElse(null), PostAJob.findAllJobs)),
+      errors => BadRequest(views.html.index(new Alert("error", "There Was Some Errors During Job Posting"), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs)),
       postAJobForm => {
         if (postAJobForm.position == "" || postAJobForm.company == "" || postAJobForm.location == ""
           || postAJobForm.jobType == "" || postAJobForm.jobType.equals("-- Select Job Type --") || postAJobForm.emailAddress == "") Ok("Please Fill The Mendatory Fields")
         else {
-          if (request.session.get("userId") == None) Ok(views.html.login(Application.logInForm, request.session.get("userId").getOrElse(null),"jobPost"))
+          if (request.session.get("userId") == None) Ok(views.html.login(new Alert(null, null),Application.logInForm, request.session.get("userId").getOrElse(null), "jobPost"))
           else {
             val job = Job(new ObjectId, new ObjectId(request.session.get("userId").get), postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.description, new Date)
             PostAJob.addJob(job)
-            Ok(views.html.index("Hi Welcome To Scalajobz.com", request.session.get("userId").getOrElse(null), PostAJob.findAllJobs))
+            Ok(views.html.index(new Alert("success", "Job Posted Successfully"), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs))
           }
         }
       })
   }
-  
-  
-   /**
+
+  /**
    * Load  Job  Page on scalajobz.com
    */
 
   def findAJob = Action { implicit request =>
     //TODO : Post the Keyword Here
-   Ok
+    Ok
   }
 
 }
