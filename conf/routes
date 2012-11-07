@@ -6,20 +6,20 @@
 GET     /                           controllers.Application.index
 
 
-GET    /signup                      controllers.Application.signUpOnScalaJobz
-POST    /signup                      controllers.Application.newUser
+GET    /signup/:flag                 controllers.Application.signUpOnScalaJobz(flag:String)
+POST    /signup/:flag                      controllers.Application.newUser(flag:String)
 
-GET    /login                      controllers.Application.loginOnScalaJobz
-POST    /login/:flag                     controllers.Application.logIn(flag:String)
+GET    /login                         controllers.Application.loginOnScalaJobz
+POST    /login/:flag                  controllers.Application.logIn(flag:String)
 
 GET    /postAJob                      controllers.PostAJobController.postAJob
-POST    /postAJob                      controllers.PostAJobController.newJob
+POST    /postAJob                     controllers.PostAJobController.newJob
 
-GET    /findAllJobs                     controllers.Application.index
+GET    /findAllJobs                   controllers.Application.index
 
-GET    /logout                          controllers.Application.logOutFromScalaJobz
+GET    /logout                        controllers.Application.logOutFromScalaJobz
 
-POST   /findAJob                        controllers.PostAJobController.findAJob
+POST   /findAJob                      controllers.PostAJobController.findAJob
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

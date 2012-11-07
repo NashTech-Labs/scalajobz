@@ -46,14 +46,14 @@ object Application extends Controller {
    * Signup on scalajobz.com
    */
 
-  def signUpOnScalaJobz = Action { implicit request =>
-    Ok(views.html.signup(signUpForm, request.session.get("userId").getOrElse(null)))
+  def signUpOnScalaJobz(flag: String) = Action { implicit request =>
+    Ok(views.html.signup(signUpForm, request.session.get("userId").getOrElse(null), flag))
   }
 
   /**
    * Create A New User
    */
-  def newUser = Action { implicit request =>
+  def newUser(flag: String) = Action { implicit request =>
     signUpForm.bindFromRequest.fold(
       errors => BadRequest(views.html.index("There Was Some Errors During The SignUp", request.session.get("userId").getOrElse(null), PostAJob.findAllJobs)),
       signUpForm => {
@@ -65,7 +65,11 @@ object Application extends Controller {
           val newUser = User(new ObjectId, signUpForm.emailId, encryptedPassword)
           val userId = SignUp.createUser(newUser)
           val userSession = request.session + ("userId" -> userId.get.toString)
-          Ok(views.html.index("Hi Welcome To Scalajobz.com", userId.get.toString, PostAJob.findAllJobs)).withSession(userSession)
+          if (flag.equals("login"))
+            Ok(views.html.index("Hi Welcome To Scalajobz.com", userId.get.toString, PostAJob.findAllJobs)).withSession(userSession)
+          else
+            Ok(views.html.postajob(PostAJobController.postAJobForm, userId.get.toString))
+
         }
       })
   }
