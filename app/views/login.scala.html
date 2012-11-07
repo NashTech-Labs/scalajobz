@@ -1,4 +1,4 @@
-@(loginForm: Form[LogInForm],userId:String)
+@(loginForm: Form[LogInForm],userId:String,flag:String)
 @import helper._ 
 @main("Welcome to Scalajobz.com",userId) {
 
@@ -18,7 +18,7 @@
 				<div class="box">
 					<div class="bordered">
 						<h2>Login Here</h2>
-						<form action="/login" method="post">
+						<form action="/login/@flag" method="post">
 							<div class="control-group">
 								<label class="control-label" for="EmailId">Email</label>
 								<div class="controls">

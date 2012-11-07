@@ -74,7 +74,7 @@ object Application extends Controller {
    * Login On ScalaJobz
    */
 
-  def logIn = Action { implicit request =>
+  def logIn(flag: String) = Action { implicit request =>
     println("hello")
     logInForm.bindFromRequest.fold(
       errors => BadRequest(views.html.index("There Was Some Errors During The Login", null, PostAJob.findAllJobs)),
@@ -84,7 +84,10 @@ object Application extends Controller {
         println("users" + users.size)
         if (!users.isEmpty) {
           val userSession = request.session + ("userId" -> users(0).id.toString)
-          Ok(views.html.index("Hi Welcome To Scalajobz.com", users(0).id.toString, PostAJob.findAllJobs)).withSession(userSession)
+          if (flag.equals("login"))
+            Ok(views.html.index("Hi Welcome To Scalajobz.com", users(0).id.toString, PostAJob.findAllJobs)).withSession(userSession)
+          else
+            Ok(views.html.postajob(PostAJobController.postAJobForm, users(0).id.toString))
         } else Ok("Login Unsuccessfull")
       })
   }
@@ -93,7 +96,7 @@ object Application extends Controller {
    */
 
   def loginOnScalaJobz = Action { implicit request =>
-    Ok(views.html.login(logInForm, request.session.get("userId").getOrElse(null)))
+    Ok(views.html.login(logInForm, request.session.get("userId").getOrElse(null), "login"))
   }
 
   /**

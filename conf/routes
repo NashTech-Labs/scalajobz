@@ -10,7 +10,7 @@ GET    /signup                      controllers.Application.signUpOnScalaJobz
 POST    /signup                      controllers.Application.newUser
 
 GET    /login                      controllers.Application.loginOnScalaJobz
-POST    /login                      controllers.Application.logIn
+POST    /login/:flag                     controllers.Application.logIn(flag:String)
 
 GET    /postAJob                      controllers.PostAJobController.postAJob
 POST    /postAJob                      controllers.PostAJobController.newJob
