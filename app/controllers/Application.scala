@@ -68,7 +68,7 @@ object Application extends Controller {
           if (flag.equals("login"))
             Ok(views.html.index("Hi Welcome To Scalajobz.com", userId.get.toString, PostAJob.findAllJobs)).withSession(userSession)
           else
-            Ok(views.html.postajob(PostAJobController.postAJobForm, userId.get.toString))
+            Ok(views.html.postajob(PostAJobController.postAJobForm, userId.get.toString)).withSession(userSession)
 
         }
       })
