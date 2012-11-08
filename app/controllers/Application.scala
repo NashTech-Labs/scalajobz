@@ -89,10 +89,10 @@ object Application extends Controller {
         if (!users.isEmpty) {
           val userSession = request.session + ("userId" -> users(0).id.toString)
           if (flag.equals("login"))
-            Ok(views.html.index(new Alert("Success", "Login Successful "), users(0).id.toString, PostAJob.findAllJobs)).withSession(userSession)
+            Ok(views.html.index(new Alert("success", "Login Successful "), users(0).id.toString, PostAJob.findAllJobs)).withSession(userSession)
           else
             Ok(views.html.postajob(PostAJobController.postAJobForm, users(0).id.toString)).withSession(userSession)
-        } else Ok(views.html.login(new Alert("Error", "Invalid Credentials"), Application.logInForm, null, "login"))
+        } else Ok(views.html.login(new Alert("error", "Invalid Credentials"), Application.logInForm, null, "login"))
       })
   }
   /**
