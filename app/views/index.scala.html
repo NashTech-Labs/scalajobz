@@ -4,6 +4,21 @@
 @format_date(date: java.util.Date) = @{
 	new SimpleDateFormat("MMM dd yyyy").format(date)
 }
+		<div id="logos">
+			<div style="height: 100px;">
+				<form action="" class="form-search" style="margin-top: 10px;">
+					<div class="input-append">
+						<input type="text" class="input-xxlarge" style="height:50px;font-size: 40px;color:#2884dd;">
+						<input type="submit" value="Search" class="btn btn-primary" style="margin-top: 15px;"/>
+					</div>
+
+				</form>
+
+			</div>
+		</div>
+
+
+
 @main("Welcome to Scalajobz.com",userId) {
     @if(alert.alertType != null){
    		<div class="alert alert-@alert.alertType">  
