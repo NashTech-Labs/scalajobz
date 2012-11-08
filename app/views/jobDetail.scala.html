@@ -9,64 +9,31 @@
    
     <div id="homewhite">
 	<div class="page">
-		<table class="table table-striped">
-			<tr>
-				<td>
-					Position
-				</td>
-				<td>
-					@job.position
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Company
-				</td>
-				<td>
-					@job.company
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Location
-				</td>
-				<td>
-					@job.location
-				</td>
-			</tr>
-			<tr>
-				<td>
-					JobType
-				</td>
-				<td>
-					@job.jobType
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Email Address
-				</td>
-				<td>
-					@job.emailAddress
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Description
-				</td>
-				<td>
-					@job.description
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Date Posted
-				</td>
-				<td>
-					@job.datePosted
-				</td>
-			</tr>
-		</table>
+	<div class="jobHeading">@job.position - @job.location</div>
+		
+					
+				
+					<Strong>Company:</Strong>
+				
+					<h3>@job.company</h3>
+				
+					<Strong>JobType:</Strong>
+				
+					<h3>@job.jobType</h3>
+				
+					<Strong>Email Address:</Strong>
+				
+					<h3>@job.emailAddress</h3>
+				
+				
+					<Strong>Date Posted:</Strong>
+				
+					<h3>@format_date(job.datePosted)</h3>
+				
+			<div class="separator-line"></div>
+			<p>	@job.description</p>
+				
+		
 	</div>
 </div>
     
