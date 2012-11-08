@@ -46,6 +46,15 @@ object PostAJob {
     jobsFound
   }
 
+  def findJobDetail(jobId: String): Option[Job] = {
+    val jobFound = JobDAO.find(MongoDBObject("_id" -> new ObjectId(jobId))).toList
+    (jobFound.isEmpty) match {
+      case true => None
+      case false => Option(jobFound.toList(0))
+    }
+
+  }
+
 }
 
 object JobDAO extends SalatDAO[Job, ObjectId](collection = MongoHQConfig.mongoDB("job"))

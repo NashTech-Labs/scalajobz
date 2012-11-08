@@ -21,5 +21,7 @@ GET    /logout                        controllers.Application.logOutFromScalaJob
 
 POST   /findAJob                      controllers.PostAJobController.findAJob
 
+GET   /jobDetail/:jobId				controllers.PostAJobController.findJobDetail(jobId:String)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -1,0 +1,74 @@
+@(job:Job,userId:String)
+@import java.text.SimpleDateFormat
+
+@format_date(date: java.util.Date) = @{
+	new SimpleDateFormat("MMM dd yyyy").format(date)
+}
+		
+@main("Welcome to Scalajobz.com",userId) {
+   
+    <div id="homewhite">
+	<div class="page">
+		<table class="table table-striped">
+			<tr>
+				<td>
+					Position
+				</td>
+				<td>
+					@job.position
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Company
+				</td>
+				<td>
+					@job.company
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Location
+				</td>
+				<td>
+					@job.location
+				</td>
+			</tr>
+			<tr>
+				<td>
+					JobType
+				</td>
+				<td>
+					@job.jobType
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Email Address
+				</td>
+				<td>
+					@job.emailAddress
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Description
+				</td>
+				<td>
+					@job.description
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Date Posted
+				</td>
+				<td>
+					@job.datePosted
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+    
+    
+}
