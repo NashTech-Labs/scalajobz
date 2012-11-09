@@ -85,7 +85,6 @@ object Application extends Controller {
       logInForm => {
         val encryptedPassword = (new PasswordHashing).encryptThePassword(logInForm.password)
         val users = LogIn.findUser(logInForm.emailId, encryptedPassword)
-        println("users" + users.size)
         if (!users.isEmpty) {
           val userSession = request.session + ("userId" -> users(0).id.toString)
           if (flag.equals("login"))

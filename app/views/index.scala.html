@@ -8,12 +8,10 @@
 			<div style="height: 100px;">
 				<form action="" class="form-search" style="margin-top: 10px;">
 					<div class="input-append">
-						<input type="text" class="input-xxlarge" style="height:50px;font-size: 40px;color:#2884dd;">
-						<input type="submit" value="Search" class="btn btn-primary" style="margin-top: 15px;"/>
+						<input id="searchString" type="text" class="input-xxlarge" style="height:50px;font-size: 40px;color:#2884dd;">
+						<input id="search" type="submit" value="Search" class="btn btn-primary" style="margin-top: 15px;"/>
 					</div>
-
 				</form>
-
 			</div>
 		</div>
 
@@ -28,19 +26,20 @@
 		}
     <div id="homewhite">
 	<div class="page">
+	<div id="search-result">
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th>POSITION</th>
-					<th>COMPANY</th>
-					<th>LOCATION</th>
-					<th>TYPE</th>
-					<th>DATE POSTED</th>
+					<th>Position</th>
+					<th>Company</th>
+					<th>Location</th>
+					<th>Type</th>
+					<th>Date Posted</th>
 				</tr>
 			<tbody>
 				@jobs.map { job =>
 				<tr>
-					<td><a href="/jobDetail/@job.id">@job.position</a></td>
+					<td>@job.position</td>
 					<td>@job.company</td>
 					<td>@job.location</td>
 					<td>@job.jobType</td>
@@ -50,8 +49,25 @@
 			</tbody>
 			</thead>
 		</table>
+		</div>
 	</div>
 </div>
-    
+
+
+ <script  type="text/javascript">
+ 
+ $('#search').click(function(e) {
+	 
+	    var idToGet = $("#searchString").val();
+	    $.ajax({
+	        type : 'POST',
+	        url : '@routes.PostAJobController.findAJob("' + idToGet + '")',
+	        success : function(data) {
+	        	 $('#search-result').html(data);
+	        }
+	    });
+	    return false;
+	});
+ </script>   
     
 }

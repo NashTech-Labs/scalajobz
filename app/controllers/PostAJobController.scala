@@ -45,14 +45,13 @@ object PostAJobController extends Controller {
    * Post A Job on scalajobz.com
    */
   def newJob = Action { implicit request =>
-    println("New Job")
     postAJobForm.bindFromRequest.fold(
       errors => BadRequest(views.html.index(new Alert("error", "There Was Some Errors During Job Posting"), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs)),
       postAJobForm => {
         if (postAJobForm.position == "" || postAJobForm.company == "" || postAJobForm.location == ""
           || postAJobForm.jobType == "" || postAJobForm.jobType.equals("-- Select Job Type --") || postAJobForm.emailAddress == "") Ok("Please Fill The Mendatory Fields")
         else {
-          if (request.session.get("userId") == None) Ok(views.html.login(new Alert(null, null),Application.logInForm, request.session.get("userId").getOrElse(null), "jobPost"))
+          if (request.session.get("userId") == None) Ok(views.html.login(new Alert(null, null), Application.logInForm, request.session.get("userId").getOrElse(null), "jobPost"))
           else {
             val job = Job(new ObjectId, new ObjectId(request.session.get("userId").get), postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.description, new Date)
             PostAJob.addJob(job)
@@ -66,15 +65,21 @@ object PostAJobController extends Controller {
    * Load  Job  Page on scalajobz.com
    */
 
-  def findAJob = Action { implicit request =>
-    //TODO : Post the Keyword Here
-    Ok
+  def findAJob(searchString: String) = Action { implicit request =>
+    val searchJobList = PostAJob.searchTheJob(searchString)
+    Ok(views.html.ajax_result(searchJobList))
   }
-  
-  def findJobDetail(jobId:String) = Action { implicit request =>
-   val job:Option[Job]=PostAJob.findJobDetail(jobId)
-    Ok(views.html.jobDetail(job.get,request.session.get("userId").getOrElse(null)))
+
+  //  def javascriptRoutes = Action { implicit request =>
+  //    import routes.javascript._
+  //    Ok(
+  //      Routes.javascriptRouter("jsRoutes")(
+  //      routes.javascript.PostAJobController.findAJob)).as("text/javascript")
+  //  }
+
+  def findJobDetail(jobId: String) = Action { implicit request =>
+    val job: Option[Job] = PostAJob.findJobDetail(jobId)
+    Ok(views.html.jobDetail(job.get, request.session.get("userId").getOrElse(null)))
   }
-  
-  
+
 }

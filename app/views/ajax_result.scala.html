@@ -1,0 +1,29 @@
+@(result: List[Job])
+@import java.text.SimpleDateFormat
+@format_date(date: java.util.Date) = @{
+	new SimpleDateFormat("MMM dd yyyy").format(date)
+}
+<table  class="table table-striped">
+			<thead>
+				<tr>
+					<th>POSITION</th>
+					<th>COMPANY</th>
+					<th>LOCATION</th>
+					<th>TYPE</th>
+					<th>DATE POSTED</th>
+				</tr>
+				
+			<tbody>
+				@result.map { job =>
+				<tr>
+					<td><a href="/jobDetail/@job.id">@job.position</a></td>
+					<td>@job.company</td>
+					<td>@job.location</td>
+					<td>@job.jobType</td>
+					<td>@format_date(job.datePosted)</td>
+				</tr>
+				}
+			</tbody>
+			
+			</thead>
+		</table>
