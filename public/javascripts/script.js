@@ -76,6 +76,9 @@ $(document).ready(
 								minlength : 2,
 								required : true
 							},
+							JobType : {
+								required : true
+							},
 							Email_Addrss_To_Apply_To : {
 								required : true,
 								email : true

@@ -48,7 +48,7 @@
 										<label class="control-label" for="JobType"> Job Type</label>
 										<div class="controls">
 											<select id="JobType" name="JobType" class="input-large">
-												<option>-- Select Job Type --</option>
+												<option value="">-- Select Job Type --</option>
 												@PostAJob.jobType.map{case(key, value)=>
 												<option value=@value>@key</option> }
 											</select>
