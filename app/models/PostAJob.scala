@@ -41,8 +41,6 @@ object PostAJob {
   def searchTheJob(stringTobeSearched: String): List[Job] = {
     var jobsFound: List[Job] = List()
     val allJobs = JobDAO.find(MongoDBObject()).toList
-    val stringTobeSearchedPattern = Pattern.compile( stringTobeSearched, Pattern.CASE_INSENSITIVE)
-
     for (eachJob <- allJobs) {
       if (eachJob.position.toUpperCase.contains(stringTobeSearched.toUpperCase) || eachJob.company.toUpperCase.contains(stringTobeSearched.toUpperCase) ||
         eachJob.jobType.toUpperCase.contains(stringTobeSearched.toUpperCase) || eachJob.location.toUpperCase.contains(stringTobeSearched.toUpperCase))
