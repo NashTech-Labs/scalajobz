@@ -78,7 +78,7 @@ object PostAJobController extends Controller {
   //  }
 
   def findJobDetail(jobId: String) = Action { implicit request =>
-    val job: Option[Job] = PostAJob.findJobDetail(jobId)
+    val job: Option[Job] = PostAJob.findJobDetail(new ObjectId(jobId))
     Ok(views.html.jobDetail(job.get, request.session.get("userId").getOrElse(null)))
   }
 

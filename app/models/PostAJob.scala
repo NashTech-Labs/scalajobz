@@ -52,8 +52,8 @@ object PostAJob {
   /**
    * Find Job By Id
    */
-  def findJobDetail(jobId: String): Option[Job] = {
-    val jobFound = JobDAO.find(MongoDBObject("_id" -> new ObjectId(jobId))).toList
+  def findJobDetail(jobId: ObjectId): Option[Job] = {
+    val jobFound = JobDAO.find(MongoDBObject("_id" -> jobId)).toList
     (jobFound.isEmpty) match {
       case true => None
       case false => Option(jobFound.toList(0))
