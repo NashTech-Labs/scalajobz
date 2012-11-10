@@ -31,7 +31,9 @@ object UserController extends Controller {
       "NewPassword" -> nonEmptyText,
       "ConfirmPassword" -> nonEmptyText)(EditUserProfileForm.apply)(EditUserProfileForm.unapply))
 
-  //Edit Profile
+  /**
+   * Edit Profile Of A User
+   */
 
   def editUserProfile = Action { implicit request =>
     val userProfile = LogIn.findUserProfile(request.session.get("userId").get)
