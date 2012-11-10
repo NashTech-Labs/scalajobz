@@ -44,8 +44,8 @@ object PostAJob {
     val stringTobeSearchedPattern = Pattern.compile( stringTobeSearched, Pattern.CASE_INSENSITIVE)
 
     for (eachJob <- allJobs) {
-      if (eachJob.position.contains(stringTobeSearched) || eachJob.company.contains(stringTobeSearched) ||
-        eachJob.jobType.contains(stringTobeSearched) || eachJob.location.contains(stringTobeSearched))
+      if (eachJob.position.toUpperCase.contains(stringTobeSearched.toUpperCase) || eachJob.company.toUpperCase.contains(stringTobeSearched.toUpperCase) ||
+        eachJob.jobType.toUpperCase.contains(stringTobeSearched.toUpperCase) || eachJob.location.toUpperCase.contains(stringTobeSearched.toUpperCase))
         jobsFound ++= List(eachJob)
     }
     jobsFound
