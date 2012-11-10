@@ -55,6 +55,10 @@ object PostAJob {
 
   }
 
+  def findJobsPostByUserId(userId: String): List[Job] = {
+    JobDAO.find(MongoDBObject("userId" -> new ObjectId(userId))).toList
+  }
+
 }
 
 object JobDAO extends SalatDAO[Job, ObjectId](collection = MongoHQConfig.mongoDB("job"))

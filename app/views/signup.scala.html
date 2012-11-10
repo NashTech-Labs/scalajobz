@@ -1,14 +1,8 @@
 @(alert: Alert,signUpForm: Form[SignUpForm],userId:String,flag:String) 
 @import helper._ 
-@main("Welcome to ScalaJobz.com",userId) {
+@main("Welcome to ScalaJobz.com",userId,alert) {
 
-@if(alert.alertType != null){
-   		<div class="alert alert-@alert.alertType">  
-  			<a class="close" data-dismiss="alert">×</a>  
-  			<strong>@alert.alertType ! </strong>@alert.message  
-		</div> 
-		}
-		
+
 <div id="homewhite">
 	<div class="page">
 		<h1>Register on  ScalaJobz.com</h1>

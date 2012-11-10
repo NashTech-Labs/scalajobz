@@ -1,0 +1,78 @@
+@(alert: Alert,userProfile:Employer, editUserProfileForm: Form[EditUserProfileForm], userId:String) 
+@import helper._
+@main("Welcome to ScalaJobz.com",userId,alert) {
+
+<div id="homewhite">
+	<div class="page">
+		<h1>Edit Profile</h1>
+		<div class="border-center">
+			<div class="box-post">
+				<div class="bordered">
+					<form id="editProfile-form" class="form-horizontal" action="/updateUserProfile" method="post">
+						<table>
+							<tr>
+								<td>
+									<div class="control-group">
+										<label class="control-label" for="Email">Email</label>
+										<div class="controls">
+											<input id="Email" readonly="readonly" name="Email" type="text" value="@userProfile.emailId" class="input-large"/>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="control-group">
+										<label class="control-label" for="CurrentPassword"> Current Password
+											</label>
+										<div class="controls">
+											<input id="CurrentPassword" name="CurrentPassword" type="password" placeholder="Current Password" class="input-large"/>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="control-group">
+										<label class="control-label" for="NewPassword"> New Password
+											</label>
+										<div class="controls">
+											<input id="NewPassword" name="NewPassword" type="password" placeholder="New Password" class="input-large"/>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="control-group">
+										<label class="control-label" for="ConfirmPassword"> Confirm Password
+											</label>
+										<div class="controls">
+											<input id="ConfirmPassword" name="ConfirmPassword" type="password" placeholder="Confirm Password" class="input-large"/>
+										</div>
+									</div>
+								</td>
+							</tr>
+							
+							<tr>
+								<td>
+									<div class="control-group">
+										<div class="controls">
+											<input type="submit" value="Edit" class="btn btn-primary" />
+											<input type="reset" value="Cancel" class="btn btn-primary" />
+										</div>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+
+
+			</div>
+
+
+		</div>
+	</div>
+</div>
+}

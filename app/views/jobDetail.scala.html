@@ -1,11 +1,12 @@
 @(job:Job,userId:String)
 @import java.text.SimpleDateFormat
+@import models.Alert
 
 @format_date(date: java.util.Date) = @{
 	new SimpleDateFormat("MMM dd yyyy").format(date)
 }
 		
-@main("Welcome to Scalajobz.com",userId) {
+@main("Welcome to Scalajobz.com",userId,Alert(null,null)) {
    
     <div id="homewhite">
 	<div class="page">

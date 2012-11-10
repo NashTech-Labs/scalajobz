@@ -97,5 +97,31 @@ $(document).ready(
 									'.control-group').addClass('success');
 						}
 					});
+			
+			$('#editProfile-form').validate(
+					{
+						rules : {
+							NewPassword : {
+								minlength : 6,
+								required : true
+							},
+							ConfirmPassword : {
+								equalTo : "#NewPassword",
+								required : true
+							},
+							CurrentPassword : {
+								required : true,
+							}
+						},
+						highlight : function(label) {
+							$(label).closest('.control-group')
+									.addClass('error');
+						},
+						success : function(label) {
+							label.text('OK!').addClass('valid').closest(
+									'.control-group').addClass('success');
+						}
+					});
+
 
 		}); // end document.ready

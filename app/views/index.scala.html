@@ -17,15 +17,14 @@
 
 
 
-@main("Welcome to Scalajobz.com",userId) {
-    @if(alert.alertType != null){
-   		<div class="alert alert-@alert.alertType">  
-  			<a class="close" data-dismiss="alert">×</a>  
-  			<strong>@alert.alertType ! </strong>@alert.message  
-		</div> 
-		}
+@main("Welcome to Scalajobz.com",userId,alert) {
+   
     <div id="homewhite">
 	<div class="page">
+	@if(userId != null && jobs.isEmpty){
+	<h5>No Job Posted by you. Click <a class="menulink" href="/postAJob">Here</a> to post a job. </h5>
+	} else {
+	
 	<div id="search-result">
 		<table class="table table-striped">
 			<thead>
@@ -50,6 +49,7 @@
 			</thead>
 		</table>
 		</div>
+		}
 	</div>
 </div>
 

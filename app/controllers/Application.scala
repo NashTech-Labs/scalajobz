@@ -48,7 +48,7 @@ object Application extends Controller {
    */
 
   def signUpOnScalaJobz(flag: String) = Action { implicit request =>
-    Ok(views.html.signup(new Alert(null,null),signUpForm, request.session.get("userId").getOrElse(null), flag))
+    Ok(views.html.signup(new Alert(null, null), signUpForm, request.session.get("userId").getOrElse(null), flag))
   }
 
   /**
@@ -59,11 +59,10 @@ object Application extends Controller {
       errors => BadRequest(views.html.index(new Alert("error", "There Was Some Errors During The SignUp"), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs)),
       signUpForm => {
         if (!SignUp.findUserByEmail(signUpForm.emailId).isEmpty) {
-           Ok(views.html.signup(new Alert("error","This Email Is Already registered With ScalaJobz"),Application.signUpForm, request.session.get("userId").getOrElse(null), flag))
-        }
-        else {
+          Ok(views.html.signup(new Alert("error", "This Email Is Already registered With ScalaJobz"), Application.signUpForm, request.session.get("userId").getOrElse(null), flag))
+        } else {
           val encryptedPassword = (new PasswordHashing).encryptThePassword(signUpForm.password)
-          val newUser = Employer(new ObjectId, signUpForm.emailId, encryptedPassword,List(),false)
+          val newUser = Employer(new ObjectId, signUpForm.emailId, encryptedPassword, List(), false)
           val userId = SignUp.createUser(newUser)
           val userSession = request.session + ("userId" -> userId.get.toString)
           if (flag.equals("login"))

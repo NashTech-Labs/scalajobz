@@ -1,6 +1,7 @@
 @(postAJobForm: Form[PostAJobForm],userId:String) 
 @import helper._
-@main("Welcome to ScalaJobz.com",userId) {
+@import models.Alert
+@main("Welcome to ScalaJobz.com",userId,Alert(null,null)) {
 
 <div id="homewhite">
 	<div class="page">

@@ -1,4 +1,4 @@
-@(title: String,userId:String)(content: Html)
+@(title: String,userId:String,alert: Alert)(content: Html)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,6 +15,7 @@
 <script src="@routes.Assets.at("javascripts/bootstrap-rowlink.js")" type="text/javascript"></script>
 <script src="@routes.Assets.at("javascripts/script.js")" type="text/javascript"></script>
 <script src="@routes.Assets.at("javascripts/bootstrap-alert.js")" type="text/javascript"></script>
+<script src="@routes.Assets.at("javascripts/bootstrap-dropdown.js")" type="text/javascript"></script>
 
 </head>
 <body>
@@ -30,7 +31,16 @@
 							<li><a class="menulink" href="/findAllJobs">All Jobs</a></li>
 							<li><a class="menulink" href="/postAJob">Post a job</a></li>
 							@if(userId != null) {
-							<li><a class="menulink" href="/logout ">Log Out</a></li>} else{
+						
+							<li class="dropdown">  
+          						<a class="menulink" data-toggle="dropdown" href="#">Edit<b class="caret"></b></a>  
+          						<ul class="dropdown-menu">  
+            						<li><a href="/editUserProfile">Edit Your Profile</a></li>  
+            						<li style="margin-top: -10px;"><a href="/findJobPostByUserId">Edit Your Jobs</a></li>  
+         					 	</ul>  
+        					</li>
+								<li><a class="menulink" href="/logout ">Log Out</a></li>
+							} else{
 							<li><a class="menulink" href="/login">Log In</a></li> }
 
 						</ul>
@@ -46,7 +56,14 @@
 
 
 
-		<div id="main" class="container">@content</div>
+		<div id="main" class="container">
+		@if(alert.alertType != null){
+   		<div class="alert alert-@alert.alertType">  
+  			<a class="close" data-dismiss="alert">×</a>  
+  			<strong style="text-transform: capitalize;">@alert.alertType ! </strong>@alert.message  
+		</div> 
+		}
+		@content</div>
 
 		<div id="footer">
 			<div id="logos">
