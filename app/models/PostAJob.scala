@@ -7,6 +7,7 @@ import com.novus.salat.dao.SalatDAO
 import utils.MongoHQConfig
 import com.mongodb.casbah.commons.MongoDBObject
 import java.util.Date
+import java.util.regex.Pattern
 
 case class PostAJobForm(position: String, company: String, location: String, jobType: String, emailAddress: String, description: String)
 case class Job(@Key("_id") id: ObjectId, userId: ObjectId, position: String, company: String, location: String, jobType: String, emailAddress: String, description: String, datePosted: Date)
@@ -40,6 +41,7 @@ object PostAJob {
   def searchTheJob(stringTobeSearched: String): List[Job] = {
     var jobsFound: List[Job] = List()
     val allJobs = JobDAO.find(MongoDBObject()).toList
+    val stringTobeSearchedPattern = Pattern.compile( stringTobeSearched, Pattern.CASE_INSENSITIVE)
 
     for (eachJob <- allJobs) {
       if (eachJob.position.contains(stringTobeSearched) || eachJob.company.contains(stringTobeSearched) ||
