@@ -27,6 +27,9 @@ object PostAJob {
     JobDAO.insert(job)
   }
 
+  /**
+   * Find All Jobs
+   */
   def findAllJobs: List[Job] = {
     JobDAO.find(MongoDBObject()).sort(orderBy = MongoDBObject("datePosted" -> -1)).toList
   }
@@ -46,6 +49,9 @@ object PostAJob {
     jobsFound
   }
 
+  /**
+   * Find Job By Id
+   */
   def findJobDetail(jobId: String): Option[Job] = {
     val jobFound = JobDAO.find(MongoDBObject("_id" -> new ObjectId(jobId))).toList
     (jobFound.isEmpty) match {
@@ -55,6 +61,9 @@ object PostAJob {
 
   }
 
+  /**
+ * Job Posted by A Particular User
+ */
   def findJobsPostByUserId(userId: String): List[Job] = {
     JobDAO.find(MongoDBObject("userId" -> new ObjectId(userId))).toList
   }

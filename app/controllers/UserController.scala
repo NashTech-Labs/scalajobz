@@ -45,6 +45,9 @@ object UserController extends Controller {
     Ok(views.html.index(new Alert(null, null), request.session.get("userId").getOrElse(null), jobPostByUserList))
   }
 
+  /**
+   * Update User Profile
+   */
   def updateUserProfile = Action { implicit request =>
     val userProfile = LogIn.findUserProfile(request.session.get("userId").get).get
     editUserProfileForm.bindFromRequest.fold(
@@ -66,7 +69,6 @@ object UserController extends Controller {
         else
           Ok(views.html.editUserProfile(new Alert("error", "Invalid Current Password"),
             userProfile, UserController.editUserProfileForm, request.session.get("userId").getOrElse(null)))
-
       })
   }
 
