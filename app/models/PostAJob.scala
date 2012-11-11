@@ -11,8 +11,8 @@ import java.util.regex.Pattern
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.MongoConnection
 
-case class PostAJobForm(position: String, company: String, location: String, jobType: String, emailAddress: String,skillsRequired:String, description: String)
-case class Job(@Key("_id") id: ObjectId, userId: ObjectId, position: String, company: String, location: String, jobType: String, emailAddress: String,skillsRequired:List[String], description: String, datePosted: Date)
+case class PostAJobForm(position: String, company: String, location: String, jobType: String, emailAddress: String, skillsRequired: String, description: String)
+case class Job(@Key("_id") id: ObjectId, userId: ObjectId, position: String, company: String, location: String, jobType: String, emailAddress: String, skillsRequired: List[String], description: String, datePosted: Date)
 object PostAJob {
 
   /*
@@ -76,24 +76,22 @@ object PostAJob {
   def updateJob(job: Job) = {
     JobDAO.update(MongoDBObject("_id" -> job.id), job, false, false, new WriteConcern)
   }
-  
-//  /**
-//   * Find Job Matching User's Skills
-//   */
-//
-//  def findJobMatchingUserProfile(keySkills:List[String])={
-//     var jobsFound: List[Job] = List()
-//    val jobs = JobDAO.find(MongoDBObject()).toList 
-//    
-//    for(eachJob <- jobs){
-//      for(eackSkill <- keySkills)
-//      {
-//        if(eachJob)
-//      }
-//      
-//    }
-//    
-//  }
+
+  /**
+   * Find Job Matching User's Skills
+   */
+//TO DO : Find A Good Approach Via MongoDB
+  def findJobMatchingUserKeySkills(keySkills: List[String]) = {
+    var jobsFound: List[Job] = List()
+    val jobs = JobDAO.find(MongoDBObject()).toList
+
+    for (eachJob <- jobs) {
+      for (eackSkill <- keySkills) {
+        if (eachJob.skillsRequired.contains(eackSkill)) jobsFound ++= List(eachJob)
+      }
+    }
+    jobsFound
+  }
 
 }
 
