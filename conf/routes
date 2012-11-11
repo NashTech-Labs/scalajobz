@@ -31,6 +31,10 @@ GET   /findJobPostByUserId				controllers.UserController.findJobPostByUserId
 
 POST /updateUserProfile					controllers.UserController.updateUserProfile
 
+GET /findJobPostForEdit/:jobId			controllers.PostAJobController.findJobPostForEdit(jobId: String)
+
+POST /editJob/:jobId				     controllers.PostAJobController.editJob(jobId: String)
+
 # Javascript routing
 #GET     /assets/javascripts/routes          controllers.PostAJobController.javascriptRoutes
 

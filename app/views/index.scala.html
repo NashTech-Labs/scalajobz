@@ -1,4 +1,4 @@
-@(alert: Alert,userId:String,jobs: List[Job])
+@(alert: Alert,userId:String,jobs: List[Job],editFlag:Boolean)
 @import java.text.SimpleDateFormat
 
 @format_date(date: java.util.Date) = @{
@@ -34,6 +34,7 @@
 					<th>Location</th>
 					<th>Type</th>
 					<th>Date Posted</th>
+					@if(editFlag == true){<th>Option</th>}
 				</tr>
 			<tbody>
 				@jobs.map { job =>
@@ -43,6 +44,8 @@
 					<td>@job.location</td>
 					<td>@job.jobType</td>
 					<td>@format_date(job.datePosted)</td>
+					@if(editFlag == true){<td><a href="/findJobPostForEdit/@job.id"><label class="btn btn-primary">EDIT</label></a>
+					<a href="#"><label class="btn btn-primary">DELETE</label></a></td>}
 				</tr>
 				}
 			</tbody>

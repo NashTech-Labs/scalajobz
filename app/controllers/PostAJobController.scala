@@ -46,7 +46,7 @@ object PostAJobController extends Controller {
    */
   def newJob = Action { implicit request =>
     postAJobForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.index(new Alert("error", "There Was Some Errors During Job Posting"), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs)),
+      errors => BadRequest(views.html.index(new Alert("error", "There Was Some Errors During Job Posting"), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs,false)),
       postAJobForm => {
         if (postAJobForm.position == "" || postAJobForm.company == "" || postAJobForm.location == ""
           || postAJobForm.jobType == "" || postAJobForm.jobType.equals("-- Select Job Type --") || postAJobForm.emailAddress == "") Ok("Please Fill The Mendatory Fields")
@@ -55,7 +55,7 @@ object PostAJobController extends Controller {
           else {
             val job = Job(new ObjectId, new ObjectId(request.session.get("userId").get), postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.description, new Date)
             PostAJob.addJob(job)
-            Ok(views.html.index(new Alert("success", "Job Posted Successfully"), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs))
+            Ok(views.html.index(new Alert("success", "Job Posted Successfully"), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs,false))
           }
         }
       })
@@ -80,6 +80,23 @@ object PostAJobController extends Controller {
   def findJobDetail(jobId: String) = Action { implicit request =>
     val job: Option[Job] = PostAJob.findJobDetail(new ObjectId(jobId))
     Ok(views.html.jobDetail(job.get, request.session.get("userId").getOrElse(null)))
+  }
+
+  def findJobPostForEdit(jobId: String) = Action { implicit request =>
+    val job = PostAJob.findJobDetail(new ObjectId(jobId)).get
+    Ok(views.html.editJob(job, postAJobForm, request.session.get("userId").getOrElse(null)))
+  }
+
+  def editJob(jobId: String) = Action { implicit request =>
+    val existJob = PostAJob.findJobDetail(new ObjectId(jobId)).get
+    postAJobForm.bindFromRequest.fold(
+      errors => BadRequest(views.html.editJob(existJob, postAJobForm, request.session.get("userId").getOrElse(null))),
+      postAJobForm => {
+        val job = Job(existJob.id, existJob.userId, postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.description, new Date)
+        PostAJob.updateJob(job)
+        Ok(views.html.index(new Alert("success", "Job Updated Successfully"), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs, true))
+
+      })
   }
 
 }

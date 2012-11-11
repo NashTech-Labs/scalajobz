@@ -40,7 +40,7 @@ object Application extends Controller {
       "Password" -> nonEmptyText)(LogInForm.apply)(LogInForm.unapply))
 
   def index = Action { implicit request =>
-    Ok(views.html.index(new Alert(null, null), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs))
+    Ok(views.html.index(new Alert(null, null), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs, false))
   }
 
   /**
@@ -56,7 +56,7 @@ object Application extends Controller {
    */
   def newUser(flag: String) = Action { implicit request =>
     signUpForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.index(new Alert("error", "There Was Some Errors During The SignUp"), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs)),
+      errors => BadRequest(views.html.index(new Alert("error", "There Was Some Errors During The SignUp"), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs, false)),
       signUpForm => {
         if (!SignUp.findUserByEmail(signUpForm.emailId).isEmpty) {
           Ok(views.html.signup(new Alert("error", "This Email Is Already registered With ScalaJobz"), Application.signUpForm, request.session.get("userId").getOrElse(null), flag))
@@ -66,7 +66,7 @@ object Application extends Controller {
           val userId = SignUp.createUser(newUser)
           val userSession = request.session + ("userId" -> userId.get.toString)
           if (flag.equals("login"))
-            Ok(views.html.index(new Alert("success", "Registration Successful"), userId.get.toString, PostAJob.findAllJobs)).withSession(userSession)
+            Ok(views.html.index(new Alert("success", "Registration Successful"), userId.get.toString, PostAJob.findAllJobs, false)).withSession(userSession)
           else
             Ok(views.html.postajob(PostAJobController.postAJobForm, userId.get.toString)).withSession(userSession)
 
@@ -80,14 +80,14 @@ object Application extends Controller {
 
   def logIn(flag: String) = Action { implicit request =>
     logInForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.index(new Alert("error", "There Was Some Errors During The Login"), null, PostAJob.findAllJobs)),
+      errors => BadRequest(views.html.index(new Alert("error", "There Was Some Errors During The Login"), null, PostAJob.findAllJobs, false)),
       logInForm => {
         val encryptedPassword = (new PasswordHashing).encryptThePassword(logInForm.password)
         val users = LogIn.findUser(logInForm.emailId, encryptedPassword)
         if (!users.isEmpty) {
           val userSession = request.session + ("userId" -> users(0).id.toString)
           if (flag.equals("login"))
-            Ok(views.html.index(new Alert("success", "Login Successful "), users(0).id.toString, PostAJob.findAllJobs)).withSession(userSession)
+            Ok(views.html.index(new Alert("success", "Login Successful "), users(0).id.toString, PostAJob.findAllJobs, false)).withSession(userSession)
           else
             Ok(views.html.postajob(PostAJobController.postAJobForm, users(0).id.toString)).withSession(userSession)
         } else Ok(views.html.login(new Alert("error", "Invalid Credentials"), Application.logInForm, null, "login"))
@@ -106,7 +106,7 @@ object Application extends Controller {
    */
 
   def logOutFromScalaJobz = Action {
-    Ok(views.html.index(new Alert(null, null), null, PostAJob.findAllJobs)).withNewSession
+    Ok(views.html.index(new Alert(null, null), null, PostAJob.findAllJobs, false)).withNewSession
   }
 
 }

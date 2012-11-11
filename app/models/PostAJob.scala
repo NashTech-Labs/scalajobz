@@ -8,6 +8,8 @@ import utils.MongoHQConfig
 import com.mongodb.casbah.commons.MongoDBObject
 import java.util.Date
 import java.util.regex.Pattern
+import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.MongoConnection
 
 case class PostAJobForm(position: String, company: String, location: String, jobType: String, emailAddress: String, description: String)
 case class Job(@Key("_id") id: ObjectId, userId: ObjectId, position: String, company: String, location: String, jobType: String, emailAddress: String, description: String, datePosted: Date)
@@ -62,10 +64,14 @@ object PostAJob {
   }
 
   /**
- * Job Posted by A Particular User
- */
+   * Job Posted by A Particular User
+   */
   def findJobsPostByUserId(userId: String): List[Job] = {
-    JobDAO.find(MongoDBObject("userId" -> new ObjectId(userId))).toList
+    JobDAO.find(MongoDBObject("userId" -> new ObjectId(userId))).sort(orderBy = MongoDBObject("datePosted" -> -1)).toList
+  }
+
+  def updateJob(job: Job) = {
+    JobDAO.update(MongoDBObject("_id" -> job.id), job, false, false, new WriteConcern)
   }
 
 }

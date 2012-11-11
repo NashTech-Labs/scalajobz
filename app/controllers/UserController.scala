@@ -31,9 +31,7 @@ object UserController extends Controller {
       "NewPassword" -> nonEmptyText,
       "ConfirmPassword" -> nonEmptyText)(EditUserProfileForm.apply)(EditUserProfileForm.unapply))
 
-  /**
-   * Edit Profile Of A User
-   */
+  //Edit Profile
 
   def editUserProfile = Action { implicit request =>
     val userProfile = LogIn.findUserProfile(request.session.get("userId").get)
@@ -42,12 +40,9 @@ object UserController extends Controller {
 
   def findJobPostByUserId = Action { implicit request =>
     val jobPostByUserList = PostAJob.findJobsPostByUserId(request.session.get("userId").get)
-    Ok(views.html.index(new Alert(null, null), request.session.get("userId").getOrElse(null), jobPostByUserList))
+    Ok(views.html.index(new Alert(null, null), request.session.get("userId").getOrElse(null), jobPostByUserList, true))
   }
 
-  /**
-   * Update User Profile
-   */
   def updateUserProfile = Action { implicit request =>
     val userProfile = LogIn.findUserProfile(request.session.get("userId").get).get
     editUserProfileForm.bindFromRequest.fold(
@@ -60,15 +55,15 @@ object UserController extends Controller {
           LogIn.updateUser(userProfile, encryptedPassword)
           Ok(views.html.editUserProfile(new Alert("success", "Profile Updated"),
             userProfile, UserController.editUserProfileForm, request.session.get("userId").getOrElse(null)))
-        }else if (currentEncryptedPassword.equals(encryptedPassword)) {
+        } else if (currentEncryptedPassword.equals(encryptedPassword)) {
           val encryptedPassword = (new PasswordHashing).encryptThePassword(editUserProfileForm.newPassword)
           LogIn.updateUser(userProfile, encryptedPassword)
           Ok(views.html.editUserProfile(new Alert("error", "Current Password & New Password are same"),
             userProfile, UserController.editUserProfileForm, request.session.get("userId").getOrElse(null)))
-        } 
-        else
+        } else
           Ok(views.html.editUserProfile(new Alert("error", "Invalid Current Password"),
             userProfile, UserController.editUserProfileForm, request.session.get("userId").getOrElse(null)))
+
       })
   }
 
