@@ -80,7 +80,7 @@ object PostAJob {
   /**
    * Find Job Matching User's Skills
    */
-//TO DO : Find A Good Approach Via MongoDB
+  //TO DO : Find A Good Approach Via MongoDB
   def findJobMatchingUserKeySkills(keySkills: List[String]) = {
     var jobsFound: List[Job] = List()
     val jobs = JobDAO.find(MongoDBObject()).toList
@@ -91,6 +91,15 @@ object PostAJob {
       }
     }
     jobsFound
+  }
+
+  /**
+   * Delete the Job By Job Id
+   */
+
+  def deleteJobByJobId(jobId: ObjectId) = {
+    val jobToBeDelete = findJobDetail(jobId).get
+    JobDAO.remove(jobToBeDelete)
   }
 
 }

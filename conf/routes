@@ -35,6 +35,8 @@ GET /findJobPostForEdit/:jobId			controllers.PostAJobController.findJobPostForEd
 
 POST /editJob/:jobId				     controllers.PostAJobController.editJob(jobId: String)
 
+GET /deleteJob/:jobId			         controllers.PostAJobController.deleteJob(jobId: String)
+
 # Javascript routing
 #GET     /assets/javascripts/routes          controllers.PostAJobController.javascriptRoutes
 

@@ -47,16 +47,16 @@ object PostAJobController extends Controller {
    */
   def newJob = Action { implicit request =>
     postAJobForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.index(new Alert("error", "There Was Some Errors During Job Posting"), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs,false)),
+      errors => BadRequest(views.html.index(new Alert("error", "There Was Some Errors During Job Posting"), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs, false)),
       postAJobForm => {
         if (postAJobForm.position == "" || postAJobForm.company == "" || postAJobForm.location == ""
           || postAJobForm.jobType == "" || postAJobForm.jobType.equals("-- Select Job Type --") || postAJobForm.emailAddress == "") Ok("Please Fill The Mendatory Fields")
         else {
           if (request.session.get("userId") == None) Ok(views.html.login(new Alert(null, null), Application.logInForm, request.session.get("userId").getOrElse(null), "jobPost"))
           else {
-            val job = Job(new ObjectId, new ObjectId(request.session.get("userId").get), postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress,List(postAJobForm.skillsRequired),postAJobForm.description, new Date)
+            val job = Job(new ObjectId, new ObjectId(request.session.get("userId").get), postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, List(postAJobForm.skillsRequired), postAJobForm.description, new Date)
             PostAJob.addJob(job)
-            Ok(views.html.index(new Alert("success", "Job Posted Successfully"), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs,false))
+            Ok(views.html.index(new Alert("success", "Job Posted Successfully"), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs, false))
           }
         }
       })
@@ -70,7 +70,6 @@ object PostAJobController extends Controller {
     val searchJobList = PostAJob.searchTheJob(searchString)
     Ok(views.html.ajax_result(searchJobList))
   }
-
 
   def findJobDetail(jobId: String) = Action { implicit request =>
     val job: Option[Job] = PostAJob.findJobDetail(new ObjectId(jobId))
@@ -90,11 +89,21 @@ object PostAJobController extends Controller {
     postAJobForm.bindFromRequest.fold(
       errors => BadRequest(views.html.editJob(existJob, postAJobForm, request.session.get("userId").getOrElse(null))),
       postAJobForm => {
-        val job = Job(existJob.id, existJob.userId, postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress,List(postAJobForm.skillsRequired), postAJobForm.description, new Date)
+        val job = Job(existJob.id, existJob.userId, postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, List(postAJobForm.skillsRequired), postAJobForm.description, new Date)
         PostAJob.updateJob(job)
         Ok(views.html.index(new Alert("success", "Job Updated Successfully"), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs, true))
 
       })
+  }
+
+  /*
+   * Delete Job
+   * */
+
+  def deleteJob(jobId: String) = Action { implicit request =>
+    PostAJob.deleteJobByJobId(new ObjectId(jobId))
+    val jobPostByUserList = PostAJob.findJobsPostByUserId(request.session.get("userId").get)
+    Ok(views.html.index(new Alert("success", "Job Deleted Successfully"), request.session.get("userId").getOrElse(null), jobPostByUserList, true))
   }
 
 }

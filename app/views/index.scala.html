@@ -45,7 +45,7 @@
 					<td>@job.jobType</td>
 					<td>@format_date(job.datePosted)</td>
 					@if(editFlag == true){<td><a href="/findJobPostForEdit/@job.id"><label class="btn btn-primary">EDIT</label></a>
-					<a href="#"><label class="btn btn-primary">DELETE</label></a></td>}
+					<a href="#" onclick="confirmDeleteJob('@job.id');"><label class="btn btn-primary">DELETE</label></a></td>}
 				</tr>
 				}
 			</tbody>
@@ -71,6 +71,30 @@
 	    });
 	    return false;
 	});
+ 
+ function confirmDeleteJob(jobId) {
+	    var agree=confirm("Do You want to delete this job?");
+	    if (agree==true)
+	      {
+	    	deleteJob(jobId);
+	      }
+	    else
+	      {
+	    	return false;
+	      } 
+	}
+
+function deleteJob(jobId) {
+	    $.ajax({
+	        type : 'GET',
+	        url : '@routes.PostAJobController.deleteJob("' + jobId + '")',
+	        success : function(data) {
+	        	 window.location.reload();
+	        }
+	    });
+	    return false;
+	}
+	 
  </script>   
     
 }
