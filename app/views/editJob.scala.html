@@ -51,7 +51,12 @@
 											<select id="JobType" name="JobType" class="input-large">
 												<option value="">-- Select Job Type --</option>
 												@PostAJob.jobType.map{case(key, value)=>
-												<option value=@value>@key</option> }
+												@if(job.jobType == value){
+												<option value=@value selected="selected">@key</option>
+												} else {
+												<option value=@value>@key</option>
+												}
+												 }
 											</select>
 
 
