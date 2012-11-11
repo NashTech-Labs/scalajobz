@@ -70,6 +70,9 @@ object PostAJob {
     JobDAO.find(MongoDBObject("userId" -> new ObjectId(userId))).sort(orderBy = MongoDBObject("datePosted" -> -1)).toList
   }
 
+  /**
+   * Update The Job
+   */
   def updateJob(job: Job) = {
     JobDAO.update(MongoDBObject("_id" -> job.id), job, false, false, new WriteConcern)
   }
