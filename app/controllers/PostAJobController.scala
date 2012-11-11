@@ -70,12 +70,6 @@ object PostAJobController extends Controller {
     Ok(views.html.ajax_result(searchJobList))
   }
 
-  //  def javascriptRoutes = Action { implicit request =>
-  //    import routes.javascript._
-  //    Ok(
-  //      Routes.javascriptRouter("jsRoutes")(
-  //      routes.javascript.PostAJobController.findAJob)).as("text/javascript")
-  //  }
 
   def findJobDetail(jobId: String) = Action { implicit request =>
     val job: Option[Job] = PostAJob.findJobDetail(new ObjectId(jobId))
@@ -87,6 +81,9 @@ object PostAJobController extends Controller {
     Ok(views.html.editJob(job, postAJobForm, request.session.get("userId").getOrElse(null)))
   }
 
+  /**
+   * Edit Job
+   */
   def editJob(jobId: String) = Action { implicit request =>
     val existJob = PostAJob.findJobDetail(new ObjectId(jobId)).get
     postAJobForm.bindFromRequest.fold(
