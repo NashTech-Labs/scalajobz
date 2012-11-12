@@ -17,7 +17,6 @@ $(document).ready(
 					{
 						rules : {
 							Password : {
-								minlength : 6,
 								required : true
 							},
 							EmailId : {
@@ -30,7 +29,7 @@ $(document).ready(
 									.addClass('error');
 						},
 						success : function(label) {
-							label.text('OK!').addClass('valid').closest(
+							$(label).closest(
 									'.control-group').addClass('success');
 						}
 					});
