@@ -3,6 +3,8 @@
 @format_date(date: java.util.Date) = @{
 	new SimpleDateFormat("MMM dd yyyy").format(date)
 }
+
+@if(!result.isEmpty){
 <table  class="table table-striped">
 			<thead>
 				<tr>
@@ -10,9 +12,10 @@
 					<th>COMPANY</th>
 					<th>LOCATION</th>
 					<th>TYPE</th>
+					<th>KEY SKILLS</th>
 					<th>DATE POSTED</th>
 				</tr>
-				
+			</thead>
 			<tbody>
 				@result.map { job =>
 				<tr>
@@ -20,10 +23,12 @@
 					<td>@job.company</td>
 					<td>@job.location</td>
 					<td>@job.jobType</td>
+					<td>@job.skillsRequired</td>
 					<td>@format_date(job.datePosted)</td>
 				</tr>
 				}
 			</tbody>
-			
-			</thead>
 		</table>
+		} else {
+		<h1>No results found.</h1>
+		}

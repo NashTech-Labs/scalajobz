@@ -29,11 +29,13 @@
 		<table id="results" class="table table-striped">
 			<thead>
 				<tr>
-					<th>Position</th>
-					<th>Company</th>
-					<th>Location</th>
-					<th>Type</th>
-					<th>Date Posted</th>
+					<th>POSITION</th>
+					<th>COMPANY</th>
+					<th>LOCATION</th>
+					<th>TYPE</th>
+					<th>KEY SKILLS</th>
+					<th>DATE POSTED</th>
+					
 					@if(editFlag == true){<th>Option</th>}
 				</tr>
 			<tbody>
@@ -43,6 +45,7 @@
 					<td>@job.company</td>
 					<td>@job.location</td>
 					<td>@job.jobType</td>
+					<td>@job.skillsRequired</td>
 					<td>@format_date(job.datePosted)</td>
 					@if(editFlag == true){
 					<td><a href="/findJobPostForEdit/@job.id"><i class="icon-pencil" title="Edit"></i> </a>

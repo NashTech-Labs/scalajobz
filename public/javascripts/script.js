@@ -79,6 +79,9 @@ $(document).ready(
 							JobType : {
 								required : true
 							},
+							Skills : {
+								required : true
+							},
 							Email_Addrss_To_Apply_To : {
 								required : true,
 								email : true
