@@ -103,7 +103,7 @@ object PostAJobController extends Controller {
   def deleteJob(jobId: String) = Action { implicit request =>
     PostAJob.deleteJobByJobId(new ObjectId(jobId))
     val jobPostByUserList = PostAJob.findJobsPostByUserId(request.session.get("userId").get)
-    Ok(views.html.index(new Alert("success", "Job Deleted Successfully"), request.session.get("userId").getOrElse(null), jobPostByUserList, true))
+    Ok
   }
 
 }

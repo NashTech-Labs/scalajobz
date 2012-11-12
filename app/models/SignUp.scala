@@ -25,6 +25,15 @@ object SignUp {
   def findUserByEmail(emailId: String) = {
     EmployerDAO.find(MongoDBObject("emailId" -> emailId)).toList
   }
+
+  def findUserById(userId: String): Option[Employer] = {
+    val userFound = EmployerDAO.find(MongoDBObject("_id" -> new ObjectId(userId))).toList
+    (userFound.isEmpty) match {
+      case true => None
+      case false => Option(userFound.toList(0))
+    }
+
+  }
 }
 
 object EmployerDAO extends SalatDAO[Employer, ObjectId](collection = MongoHQConfig.mongoDB("user"))
