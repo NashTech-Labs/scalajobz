@@ -44,8 +44,9 @@
 					<td>@job.location</td>
 					<td>@job.jobType</td>
 					<td>@format_date(job.datePosted)</td>
-					@if(editFlag == true){<td><a href="/findJobPostForEdit/@job.id"><label class="btn btn-primary">EDIT</label></a>
-					<a href="#" onclick="confirmDeleteJob('@job.id');"><label class="btn btn-primary">DELETE</label></a></td>}
+					@if(editFlag == true){
+					<td><a href="/findJobPostForEdit/@job.id"><i class="icon-pencil" title="Edit"></i> </a>
+					<a href="#" onclick="confirmDeleteJob('@job.id');"><i class="icon-remove" title="Delete"></i> </a></td>}
 				</tr>
 				}
 			</tbody>
