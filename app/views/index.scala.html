@@ -73,11 +73,11 @@
  pager.showPage(1); 
  
  $('#search').click(function(e) {
-	 
+	 var editflag=@editFlag+""
 	    var idToGet = $("#searchString").val();
 	    $.ajax({
 	        type : 'POST',
-	        url : '@routes.PostAJobController.findAJob("' + idToGet + '")',
+	        url : '@routes.PostAJobController.findAJob("' + idToGet + '","' + editflag + '")',
 	        success : function(data) {
 	        	 $('#search-result').html(data);
 	        }

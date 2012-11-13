@@ -66,9 +66,13 @@ object PostAJobController extends Controller {
    * Load  Job  Page on scalajobz.com
    */
 
-  def findAJob(searchString: String) = Action { implicit request =>
+  def findAJob(searchString: String, editFlag: String) = Action { implicit request =>
+    println("++++++ " + editFlag)
     val searchJobList = PostAJob.searchTheJob(searchString)
-    Ok(views.html.ajax_result(searchJobList))
+    if (editFlag.equals("true"))
+      Ok(views.html.ajax_result(searchJobList, true))
+    else
+      Ok(views.html.ajax_result(searchJobList, false))
   }
 
   def findJobDetail(jobId: String) = Action { implicit request =>

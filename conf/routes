@@ -19,7 +19,7 @@ GET    /findAllJobs                   controllers.Application.index
 
 GET    /logout                        controllers.Application.logOutFromScalaJobz
 
-POST   /findAJob/:searchString                    controllers.PostAJobController.findAJob(searchString:String)
+POST   /findAJob/:searchString/:editFlag   controllers.PostAJobController.findAJob(searchString: String , editFlag: String)
 
 GET   /jobDetail/:jobId				controllers.PostAJobController.findJobDetail(jobId:String)
 
