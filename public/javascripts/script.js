@@ -59,6 +59,36 @@ $(document).ready(
 									'.control-group').addClass('success');
 						}
 					});
+			
+			$('#informme-form').validate(
+					{
+						rules : {
+							Password : {
+								minlength : 6,
+								required : true
+							},
+							ConfirmPassword : {
+								equalTo : "#Password",
+								required : true
+							},
+							EmailId : {
+								required : true,
+								email : true
+							},
+							KeySkills : {
+								required : true
+							}
+						},
+						highlight : function(label) {
+							$(label).closest('.control-group')
+									.addClass('error');
+						},
+						success : function(label) {
+							label.text('OK!').addClass('valid').closest(
+									'.control-group').addClass('success');
+						}
+					});
+
 
 			$('#jobpost-form').validate(
 					{

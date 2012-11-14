@@ -25,7 +25,7 @@ GET   /jobDetail/:jobId				controllers.PostAJobController.findJobDetail(jobId:St
 
 #Edit By UserId
 
-GET    /editUserProfile                     controllers.UserController.editUserProfile
+GET    /editUserProfile                 controllers.UserController.editUserProfile
 
 GET   /findJobPostByUserId				controllers.UserController.findJobPostByUserId
 
@@ -35,7 +35,13 @@ GET /findJobPostForEdit/:jobId			controllers.PostAJobController.findJobPostForEd
 
 POST /editJob/:jobId				     controllers.PostAJobController.editJob(jobId: String)
 
-GET /deleteJob/:jobId/:editFlag			         controllers.PostAJobController.deleteJob(jobId: String , editFlag: String)
+GET /deleteJob/:jobId/:editFlag			 controllers.PostAJobController.deleteJob(jobId: String , editFlag: String)
+
+#Inform Me								
+
+GET /informMe 							controllers.JobAlertController.informMe		
+
+POST /registerJobSeeker			controllers.JobAlertController.registerJobSeeker	
 
 # Javascript routing
 #GET     /assets/javascripts/routes          controllers.PostAJobController.javascriptRoutes
