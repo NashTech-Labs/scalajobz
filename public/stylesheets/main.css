@@ -4196,7 +4196,6 @@ body {
 }
 
 .wrap {
-	background: url(../images/website/topbg.png) top left repeat-x;
 	overflow: auto;
 }
 
@@ -4255,7 +4254,7 @@ body {
 }
 
 #main {
-	background: #ffffff url(../images/website/border.png) top left repeat-x;
+	background: #ffffff top left repeat-x;
 	margin: 0px auto 30px auto;
 	width: 960px;
 	-webkit-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
