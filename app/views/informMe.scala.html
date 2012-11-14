@@ -1,0 +1,81 @@
+@(alert: Alert, jobAlertForm: Form[JobAlertForm], userId:String) 
+@main("Welcome to ScalaJobz.com",userId,alert) {
+
+<div id="homewhite">
+	<div class="page">
+		<h1>Inform Me</h1>
+		<div class="border-center">
+			<div class="box-post">
+				<div class="bordered">
+					<form id="informme-form" class="form-horizontal" action="/registerJobSeeker"
+						method="post">
+						<table>
+							<tr>
+								<td>
+									<div class="control-group">
+										<label class="control-label" for="EmailId">Email</label>
+										<div class="controls">
+											<input id="EmailId" name="EmailId" type="text"
+												placeholder="Email address" class="input-large" />
+										</div>
+									</div>
+								</td>
+							</tr>
+							
+							<tr>
+								<td>
+									<div class="control-group">
+										<label class="control-label" for="Password">Password</label>
+										<div class="controls">
+											<input id="Password" name="Password" type="password"
+												placeholder="Password" class="input-large" />
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="control-group">
+										<label class="control-label" for="ConfirmPassword">Confirm
+											Password</label>
+										<div class="controls">
+											<input name="ConfirmPassword" type="password"
+												id="ConfirmPassword" placeholder="Confirm Password"
+												class="input-large" />
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="control-group">
+										<label class="control-label" for="KeySkills">Key
+											Skills</label>
+										<div class="controls">
+											<input id="KeySkills" name="KeySkills" type="text"
+												placeholder="Skills (Separated By Comma)" class="input-large" />
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="control-group">
+										<div class="controls">
+											<input type="submit" value="Inform Me"
+												class="btn btn-primary" />
+										</div>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+	
+}
