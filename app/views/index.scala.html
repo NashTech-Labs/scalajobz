@@ -98,11 +98,13 @@
 	}
 
 function deleteJob(jobId) {
+	
+	var editflag=@editFlag+""
 	    $.ajax({
 	        type : 'GET',
-	        url : '@routes.PostAJobController.deleteJob("' + jobId + '")',
+	        url : '@routes.PostAJobController.deleteJob("' + jobId + '","' + editflag + '")',
 	        success : function(data) {
-	        	 window.location.reload();
+	        	$('#search-result').html(data);
 	        }
 	    });
 	    return false;
