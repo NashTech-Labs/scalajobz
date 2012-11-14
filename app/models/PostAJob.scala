@@ -46,14 +46,14 @@ object PostAJob {
     for (eachJob <- allJobs) {
       if (eachJob.position.toUpperCase.contains(stringTobeSearched.toUpperCase) || eachJob.company.toUpperCase.contains(stringTobeSearched.toUpperCase) ||
         eachJob.jobType.toUpperCase.contains(stringTobeSearched.toUpperCase) || eachJob.location.toUpperCase.contains(stringTobeSearched.toUpperCase) ||
-        isListContainElement(stringTobeSearched,eachJob.skillsRequired))
+        isListContainElement(stringTobeSearched, eachJob.skillsRequired) || eachJob.datePosted.toString.toUpperCase.contains(stringTobeSearched.toUpperCase))
         jobsFound ++= List(eachJob)
     }
     jobsFound
   }
-  
-  def isListContainElement(stringTobeSearched: String,searchList:List[String])={
-    val resultList=searchList.map(_.toUpperCase.trim.contains(stringTobeSearched.toUpperCase))
+
+  def isListContainElement(stringTobeSearched: String, searchList: List[String]) = {
+    val resultList = searchList.map(_.toUpperCase.trim.contains(stringTobeSearched.toUpperCase))
     resultList.contains(true)
   }
 
