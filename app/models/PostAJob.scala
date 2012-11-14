@@ -45,7 +45,8 @@ object PostAJob {
     val allJobs = JobDAO.find(MongoDBObject()).toList
     for (eachJob <- allJobs) {
       if (eachJob.position.toUpperCase.contains(stringTobeSearched.toUpperCase) || eachJob.company.toUpperCase.contains(stringTobeSearched.toUpperCase) ||
-        eachJob.jobType.toUpperCase.contains(stringTobeSearched.toUpperCase) || eachJob.location.toUpperCase.contains(stringTobeSearched.toUpperCase))
+        eachJob.jobType.toUpperCase.contains(stringTobeSearched.toUpperCase) || eachJob.location.toUpperCase.contains(stringTobeSearched.toUpperCase) ||
+        eachJob.skillsRequired.map(_.toUpperCase.trim).contains(stringTobeSearched.toUpperCase))
         jobsFound ++= List(eachJob)
     }
     jobsFound

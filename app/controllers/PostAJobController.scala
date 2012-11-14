@@ -54,7 +54,7 @@ object PostAJobController extends Controller {
         else {
           if (request.session.get("userId") == None) Ok(views.html.login(new Alert(null, null), Application.logInForm, request.session.get("userId").getOrElse(null), "jobPost"))
           else {
-            val job = Job(new ObjectId, new ObjectId(request.session.get("userId").get), postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, List(postAJobForm.skillsRequired), postAJobForm.description, new Date)
+            val job = Job(new ObjectId, new ObjectId(request.session.get("userId").get), postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList, postAJobForm.description, new Date)
             PostAJob.addJob(job)
             Ok(views.html.index(new Alert("success", "Job Posted Successfully"), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs, false))
           }
@@ -67,8 +67,7 @@ object PostAJobController extends Controller {
    */
 
   def findAJob(searchString: String, editFlag: String) = Action { implicit request =>
-    println("++++++ " + editFlag)
-    val searchJobList = PostAJob.searchTheJob(searchString)
+    val searchJobList = PostAJob.searchTheJob(searchString.trim)
     if (editFlag.equals("true"))
       Ok(views.html.ajax_result(searchJobList, true))
     else
@@ -93,7 +92,7 @@ object PostAJobController extends Controller {
     postAJobForm.bindFromRequest.fold(
       errors => BadRequest(views.html.editJob(existJob, postAJobForm, request.session.get("userId").getOrElse(null))),
       postAJobForm => {
-        val job = Job(existJob.id, existJob.userId, postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, List(postAJobForm.skillsRequired), postAJobForm.description, new Date)
+        val job = Job(existJob.id, existJob.userId, postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList, postAJobForm.description, new Date)
         PostAJob.updateJob(job)
         Ok(views.html.index(new Alert("success", "Job Updated Successfully"), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs, true))
 

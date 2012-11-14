@@ -45,7 +45,7 @@
 					<td>@job.company</td>
 					<td>@job.location</td>
 					<td>@job.jobType</td>
-					<td>@job.skillsRequired</td>
+					<td>@job.skillsRequired.mkString(",")</td>
 					<td>@format_date(job.datePosted)</td>
 					@if(editFlag == true){
 					<td><a href="/findJobPostForEdit/@job.id"><i class="icon-pencil" title="Edit"></i> </a>
