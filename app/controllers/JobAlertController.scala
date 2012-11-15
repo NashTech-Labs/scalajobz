@@ -43,7 +43,7 @@ object JobAlertController extends Controller {
           Ok(views.html.informMe(new Alert("error", "This Email Is Already registered With ScalaJobz"), JobAlertController.jobAlertForm, null))
         } else {
           val encryptedPassword = (new PasswordHashing).encryptThePassword(jobAlertForm.password)
-          val newJobSeeker = Employer(new ObjectId, jobAlertForm.emailId, encryptedPassword, List(jobAlertForm.keySkills), true)
+          val newJobSeeker = Employer(new ObjectId, jobAlertForm.emailId, encryptedPassword, jobAlertForm.keySkills.split(",").toList, true)
           val userId = SignUp.registerJobSeeker(newJobSeeker)
           if (newJobSeeker != null)
             Ok(views.html.informMe(new Alert("success", "You are successfully enrolled with ScalaJobz."), JobAlertController.jobAlertForm, null))
