@@ -115,7 +115,8 @@ object PostAJob {
     var jobsFound: List[Job] = List()
     val allJobs = JobDAO.find(MongoDBObject()).toList
     for (eachJob <- allJobs) {
-      if (eachJob.location.toUpperCase.contains(where.toUpperCase) && isListContainElement(what, eachJob.skillsRequired))
+      if ((where == null || where == "" || where.equals("null") || eachJob.location.toUpperCase.contains(where.toUpperCase)) &&
+        (what == null || what == "" || what.equals("null") || isListContainElement(what, eachJob.skillsRequired)))
         jobsFound ++= List(eachJob)
     }
     jobsFound

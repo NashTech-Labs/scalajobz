@@ -63,10 +63,17 @@
 
 <script type="text/javascript">
  
- 
+window.onload = function() {
+	  document.getElementById("what").focus();
+	};
+	
  $('#search').click(function(e) {
 	    var what = $("#what").val();
 	    var where = $("#where").val();
+	    if(what == "")
+	    	what = null
+	    if(where == "")
+		    where = null
 	    $.ajax({
 	        type : 'POST',
 	        url : '@routes.JobAlertController.searchJobForAlert("' + what + '","' + where + '")',
