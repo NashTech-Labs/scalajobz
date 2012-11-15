@@ -7,7 +7,6 @@ import com.novus.salat.dao.SalatDAO
 import utils.MongoHQConfig
 import com.mongodb.casbah.commons.MongoDBObject
 
-case class JobAlertForm(emailId: String, password: String, confirmPassword: String,keySkills:String)
 case class SignUpForm(emailId: String, password: String, confirmPassword: String)
 case class Employer(@Key("_id") id: ObjectId, emailId: String, password: String, skills: List[String], jobSeeker: Boolean)
 object SignUp {

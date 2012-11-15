@@ -41,7 +41,9 @@ GET /deleteJob/:jobId/:editFlag			 controllers.PostAJobController.deleteJob(jobI
 
 GET /informMe 							controllers.JobAlertController.informMe		
 
-POST /registerJobSeeker			controllers.JobAlertController.registerJobSeeker	
+POST /registerJobSeeker			controllers.JobAlertController.registerJobSeeker
+
+POST /searchJobForAlert/:what/:where 	controllers.JobAlertController.searchJobForAlert(what: String, where: String)
 
 # Javascript routing
 #GET     /assets/javascripts/routes          controllers.PostAJobController.javascriptRoutes

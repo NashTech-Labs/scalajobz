@@ -1,81 +1,81 @@
-@(alert: Alert, jobAlertForm: Form[JobAlertForm], userId:String) 
+@(alert: Alert , userId:String,jobs:List[Job])
+@import java.text.SimpleDateFormat
+
+@format_date(date: java.util.Date) = @{
+	new SimpleDateFormat("MMM dd yyyy").format(date)
+}
+<div id="logos">
+	<form class="form-inline" style="margin-top: 10px;">
+	<label class="control-label" for="what">Key Skills:&nbsp;</label>
+		<input id="what" type="text" class="input-xlarge " placeholder="Key Skills"
+			style="height: 30px; font-size: 20px; color: #2884dd;">
+			<label class="control-label" for="where">Location:&nbsp;</label> 
+			<input id="where" type="text" class="input-xlarge " placeholder="Location"
+			style="height: 30px; font-size: 20px; color: #2884dd;">
+		<button id="search" type="submit" class="btn btn-primary">Search</button>
+	</form>
+
+
+</div>
 @main("Welcome to ScalaJobz.com",userId,alert) {
 
 <div id="homewhite">
 	<div class="page">
-		<h1>Inform Me</h1>
-		<div class="border-center">
-			<div class="box-post">
-				<div class="bordered">
-					<form id="informme-form" class="form-horizontal" action="/registerJobSeeker"
-						method="post">
-						<table>
-							<tr>
-								<td>
-									<div class="control-group">
-										<label class="control-label" for="EmailId">Email</label>
-										<div class="controls">
-											<input id="EmailId" name="EmailId" type="text"
-												placeholder="Email address" class="input-large" />
-										</div>
-									</div>
-								</td>
-							</tr>
-							
-							<tr>
-								<td>
-									<div class="control-group">
-										<label class="control-label" for="Password">Password</label>
-										<div class="controls">
-											<input id="Password" name="Password" type="password"
-												placeholder="Password" class="input-large" />
-										</div>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="control-group">
-										<label class="control-label" for="ConfirmPassword">Confirm
-											Password</label>
-										<div class="controls">
-											<input name="ConfirmPassword" type="password"
-												id="ConfirmPassword" placeholder="Confirm Password"
-												class="input-large" />
-										</div>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="control-group">
-										<label class="control-label" for="KeySkills">Key
-											Skills</label>
-										<div class="controls">
-											<input id="KeySkills" name="KeySkills" type="text"
-												placeholder="Skills (Separated By Comma)" class="input-large" />
-										</div>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="control-group">
-										<div class="controls">
-											<input type="submit" value="Inform Me"
-												class="btn btn-primary" />
-										</div>
-									</div>
-								</td>
-							</tr>
-						</table>
-					</form>
-				</div>
-			</div>
+		@if(userId != null && jobs.isEmpty){
+		<h5>
+			No Job Posted by you. Click <a class="menulink" href="/postAJob">Here</a>
+			to post a job.
+		</h5>
+		} else {
+
+		<div id="search-result">
+			<table id="results" class="table table-striped">
+				<thead>
+					<tr>
+						<th>POSITION</th>
+						<th>COMPANY</th>
+						<th>LOCATION</th>
+						<th>TYPE</th>
+						<th>KEY SKILLS</th>
+						<th>DATE POSTED</th> 
+					</tr>
+				<tbody>
+					@jobs.map { job =>
+					<tr>
+						<td><a href="/jobDetail/@job.id">@job.position</a></td>
+						<td>@job.company</td>
+						<td>@job.location</td>
+						<td>@job.jobType</td>
+						<td>@job.skillsRequired.mkString(",")</td>
+						<td>@format_date(job.datePosted)</td> 
+					</tr>
+					}
+				</tbody>
+				</thead>
+			</table>
+			
 		</div>
+
+
+		}
 	</div>
 </div>
 
+<script type="text/javascript">
+ 
+ 
+ $('#search').click(function(e) {
+	    var what = $("#what").val();
+	    var where = $("#where").val();
+	    $.ajax({
+	        type : 'POST',
+	        url : '@routes.JobAlertController.searchJobForAlert("' + what + '","' + where + '")',
+	        success : function(data) {
+	        	 $('#search-result').html(data);
+	        }
+	    });
+	    return false;
+	});
+ </script>
 
-	
 }

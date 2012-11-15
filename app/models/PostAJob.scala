@@ -108,6 +108,19 @@ object PostAJob {
     JobDAO.remove(jobToBeDelete)
   }
 
+  /*
+ * Search job for Job alert
+ * */
+  def searchTheJobForJobAlert(what: String, where: String): List[Job] = {
+    var jobsFound: List[Job] = List()
+    val allJobs = JobDAO.find(MongoDBObject()).toList
+    for (eachJob <- allJobs) {
+      if (eachJob.location.toUpperCase.contains(where.toUpperCase) && isListContainElement(what, eachJob.skillsRequired))
+        jobsFound ++= List(eachJob)
+    }
+    jobsFound
+  }
+
 }
 
 object JobDAO extends SalatDAO[Job, ObjectId](collection = MongoHQConfig.mongoDB("job"))
