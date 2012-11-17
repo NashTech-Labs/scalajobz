@@ -4870,8 +4870,8 @@ label.error {
 	height: 15px;
 	width: 100%;
 	margin-bottom: 20px;
-	margin-top: 0px;
-	background: url(../images/separator.png) repeat;
+	margin-top: 6px;
+	background: url(../images/separatorLine.png) repeat;
 }
 
 h3 {

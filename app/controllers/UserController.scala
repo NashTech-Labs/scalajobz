@@ -22,6 +22,7 @@ import models.PostAJob
 import models.Alert
 import models.Employer
 import models.EditUserProfileForm
+import utils.ForgetPassword
 
 object UserController extends Controller {
 
@@ -31,18 +32,27 @@ object UserController extends Controller {
       "NewPassword" -> nonEmptyText,
       "ConfirmPassword" -> nonEmptyText)(EditUserProfileForm.apply)(EditUserProfileForm.unapply))
 
-  //Edit Profile
+  /*
+   * Redirect To User Profile edit page
+   * */
 
   def editUserProfile = Action { implicit request =>
     val userProfile = LogIn.findUserProfile(request.session.get("userId").get)
     Ok(views.html.editUserProfile(new Alert(null, null), userProfile.get, editUserProfileForm, request.session.get("userId").getOrElse(null)))
   }
 
+  /*
+ * Find list of job post by a user
+ * */
+
   def findJobPostByUserId = Action { implicit request =>
     val jobPostByUserList = PostAJob.findJobsPostByUserId(request.session.get("userId").get)
     Ok(views.html.index(new Alert(null, null), request.session.get("userId").getOrElse(null), jobPostByUserList, true))
   }
 
+  /*
+   * Update User Profile
+   * */
   def updateUserProfile = Action { implicit request =>
     val userProfile = LogIn.findUserProfile(request.session.get("userId").get).get
     editUserProfileForm.bindFromRequest.fold(
@@ -67,4 +77,25 @@ object UserController extends Controller {
       })
   }
 
+  /*
+   * Redirect To Forget Password Page
+   * */
+  def forgetPassword = Action { implicit request =>
+    Ok(views.html.forgetPassword(new Alert(null, null)))
+  }
+
+  /*
+   * Send Password To User Email Id
+   * */
+
+  def sendForgetPassword(emailId: String) = Action { implicit request =>
+    if (SignUp.findUserByEmail(emailId).isEmpty) {
+      Ok(false.toString)
+    } else {
+      val userList = SignUp.findUserByEmail(emailId)
+      val user = Option(userList.toList(0)).get
+      ForgetPassword.sendPassword(user.emailId, (new PasswordHashing).decryptThePassword(user.password))
+      Ok(true.toString)
+    }
+  }
 }

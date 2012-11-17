@@ -13,8 +13,9 @@ object ApplicationBuild extends Build {
     "com.novus" %% "salat-core" % "0.0.8-20120223",
     //"com.novus" %% "salat" % "1.9.1",
     "javax.mail" % "mail" % "1.4.1",
-//    "com.typesafe.akka" % "akka-actor" % "2.0.2",
-//    "com.typesafe.akka" % "akka-remote" % "2.0.2",
+    //    "com.typesafe.akka" % "akka-actor" % "2.0.2",
+    //    "com.typesafe.akka" % "akka-remote" % "2.0.2",
+    "commons-codec" % "commons-codec" % "1.6",
     "org.scalatest" %% "scalatest" % "1.6.1")
 
   val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings( // Add your own project settings here      
