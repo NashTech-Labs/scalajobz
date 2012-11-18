@@ -20,23 +20,10 @@ object LogIn {
     EmployerDAO.find(MongoDBObject("emailId" -> emailId, "password" -> password)).toList
   }
 
-  
-  //TODO : User "findUserById" From Login (Code Duplication)
-  /**
-   * Find User By Id
-   */
-//  def findUserProfile(userId: ObjectId)= {
-//    val users = EmployerDAO.find(MongoDBObject("_id" -> userId)).toList
-//    (users.isEmpty) match {
-//      case true => None
-//      case false => Option(users.toList(0))
-//    }
-//  }
-
   /**
    * Update user Profile
    */
-  def updateUser(employer: Employer, password: String){
+  def updateUser(employer: Employer, password: String) {
     EmployerDAO.update(MongoDBObject("_id" -> employer.id), new Employer(employer.id, employer.emailId, password, employer.skills, employer.jobSeeker), false, false, new WriteConcern)
   }
 

@@ -32,29 +32,29 @@ object UserController extends Controller {
       "NewPassword" -> nonEmptyText,
       "ConfirmPassword" -> nonEmptyText)(EditUserProfileForm.apply)(EditUserProfileForm.unapply))
 
-  /*
+  /**
    * Redirect To User Profile edit page
-   * */
+   */
 
   def editUserProfile = Action { implicit request =>
-    val userProfile = LogIn.findUserProfile(request.session.get("userId").get)
+    val userProfile = SignUp.findUserById(request.session.get("userId").get)
     Ok(views.html.editUserProfile(new Alert(null, null), userProfile.get, editUserProfileForm, request.session.get("userId").getOrElse(null)))
   }
 
-  /*
- * Find list of job post by a user
- * */
+  /**
+   * Find list of job post by a user
+   */
 
   def findJobPostByUserId = Action { implicit request =>
     val jobPostByUserList = PostAJob.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
     Ok(views.html.index(new Alert(null, null), request.session.get("userId").getOrElse(null), jobPostByUserList, true))
   }
 
-  /*
+  /**
    * Update User Profile
-   * */
+   */
   def updateUserProfile = Action { implicit request =>
-    val userProfile = LogIn.findUserProfile(request.session.get("userId").get).get
+    val userProfile = SignUp.findUserById(request.session.get("userId").get).get
     editUserProfileForm.bindFromRequest.fold(
       errors => BadRequest(views.html.editUserProfile(new Alert("error", "There Was Some Errors During Profile Editing"),
         userProfile, editUserProfileForm, request.session.get("userId").getOrElse(null))),
@@ -66,8 +66,6 @@ object UserController extends Controller {
           Ok(views.html.editUserProfile(new Alert("success", "Profile Updated"),
             userProfile, UserController.editUserProfileForm, request.session.get("userId").getOrElse(null)))
         } else if (currentEncryptedPassword.equals(encryptedPassword)) {
-          val encryptedPassword = (new PasswordHashing).encryptThePassword(editUserProfileForm.newPassword)
-          LogIn.updateUser(userProfile, encryptedPassword)
           Ok(views.html.editUserProfile(new Alert("error", "Current Password & New Password are same"),
             userProfile, UserController.editUserProfileForm, request.session.get("userId").getOrElse(null)))
         } else
@@ -77,16 +75,16 @@ object UserController extends Controller {
       })
   }
 
-  /*
+  /**
    * Redirect To Forget Password Page
-   * */
+   */
   def forgetPassword = Action { implicit request =>
     Ok(views.html.forgetPassword(new Alert(null, null)))
   }
 
-  /*
+  /**
    * Send Password To User Email Id
-   * */
+   */
 
   def sendForgetPassword(emailId: String) = Action { implicit request =>
     if (SignUp.findUserByEmail(emailId).isEmpty) {

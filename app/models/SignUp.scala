@@ -26,6 +26,10 @@ object SignUp {
     EmployerDAO.find(MongoDBObject("emailId" -> emailId)).toList
   }
 
+  /**
+   * Find User By User Id
+   */
+  
   def findUserById(userId: String): Option[Employer] = {
     val userFound = EmployerDAO.find(MongoDBObject("_id" -> new ObjectId(userId))).toList
     (userFound.isEmpty) match {
@@ -34,6 +38,10 @@ object SignUp {
     }
 
   }
+  
+  /**
+   *  Register Job Seeker
+   */
   
   def registerJobSeeker(employer: Employer)={
     EmployerDAO.insert(employer)
