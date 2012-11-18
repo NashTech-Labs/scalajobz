@@ -46,7 +46,7 @@ object UserController extends Controller {
  * */
 
   def findJobPostByUserId = Action { implicit request =>
-    val jobPostByUserList = PostAJob.findJobsPostByUserId(request.session.get("userId").get)
+    val jobPostByUserList = PostAJob.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
     Ok(views.html.index(new Alert(null, null), request.session.get("userId").getOrElse(null), jobPostByUserList, true))
   }
 

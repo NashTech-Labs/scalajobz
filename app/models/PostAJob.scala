@@ -52,6 +52,7 @@ object PostAJob {
     jobsFound
   }
 
+  
   def isListContainElement(stringTobeSearched: String, searchList: List[String]) = {
     val resultList = searchList.map(_.toUpperCase.trim.contains(stringTobeSearched.toUpperCase))
     resultList.contains(true)
@@ -72,14 +73,15 @@ object PostAJob {
   /**
    * Job Posted by A Particular User
    */
-  def findJobsPostByUserId(userId: String): List[Job] = {
-    JobDAO.find(MongoDBObject("userId" -> new ObjectId(userId))).sort(orderBy = MongoDBObject("datePosted" -> -1)).toList
+  def findJobsPostByUserId(userId: ObjectId): List[Job] = {
+    JobDAO.find(MongoDBObject("userId" -> userId)).sort(orderBy = MongoDBObject("datePosted" -> -1)).toList
   }
 
+  //TODO:Check Method
   /**
    * Update The Job
    */
-  def updateJob(job: Job) = {
+  def updateJob(job: Job){
     JobDAO.update(MongoDBObject("_id" -> job.id), job, false, false, new WriteConcern)
   }
 

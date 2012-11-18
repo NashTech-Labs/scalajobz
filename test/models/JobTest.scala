@@ -55,6 +55,29 @@ class JobTest extends FunSuite with BeforeAndAfter {
     val jobsMatchingUserProfileAgain=PostAJob.findJobMatchingUserKeySkills(List("Java","PHP"))
     assert(jobsMatchingUserProfileAgain(0).company==="Sify")
   }
+  
+  
+  test("Find Jobs Posted By A Particular User"){
+    val employer=new Employer(new ObjectId,"neelkanth@gmail.com","12345",List(),true)
+    val employerId=SignUp.createUser(employer)
+    val job1 = Job(new ObjectId, employerId.get, "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java","Scala"), "Description", new Date)
+    val job2 = Job(new ObjectId, employerId.get, "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala","MongoDB"), "Description", new Date)
+    val job3 = Job(new ObjectId, new ObjectId, "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java","Scala"), "Description", new Date)
+    val job4 = Job(new ObjectId, new ObjectId, "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala","MongoDB"), "Description", new Date)
+    PostAJob.addJob(job1)
+    PostAJob.addJob(job2)
+    PostAJob.addJob(job3)
+    PostAJob.addJob(job4)
+    assert(PostAJob.findJobsPostByUserId(employerId.get).size===2)
+  }
+  
+//  test("Update Job"){
+//    val job1 = Job(new ObjectId, new ObjectId, "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala","MongoDB"), "Description", new Date)
+//    PostAJob.addJob(job1)
+//    assert(PostAJob.findJobDetail(job1.id).head.position==="Software Programmer")
+//    val newJob = Job(new ObjectId, new ObjectId, "Software Developer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala","MongoDB"), "Description", new Date)
+//    PostAJob.updateJob(newJob)
+//  }
 
   after {
     JobDAO.remove(MongoDBObject("location" -> ".*".r))
