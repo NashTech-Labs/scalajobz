@@ -17,5 +17,4 @@ class SignUpTest extends FunSuite with BeforeAndAfter {
     val employers=SignUp.findUserByEmail("neelkanth@knoldus.com")
     assert(employers.size===1)
   }
-
 }
