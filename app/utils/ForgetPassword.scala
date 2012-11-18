@@ -47,7 +47,7 @@ object ForgetPassword extends App {
         "ScalaJobz" + "<br>", "text/html")
 
     val transport = session.getTransport("smtp")
-//    transport.connect("smtp.gmail.com", "neelkanth@knoldus.com", ConversionUtility.decodeMe("9585859381a39295969384a4a2"))
+    transport.connect("smtp.gmail.com", "neelkanth@knoldus.com", ConversionUtility.decodeMe("9585859381a39295969384a4a2"))
     transport.sendMessage(msg, msg.getAllRecipients)
   }
 
