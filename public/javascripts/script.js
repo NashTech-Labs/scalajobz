@@ -154,6 +154,36 @@ $(document).ready(
 									'.control-group').addClass('success');
 						}
 					});
+			
+			$('#forgetPassword_form').validate(
+					{
+						rules : {
+							EmailId : {
+								required : true,
+								email : true
+							}
+						},
+						highlight : function(label) {
+							$(label).closest('.control-group')
+									.addClass('error');
+						},
+						success : function(label) {
+							label.text('OK!').addClass('valid').closest(
+									'.control-group').addClass('success');
+						}
+					});
 
 
 		}); // end document.ready
+
+function validateEmail(email) {
+	 
+	   var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+	   if(reg.test(email) == false) {
+	      return false;
+	   }
+	   else
+		   {
+		   return true;
+		   }
+	}
