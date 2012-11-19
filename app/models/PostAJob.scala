@@ -52,7 +52,6 @@ object PostAJob {
     jobsFound
   }
 
-  
   def isListContainElement(stringTobeSearched: String, searchList: List[String]) = {
     val resultList = searchList.map(_.toUpperCase.trim.contains(stringTobeSearched.toUpperCase))
     resultList.contains(true)
@@ -81,7 +80,7 @@ object PostAJob {
   /**
    * Update The Job
    */
-  def updateJob(job: Job){
+  def updateJob(job: Job) {
     JobDAO.update(MongoDBObject("_id" -> job.id), job, false, false, new WriteConcern)
   }
 
@@ -118,7 +117,8 @@ object PostAJob {
     val allJobs = JobDAO.find(MongoDBObject()).toList
     for (eachJob <- allJobs) {
       if ((where == null || where == "" || where.equals("null") || eachJob.location.toUpperCase.contains(where.toUpperCase)) &&
-        (what == null || what == "" || what.equals("null") || isListContainElement(what, eachJob.skillsRequired)))
+        (what == null || what == "" || what.equals("null") || isListContainElement(what, eachJob.skillsRequired)
+          || eachJob.position.toUpperCase.contains(what.toUpperCase) || eachJob.company.toUpperCase.contains(what.toUpperCase)))
         jobsFound ++= List(eachJob)
     }
     jobsFound

@@ -33,7 +33,7 @@ object JobAlertController extends Controller {
   
   def searchJobForAlert(what: String, where: String) = Action { implicit request =>
     val jobList = PostAJob.searchTheJobForJobAlert(what.trim, where.trim)
-    Ok(views.html.ajax_result(jobList, false))
+    Ok(views.html.ajax_result1(jobList, false))
   }
 
   def registerJobSeeker = Action { implicit request =>
