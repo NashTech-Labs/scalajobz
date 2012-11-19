@@ -53,7 +53,7 @@
 				</tbody>
 				</thead>
 			</table>
-			
+			<div id="myPager" class="pagination pagination-centered"></div>
 		</div>
 
 
@@ -83,6 +83,29 @@ window.onload = function() {
 	    });
 	    return false;
 	});
+ 
+ $(document).ready(function() {
+	 showRecords(1,10);
+	});
+ 
+ $('#myPager').pagination(@jobs.size,{callback:function(page,component){
+	 var itemperpage=10;
+	 var from=((page + 1) - 1) * itemperpage + 1;
+	 var to=from + itemperpage - 1;
+	 showRecords(from,to);
+	 console.info(page);
+	}})
+	
+function showRecords(from, to) {          
+     var rows = document.getElementById("results").rows;  
+      // i starts from 1 to skip table header row  
+     for (var i = 1; i < rows.length; i++) {  
+         if (i < from || i > to)    
+             rows[i].style.display = 'none';  
+         else  
+             rows[i].style.display = '';  
+     }  
+   }  
  </script>
 
 }
