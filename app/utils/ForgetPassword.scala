@@ -11,15 +11,7 @@ import play.api.Play
 import models.Job
 
 object ForgetPassword extends App {
-  val ALPHA_NUM = "!1@2aA#Ss3Dd$Ff4gG%Hh5Jj@Kk6Ll&Zz7Xx*Cc8Vv(Bb9Nn)Mm0QqWwEeR-rTtYy+Uu}]IiOo{[Pp";
-  def getAlphaNumeric: String = {
-    var randomPassword: String = ""
-    for (x <- 1 to 5) {
-      val ndx = Math.random * ALPHA_NUM.length()
-      randomPassword += ndx
-    }
-    randomPassword
-  }
+  
 
   def sendPassword(emailId: String, password: String) {
     val props = new Properties
@@ -27,7 +19,7 @@ object ForgetPassword extends App {
     props.setProperty("mail.smtp.starttls.enable", "true")
     props.setProperty("mail.host", "smtp.gmail.com")
     props.setProperty("mail.user", "neelkanth@knoldus.com")
-    props.setProperty("mail.password", "9585859381a39295969384a4a2")
+     props.setProperty("mail.password", ConversionUtility.decodeMe(Play.current.configuration.getString("email_password").get))
 
     val session = Session.getDefaultInstance(props, null)
     val msg = new MimeMessage(session)
@@ -47,7 +39,7 @@ object ForgetPassword extends App {
         "ScalaJobz" + "<br>", "text/html")
 
     val transport = session.getTransport("smtp")
-    transport.connect("smtp.gmail.com", "neelkanth@knoldus.com", ConversionUtility.decodeMe("9585859381a39295969384a4a2"))
+    transport.connect("smtp.gmail.com", "neelkanth@knoldus.com", ConversionUtility.decodeMe(Play.current.configuration.getString("email_password").get))
     transport.sendMessage(msg, msg.getAllRecipients)
   }
 
