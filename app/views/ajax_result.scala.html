@@ -2,7 +2,7 @@
 @import java.text.SimpleDateFormat
 @format_date(date: java.util.Date) = @{ new SimpleDateFormat("MMM dd yyyy").format(date) } 
 @if(!result.isEmpty){
-<table class="table table-striped">
+<table class="table table-striped table-bordered">
 	<thead>
 		<tr>
 			<th>POSITION</th>
@@ -11,7 +11,7 @@
 			<th>TYPE</th>
 			<th>KEY SKILLS</th>
 			<th>DATE POSTED</th> @if(editFlag == true){
-			<th>Option</th>}
+			<th>OPTION</th>}
 		</tr>
 	</thead>
 	<tbody>
