@@ -94,7 +94,8 @@ object PostAJobController extends Controller {
       postAJobForm => {
         val job = Job(existJob.id, existJob.userId, postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList, postAJobForm.description, new Date)
         PostAJob.updateJob(job)
-        Ok(views.html.index(new Alert("success", "Job Updated Successfully"), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs, true))
+        val jobPostByUserList = PostAJob.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
+        Ok(views.html.index(new Alert("success", "Job Updated Successfully"), request.session.get("userId").getOrElse(null), jobPostByUserList, true))
 
       })
   }
