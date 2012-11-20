@@ -14,7 +14,6 @@ import play.libs._
 import org.bson.types.ObjectId
 import models.PostAJobForm
 import models.Job
-import models.Job
 import models.PostAJob
 import java.util.Date
 import models.Alert
@@ -89,16 +88,20 @@ object PostAJobController extends Controller {
    * Edit Job
    */
   def editJob(jobId: String) = Action { implicit request =>
-    val existJob = PostAJob.findJobDetail(new ObjectId(jobId)).get
-    postAJobForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.editJob(existJob, postAJobForm, request.session.get("userId").getOrElse(null))),
-      postAJobForm => {
-        val job = Job(existJob.id, existJob.userId, postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList, postAJobForm.description, new Date)
-        PostAJob.updateJob(job)
-        val jobPostByUserList = PostAJob.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
-        Ok(views.html.index(new Alert("success", "Job Updated Successfully"), request.session.get("userId").getOrElse(null), jobPostByUserList, true))
+    val existJob = PostAJob.findJobDetail(new ObjectId(jobId))
+    existJob match {
+      case None => Results.Redirect(routes.UserController.findJobPostByUserId)
+      case Some(job:Job)=>
+        postAJobForm.bindFromRequest.fold(
+          errors => BadRequest(views.html.editJob(job, postAJobForm, request.session.get("userId").getOrElse(null))),
+          postAJobForm => {
+            val editJob = Job(job.id, job.userId, postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList, postAJobForm.description, new Date)
+            PostAJob.updateJob(editJob)
+            val jobPostByUserList = PostAJob.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
+            Ok(views.html.index(new Alert("success", "Job Updated Successfully"), request.session.get("userId").getOrElse(null), jobPostByUserList, true))
 
-      })
+          })
+    }
   }
 
   /*
