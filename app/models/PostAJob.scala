@@ -10,6 +10,7 @@ import java.util.Date
 import java.util.regex.Pattern
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.MongoConnection
+import utils.AskActorToInformUserForJob
 
 case class PostAJobForm(position: String, company: String, location: String, jobType: String, emailAddress: String, skillsRequired: String, description: String)
 case class Job(@Key("_id") id: ObjectId, userId: ObjectId, position: String, company: String, location: String, jobType: String, emailAddress: String, skillsRequired: List[String], description: String, datePosted: Date)
@@ -27,7 +28,9 @@ object PostAJob {
    */
 
   def addJob(job: Job) = {
-    JobDAO.insert(job)
+	val jobId=JobDAO.insert(job)
+    AskActorToInformUserForJob.sendMailIfUserExistWithTheSkillsRequiredForTheJob(job)
+    jobId
   }
 
   /**

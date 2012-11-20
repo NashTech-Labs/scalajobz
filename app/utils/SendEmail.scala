@@ -22,10 +22,14 @@ object SendEmail extends App {
     val session = Session.getDefaultInstance(props, null);
     val msg = new MimeMessage(session)
     val recepientAddress = new InternetAddress(emailId)
-    msg.setFrom(new InternetAddress("beamteam@beamstream.com", "beamteam@beamstream.com"))
+    msg.setFrom(new InternetAddress("support@scalajobz.com", "support@scalajobz.com"))
     msg.addRecipient(Message.RecipientType.TO, recepientAddress);
-    msg.setSubject("Registration Process On BeamStream");
-    msg.setContent("Here is the jobs for you from scalajobz.com", "text/html");
+    msg.setSubject("Job Alert From ScalaJobz.com");
+    msg.setContent("Here is the jobs for you from scalajobz.com"
+        + "<br>" + "Your Job Details"+ "<br>" + "<br>" +
+        job.company+"<br>" +
+        job.location+"<br>"
+        ,"text/html")
     val transport = session.getTransport("smtp");
     transport.connect("smtp.gmail.com", "neelkanth@knoldus.com", "")
     transport.sendMessage(msg, msg.getAllRecipients)

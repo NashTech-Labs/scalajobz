@@ -26,5 +26,9 @@ object LogIn {
   def updateUser(employer: Employer, password: String) {
     EmployerDAO.update(MongoDBObject("_id" -> employer.id), new Employer(employer.id, employer.emailId, password, employer.skills, employer.jobSeeker), false, false, new WriteConcern)
   }
+  
+  def findJobSeekers= {
+    EmployerDAO.find(MongoDBObject("jobSeeker" -> true)).toList
+  }
 
 }
