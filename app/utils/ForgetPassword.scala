@@ -19,7 +19,7 @@ object ForgetPassword extends App {
     props.setProperty("mail.smtp.starttls.enable", "true")
     props.setProperty("mail.host", "smtp.gmail.com")
     props.setProperty("mail.user", "neelkanth@knoldus.com")
-//     props.setProperty("mail.password", ConversionUtility.decodeMe(Play.current.configuration.getString("email_password").get))
+     props.setProperty("mail.password", ConversionUtility.decodeMe(Play.current.configuration.getString("email_password").get))
 
     val session = Session.getDefaultInstance(props, null)
     val msg = new MimeMessage(session)
@@ -39,7 +39,7 @@ object ForgetPassword extends App {
         "ScalaJobz" + "<br>", "text/html")
 
     val transport = session.getTransport("smtp")
-//    transport.connect("smtp.gmail.com", "neelkanth@knoldus.com", ConversionUtility.decodeMe(Play.current.configuration.getString("email_password").get))
+    transport.connect("smtp.gmail.com", "neelkanth@knoldus.com", ConversionUtility.decodeMe(Play.current.configuration.getString("email_password").get))
     transport.sendMessage(msg, msg.getAllRecipients)
   }
 
