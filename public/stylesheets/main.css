@@ -869,6 +869,10 @@ select:focus,input[type="file"]:focus,input[type="radio"]:focus,input[type="chec
 	width: 340px;
 }
 
+.input-tlarge {
+	width: 320px;
+}
+
 .input-xxlarge {
 	width: 800px;
 	margin: 15px 22px;
