@@ -7,6 +7,7 @@ class InformUserAboutJobActor extends Actor {
   def receive = {
     case "neel" => println("Hello Neel")
     case message:NeelMessage => println("Sum is : " + ( message.firstNum+message.secondNum)) 
+    case sendEmailToUser : SendMailToUserInformingAboutTheJob => SendEmail.sendEmail(sendEmailToUser.emailId,sendEmailToUser.job)
   }
 }
 
