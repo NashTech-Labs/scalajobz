@@ -67,7 +67,7 @@
 
  <script  type="text/javascript">
  
- window.setTimeout(function() { $(".alert").alert('close'); }, 5000);
+
  $(document).ready(function() {
 	 showRecords(1,10);
 	});
@@ -128,6 +128,7 @@ function deleteJob(jobId) {
        		 		addAlert += '<a class="close" data-dismiss="alert">×</a>' ; 
        	     		addAlert += '<strong style="text-transform: capitalize;">Success! </strong>Job Deleted Successfully </div>';
        	     		document.getElementById("alertHold").innerHTML = addAlert;
+       	     	    window.setTimeout(function() { $(".alert").alert('close'); }, 5000);
 	        }
 	    });
 	    return false;
