@@ -10,9 +10,7 @@
    
     <div id="homewhite">
 	<div class="page">
-	<div class="jobHeading">@job.position - @job.location</div>
-		
-					
+	<div id="jobheading">@job.position - @job.location</div>
 				
 					<Strong>Company:</Strong>
 				
@@ -21,15 +19,14 @@
 					<Strong>JobType:</Strong>
 				
 					<h3>@job.jobType</h3>
-				
-					<Strong>Email Address:</Strong>
-				
-					<h3>@job.emailAddress</h3>
-				
-				
+					
 					<Strong>Date Posted:</Strong>
 				
 					<h3>@format_date(job.datePosted)</h3>
+				
+					<Strong>Email Address To Apply:</Strong>
+				
+					<a href="mailto:@job.emailAddress"><h3>@job.emailAddress</h3></a>
 				
 			<div class="separator-line"></div>
 			<p>	@job.description</p>
