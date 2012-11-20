@@ -105,7 +105,6 @@ object PostAJobController extends Controller {
    * */
 
   def deleteJob(jobId: String, editFlag: String) = Action { implicit request =>
-    println("delte job")
     PostAJob.deleteJobByJobId(new ObjectId(jobId))
     val jobPostByUserList = PostAJob.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
     if (editFlag.equals("true"))
