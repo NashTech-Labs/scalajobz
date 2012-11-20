@@ -41,15 +41,18 @@ object PostAJob {
    * Search The Job
    */
   def searchTheJob(stringTobeSearched: String): List[Job] = {
-    var jobsFound: List[Job] = List()
+    var jobsFound: Set[Job] = Set()
+    val searchStringTokenList = stringTobeSearched.split(" ").toList.filter(x => !(x == ""))
     val allJobs = JobDAO.find(MongoDBObject()).toList
-    for (eachJob <- allJobs) {
-      if (eachJob.position.toUpperCase.contains(stringTobeSearched.toUpperCase) || eachJob.company.toUpperCase.contains(stringTobeSearched.toUpperCase) ||
-        eachJob.jobType.toUpperCase.contains(stringTobeSearched.toUpperCase) || eachJob.location.toUpperCase.contains(stringTobeSearched.toUpperCase) ||
-        isListContainElement(stringTobeSearched, eachJob.skillsRequired) || eachJob.datePosted.toString.toUpperCase.contains(stringTobeSearched.toUpperCase))
-        jobsFound ++= List(eachJob)
+    for (searchToken <- searchStringTokenList) {
+      for (eachJob <- allJobs) {
+        if (eachJob.position.toUpperCase.contains(searchToken.toUpperCase) || eachJob.company.toUpperCase.contains(searchToken.toUpperCase) ||
+          eachJob.jobType.toUpperCase.contains(searchToken.toUpperCase) || eachJob.location.toUpperCase.contains(searchToken.toUpperCase) ||
+          isListContainElement(searchToken, eachJob.skillsRequired) || eachJob.datePosted.toString.toUpperCase.contains(searchToken.toUpperCase))
+          jobsFound ++= List(eachJob)
+      }
     }
-    jobsFound
+    jobsFound.toList
   }
 
   def isListContainElement(stringTobeSearched: String, searchList: List[String]) = {

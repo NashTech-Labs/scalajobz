@@ -67,7 +67,7 @@ object PostAJobController extends Controller {
    */
 
   def findAJob(searchString: String, editFlag: String) = Action { implicit request =>
-    val searchJobList = PostAJob.searchTheJob(searchString.trim)
+    val searchJobList = PostAJob.searchTheJob(searchString)
     if (editFlag.equals("true"))
       Ok(views.html.ajax_result(searchJobList, true))
     else
