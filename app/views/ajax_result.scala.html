@@ -2,7 +2,7 @@
 @import java.text.SimpleDateFormat
 @format_date(date: java.util.Date) = @{ new SimpleDateFormat("MMM dd yyyy").format(date) } 
 @if(!result.isEmpty){
-<table class="table table-striped table-bordered">
+<table id="results" class="table table-striped table-bordered">
 	<thead>
 		<tr>
 			<th>POSITION</th>
@@ -35,3 +35,32 @@
 } else {
 <h1>No results found.</h1>
 }
+<div id="myPager" class="pagination pagination-centered"></div>
+
+<script  type="text/javascript">
+ 
+
+ $(document).ready(function() {
+	 showRecords(1,10);
+	});
+ 
+ $('#myPager').pagination(@result.size,{callback:function(page,component){
+	 var itemperpage=10;
+	 var from=((page + 1) - 1) * itemperpage + 1;
+	 var to=from + itemperpage - 1;
+	 showRecords(from,to);
+	 console.info(page);
+	}})
+	
+function showRecords(from, to) {          
+     var rows = document.getElementById("results").rows;  
+      // i starts from 1 to skip table header row  
+     for (var i = 1; i < rows.length; i++) {  
+         if (i < from || i > to)    
+             rows[i].style.display = 'none';  
+         else  
+             rows[i].style.display = '';  
+     }  
+   }  
+	
+ </script>   
