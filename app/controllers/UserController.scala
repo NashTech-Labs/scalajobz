@@ -22,7 +22,6 @@ import models.PostAJob
 import models.Alert
 import models.Employer
 import models.EditUserProfileForm
-import utils.ForgetPassword
 import utils.SendEmail
 
 object UserController extends Controller {
