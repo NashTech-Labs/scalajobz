@@ -8,7 +8,7 @@
 			<div style="height: 100px;">
 				<form action="" class="form-search" style="margin-top: 10px;">
 					<div class="input-append">
-						<input id="searchString" type="text" class="input-xxlarge" style="height:50px;font-size: 40px;color:#2884dd;">
+						<input id="searchString" type="text" class="input-xxlarge" style="height:50px;font-size: 40px;color:#2884dd;" onKeyUp="changeVal()">
 						<input id="search" type="submit" value="Search" class="btn btn-primary" style="margin-top: 15px;"/>
 					</div>
 				</form>
@@ -22,8 +22,8 @@
     <div id="homewhite">
 	<div class="page">
 	<div id="alertHold"></div>
-	<div style="padding-bottom: 12px;">
-		<a id="job-alert" class="btn btn-primary btn-large" href="#myModal" data-toggle="modal">Get Job Alert</a>
+	<div id="alert-button" style="padding-bottom: 12px;">
+		<a id="job-alert" class="btn btn-primary btn-large disabled" href="#myModal" data-toggle="modal">Get Job Alert</a>
 	</div>
 	
 	<div id="myModal" class="modal hide fade" tabindex="-1">
@@ -118,6 +118,7 @@
  
 
  $(document).ready(function() {
+	 changeVal();
 	 showRecords(1,10);
 	});
  
@@ -199,7 +200,6 @@ function showRecords(from, to) {
 	}
 
 function deleteJob(jobId) {
-	
 	var editflag=@editFlag+""
 	    $.ajax({
 	        type : 'GET',
@@ -215,6 +215,23 @@ function deleteJob(jobId) {
 	    });
 	    return false;
 	}
+	
+
+function changeVal() {
+	
+	if($("#searchString").val().length ==0)
+		{
+		document.getElementById("alert-button").innerHTML = '<a id="job-alert" class="btn btn-primary btn-large disabled"' 
+		+'href="#myModal" data-toggle="modal" style="text-transform: capitalize;">Get Job Alert</a>'
+		document.getElementById("job-alert").disabled=true;
+		}
+	else
+		{
+		 document.getElementById("job-alert").disabled=false;
+    	 document.getElementById("alert-button").innerHTML = '<a id="job-alert" class="btn btn-primary btn-large"' 
+    	 +'href="#myModal" data-toggle="modal" style="text-transform: capitalize;">Get Job Alert For&nbsp;' + $("#searchString").val() + '</a>'
+		}
+} 
 	
  </script>   
     
