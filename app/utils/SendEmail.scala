@@ -17,8 +17,8 @@ object SendEmail extends App {
     props.setProperty("mail.transport.protocol", "smtp");
     props.setProperty("mail.smtp.starttls.enable", "true");
     props.setProperty("mail.host", "smtp.gmail.com");
-    props.setProperty("mail.user", "neelkanth@knoldus.com");
-    props.setProperty("mail.password", "")
+    props.setProperty("mail.user", "scalajobz@gmail.com");
+    props.setProperty("mail.password", ConversionUtility.decodeMe(Play.current.configuration.getString("email_password").get))
     val session = Session.getDefaultInstance(props, null);
     val msg = new MimeMessage(session)
     val recepientAddress = new InternetAddress(emailId)
@@ -31,9 +31,40 @@ object SendEmail extends App {
         job.location+"<br>"
         ,"text/html")
     val transport = session.getTransport("smtp");
-    transport.connect("smtp.gmail.com", "neelkanth@knoldus.com", "")
+    transport.connect("smtp.gmail.com", "scalajobz@gmail.com", ConversionUtility.decodeMe(Play.current.configuration.getString("email_password").get))
     transport.sendMessage(msg, msg.getAllRecipients)
   }
+  
+  def sendPassword(emailId: String, password: String) {
+    val props = new Properties
+    props.setProperty("mail.transport.protocol", "smtp")
+    props.setProperty("mail.smtp.starttls.enable", "true")
+    props.setProperty("mail.host", "smtp.gmail.com")
+    props.setProperty("mail.user", "scalajobz@gmail.com")
+     props.setProperty("mail.password", ConversionUtility.decodeMe(Play.current.configuration.getString("email_password").get))
+
+    val session = Session.getDefaultInstance(props, null)
+    val msg = new MimeMessage(session)
+    val recepientAddress = new InternetAddress(emailId)
+    msg.setFrom(new InternetAddress("support@scalajobz.com", "support@scalajobz.com"))
+    msg.addRecipient(Message.RecipientType.TO, recepientAddress);
+    msg.setSubject("Password Recovery On ScalaJobz")
+
+    msg.setContent(
+
+      "Hi <b>ScalaJobz</b> User." + "<br>" + "<br>" +
+        "Here is your account details " + "<br>" + "<br>" +
+        "Email-Id: " + emailId + "<br>" +
+        "Password: " + password + "<br>" +
+        "<br>" + "<br>" + "<br>" +
+        "Cheers," + "<br>" +
+        "ScalaJobz" + "<br>", "text/html")
+
+    val transport = session.getTransport("smtp")
+    transport.connect("smtp.gmail.com", "scalajobz@gmail.com", ConversionUtility.decodeMe(Play.current.configuration.getString("email_password").get))
+    transport.sendMessage(msg, msg.getAllRecipients)
+  }
+
 
   }
 

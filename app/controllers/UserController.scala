@@ -23,6 +23,7 @@ import models.Alert
 import models.Employer
 import models.EditUserProfileForm
 import utils.ForgetPassword
+import utils.SendEmail
 
 object UserController extends Controller {
 
@@ -92,8 +93,18 @@ object UserController extends Controller {
     } else {
       val userList = SignUp.findUserByEmail(emailId)
       val user = Option(userList.toList(0)).get
-      ForgetPassword.sendPassword(user.emailId, (new PasswordHashing).decryptThePassword(user.password))
+      SendEmail.sendPassword(user.emailId, (new PasswordHashing).decryptThePassword(user.password))
       Ok(true.toString)
     }
+  }
+
+  
+  /**
+   * Register Job seeker for getting Job alert
+   */
+  def registerJobSeeker(emailId: String, skillsToken: String) = Action { implicit request =>
+    val newJobSeeker = Employer(new ObjectId, emailId, "", skillsToken.split(" ").toList.filter(x => !(x == "")), true)
+    val userId = SignUp.registerJobSeeker(newJobSeeker)
+    Ok
   }
 }

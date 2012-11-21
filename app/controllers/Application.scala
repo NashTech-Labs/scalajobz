@@ -62,7 +62,7 @@ object Application extends Controller {
           Ok(views.html.signup(new Alert("error", "This Email Is Already registered With ScalaJobz"), Application.signUpForm, request.session.get("userId").getOrElse(null), flag))
         } else {
           val encryptedPassword = (new PasswordHashing).encryptThePassword(signUpForm.password)
-          val newUser = Employer(new ObjectId, signUpForm.emailId, encryptedPassword, List("Scala","Akka"), true)
+          val newUser = Employer(new ObjectId, signUpForm.emailId, encryptedPassword, List(), false)
           val userId = SignUp.createUser(newUser)
           val userSession = request.session + ("userId" -> userId.get.toString)
           if (flag.equals("login"))

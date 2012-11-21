@@ -41,7 +41,7 @@ GET /deleteJob/:jobId/:editFlag			 controllers.PostAJobController.deleteJob(jobI
 
 GET /informMe 							controllers.JobAlertController.informMe		
 
-POST /registerJobSeeker			controllers.JobAlertController.registerJobSeeker
+POST /registerJobSeeker/:emailId/:skillsToken			controllers.UserController.registerJobSeeker(emailId: String, skillsToken: String)
 
 POST /searchJobForAlert/:what/:where 	controllers.JobAlertController.searchJobForAlert(what: String, where: String)
 
