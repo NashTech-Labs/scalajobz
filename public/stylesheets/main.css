@@ -1406,6 +1406,7 @@ table {
 .table tbody tr:hover td,.table tbody tr:hover th {
 	background-color: #2884dd;
 	color: white;
+	cursor:pointer
 }
 
 table .span1 {

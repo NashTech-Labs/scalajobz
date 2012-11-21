@@ -88,7 +88,7 @@
 					
 					@if(editFlag == true){<th>OPTION</th>}
 				</tr>
-			<tbody>
+			<tbody data-provides="rowlink">
 				@jobs.map { job =>
 				<tr>
 					<td><a href="/jobDetail/@job.id"><b>@job.position</b></a></td>
