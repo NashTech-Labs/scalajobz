@@ -17,6 +17,7 @@ import models.Job
 import models.PostAJob
 import java.util.Date
 import models.Alert
+import models.Common
 
 object PostAJobController extends Controller {
 
@@ -56,7 +57,10 @@ object PostAJobController extends Controller {
             val job = Job(new ObjectId, new ObjectId(request.session.get("userId").get), postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList, postAJobForm.description, new Date)
             PostAJob.addJob(job)
             val jobPostByUserList = PostAJob.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
-            Ok(views.html.index(new Alert("success", "Job Posted Successfully"), request.session.get("userId").getOrElse(null), jobPostByUserList, true))
+            //Ok(views.html.index(new Alert("success", "Job Posted Successfully"), request.session.get("userId").getOrElse(null), jobPostByUserList, true))
+            //Results.Redirect("/findJobPostByUserId?alert=success&message=Job Posted Successfully")
+            Common.setAlert(new Alert("success","Job Posted Successfully"))
+            Results.Redirect("/findJobPostByUserId")
           }
         }
       })
@@ -91,7 +95,7 @@ object PostAJobController extends Controller {
     val existJob = PostAJob.findJobDetail(new ObjectId(jobId))
     existJob match {
       case None => Results.Redirect(routes.UserController.findJobPostByUserId)
-      case Some(job:Job)=>
+      case Some(job: Job) =>
         postAJobForm.bindFromRequest.fold(
           errors => BadRequest(views.html.editJob(job, postAJobForm, request.session.get("userId").getOrElse(null))),
           postAJobForm => {

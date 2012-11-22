@@ -21,6 +21,7 @@ import utils.PasswordHashing
 import models.PostAJob
 import models.Alert
 import models.Employer
+import models.Common
 
 object Application extends Controller {
 
@@ -40,7 +41,9 @@ object Application extends Controller {
       "Password" -> nonEmptyText)(LogInForm.apply)(LogInForm.unapply))
 
   def index = Action { implicit request =>
-    Ok(views.html.index(new Alert(null, null), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs, false))
+    val alert = Common.alert
+    Common.setAlert(new Alert(null, null))
+    Ok(views.html.index(alert, request.session.get("userId").getOrElse(null), PostAJob.findAllJobs, false))
   }
 
   /**
@@ -65,11 +68,13 @@ object Application extends Controller {
           val newUser = Employer(new ObjectId, signUpForm.emailId, encryptedPassword, List(), false)
           val userId = SignUp.createUser(newUser)
           val userSession = request.session + ("userId" -> userId.get.toString)
-          if (flag.equals("login"))
-            Ok(views.html.index(new Alert("success", "Registration Successful"), userId.get.toString, PostAJob.findAllJobs, false)).withSession(userSession)
-          else
-            Ok(views.html.postajob(PostAJobController.postAJobForm, userId.get.toString)).withSession(userSession)
+          Common.setAlert(new Alert("success", "Registration Successful"))
+          if (flag.equals("login")) {
+            Results.Redirect("/findAllJobs").withSession(userSession)
+            //Ok(views.html.index(new Alert("success", "Registration Successful"), userId.get.toString, PostAJob.findAllJobs, false)).withSession(userSession)
 
+          } else
+            Results.Redirect(routes.PostAJobController.newJob).withSession(userSession)
         }
       })
   }

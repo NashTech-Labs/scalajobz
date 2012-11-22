@@ -23,6 +23,7 @@ import models.Alert
 import models.Employer
 import models.EditUserProfileForm
 import utils.SendEmail
+import models.Common
 
 object UserController extends Controller {
 
@@ -46,8 +47,11 @@ object UserController extends Controller {
    */
 
   def findJobPostByUserId = Action { implicit request =>
+   // println("--->"+request.queryString("alert").last+request.queryString("message"))
+    val alert=Common.alert
+    Common.setAlert(new Alert(null,null))
     val jobPostByUserList = PostAJob.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
-    Ok(views.html.index(new Alert(null, null), request.session.get("userId").getOrElse(null), jobPostByUserList, true))
+    Ok(views.html.index(alert, request.session.get("userId").getOrElse(null), jobPostByUserList, true))
   }
 
   /**
