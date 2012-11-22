@@ -84,10 +84,11 @@
 					<th>LOCATION</th>
 					<th>TYPE</th>
 					<th>KEY SKILLS</th>
-					<th>DATE POSTED</th>
+					<th>POSTED</th>
 					
 					@if(editFlag == true){<th>OPTION</th>}
 				</tr>
+				</thead>
 			<tbody data-provides="rowlink">
 				@jobs.map { job =>
 				<tr>
@@ -103,7 +104,7 @@
 				</tr>
 				}
 			</tbody>
-			</thead>
+			
 		</table>
 		<div id="myPager" class="pagination pagination-centered"></div>
 		</div>
