@@ -47,6 +47,15 @@ object PostAJob {
     var jobsFound: Set[Job] = Set()
     val searchStringTokenList = stringTobeSearched.split(" ").toList.filter(x => !(x == ""))
     val allJobs = JobDAO.find(MongoDBObject()).toList
+    searchJobs(searchStringTokenList,allJobs)
+  }
+  
+  /**
+   * Search the jobs on the basis of list of searching tokens
+   */
+  
+  def searchJobs(searchStringTokenList:List[String],allJobs:List[Job]): List[Job] ={
+    var jobsFound: Set[Job] = Set()
     for (searchToken <- searchStringTokenList) {
       for (eachJob <- allJobs) {
         if (eachJob.position.toUpperCase.contains(searchToken.toUpperCase) || eachJob.company.toUpperCase.contains(searchToken.toUpperCase) ||
@@ -56,8 +65,13 @@ object PostAJob {
       }
     }
     jobsFound.toList
+    
   }
-
+  
+/**
+ * Matching for a key skill in the list of skills Required
+ */
+  
   def isListContainElement(stringTobeSearched: String, searchList: List[String]) = {
     val resultList = searchList.map(_.toUpperCase.trim.contains(stringTobeSearched.toUpperCase))
     resultList.contains(true)
@@ -113,21 +127,6 @@ object PostAJob {
   def deleteJobByJobId(jobId: ObjectId) = {
     val jobToBeDelete = findJobDetail(jobId).get
     JobDAO.remove(jobToBeDelete)
-  }
-
-  /*
- * Search job for Job alert
- * */
-  def searchTheJobForJobAlert(what: String, where: String): List[Job] = {
-    var jobsFound: List[Job] = List()
-    val allJobs = JobDAO.find(MongoDBObject()).toList
-    for (eachJob <- allJobs) {
-      if ((where == null || where == "" || where.equals("null") || eachJob.location.toUpperCase.contains(where.toUpperCase)) &&
-        (what == null || what == "" || what.equals("null") || isListContainElement(what, eachJob.skillsRequired)
-          || eachJob.position.toUpperCase.contains(what.toUpperCase) || eachJob.company.toUpperCase.contains(what.toUpperCase)))
-        jobsFound ++= List(eachJob)
-    }
-    jobsFound
   }
 
 }
