@@ -50,5 +50,11 @@ POST /sendForgetPassword/:emailId 					controllers.UserController.sendForgetPass
 # Javascript routing
 #GET     /assets/javascripts/routes          controllers.PostAJobController.javascriptRoutes
 
+
+#REST API
+
+GET 	/getAllJobs									controllers.RESTServiceController.processGetAllJobsList		
+GET		/getJobsForACriteria/:code 	controllers.RESTServiceController.processGetJobListForSingleRequest(code: String)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
