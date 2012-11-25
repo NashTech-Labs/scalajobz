@@ -11,6 +11,10 @@ object RESTServiceController extends Controller {
 
   implicit val formats = DefaultFormats
 
+  def restApi = Action { implicit request =>
+    Ok(views.html.restapi(request.session.get("userId").getOrElse(null)))
+  }
+
   def processGetAllJobsList = Action {
     val results = PostAJob.findAllJobs
     if (results.isEmpty)

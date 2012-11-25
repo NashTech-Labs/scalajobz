@@ -53,6 +53,7 @@ POST /sendForgetPassword/:emailId 					controllers.UserController.sendForgetPass
 
 #REST API
 
+GET     /restApi							        controllers.RESTServiceController.restApi
 GET 	/getAllJobs									controllers.RESTServiceController.processGetAllJobsList		
 GET		/getJobsForACriteria/:code 	controllers.RESTServiceController.processGetJobListForSingleRequest(code: String)
 

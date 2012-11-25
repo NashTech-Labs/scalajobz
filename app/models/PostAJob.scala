@@ -14,7 +14,7 @@ import utils.AskActorToInformUserForJob
 
 case class PostAJobForm(position: String, company: String, location: String, jobType: String, emailAddress: String, skillsRequired: String, description: String)
 case class Job(@Key("_id") id: ObjectId, userId: ObjectId, position: String, company: String, location: String, jobType: String, emailAddress: String, skillsRequired: List[String], description: String, datePosted: Date)
-object PostAJob {
+object PostAJob extends App {
 
   /*
    * Job Type
@@ -28,8 +28,8 @@ object PostAJob {
    */
 
   def addJob(job: Job) = {
-	val jobId=JobDAO.insert(job)
-    AskActorToInformUserForJob.sendMailIfUserExistWithTheSkillsRequiredForTheJob(job)
+    val jobId = JobDAO.insert(job)
+    //AskActorToInformUserForJob.sendMailIfUserExistWithTheSkillsRequiredForTheJob
     jobId
   }
 
@@ -41,20 +41,29 @@ object PostAJob {
   }
 
   /**
-   * Search The Job
+   * Find Job posted in last N hours
    */
-  def searchTheJob(stringTobeSearched: String): List[Job] = {
-    var jobsFound: Set[Job] = Set()
-    val searchStringTokenList = stringTobeSearched.split(" ").toList.filter(x => !(x == ""))
-    val allJobs = JobDAO.find(MongoDBObject()).toList
-    searchJobs(searchStringTokenList,allJobs)
+  def findJobsOfLastNHours: List[Job] = {
+    for (job <- findAllJobs) yield {
+      val diffInHours = ((new Date).getTime - job.datePosted.getTime()) / (1000 * 60 * 60)
+      (diffInHours <= 24) match { case true => job }
+    }
   }
   
   /**
+   * Search The Job
+   */
+  def searchTheJob(stringTobeSearched: String): List[Job] = {
+    val searchStringTokenList = stringTobeSearched.split(" ").toList.filter(x => !(x == ""))
+    val allJobs = JobDAO.find(MongoDBObject()).toList
+    searchJobs(searchStringTokenList, allJobs)
+  }
+
+  /**
    * Search the jobs on the basis of list of searching tokens
    */
-  
-  def searchJobs(searchStringTokenList:List[String],allJobs:List[Job]): List[Job] ={
+
+  def searchJobs(searchStringTokenList: List[String], allJobs: List[Job]): List[Job] = {
     var jobsFound: Set[Job] = Set()
     for (searchToken <- searchStringTokenList) {
       for (eachJob <- allJobs) {
@@ -65,13 +74,13 @@ object PostAJob {
       }
     }
     jobsFound.toList
-    
+
   }
-  
-/**
- * Matching for a key skill in the list of skills Required
- */
-  
+
+  /**
+   * Matching for a key skill in the list of skills Required
+   */
+
   def isListContainElement(stringTobeSearched: String, searchList: List[String]) = {
     val resultList = searchList.map(_.toUpperCase.trim.contains(stringTobeSearched.toUpperCase))
     resultList.contains(true)
@@ -128,7 +137,6 @@ object PostAJob {
     val jobToBeDelete = findJobDetail(jobId).get
     JobDAO.remove(jobToBeDelete)
   }
-
 }
 
 object JobDAO extends SalatDAO[Job, ObjectId](collection = MongoHQConfig.mongoDB("job"))

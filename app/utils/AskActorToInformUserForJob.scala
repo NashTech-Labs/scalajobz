@@ -4,31 +4,30 @@ import akka.actor.Props
 import models.Job
 import models.EmployerDAO
 import models.LogIn
+import models.PostAJob
 
-case class NeelMessage(firstNum: Int, secondNum: Int)
-case class SendMailToUserInformingAboutTheJob(emailId: String, job: Job)
+case class SendMailToUserInformingAboutTheJob(emailId: String, jobs: List[Job])
 
 object AskActorToInformUserForJob extends App {
-  
-//  val system = ActorSystem("neelActors")
-//  val neelActorRouter = system.actorOf(Props[InformUserAboutJobActor])
-//  neelActorRouter ! "neel"
-//  neelActorRouter ! NeelMessage(10, 20)
 
   /**
    * Send Mail To A User If The New Job Contains The Skills That A User Contains As Well Via  Akka Actor
    */
-  def sendMailIfUserExistWithTheSkillsRequiredForTheJob(job: Job) = {
+  def sendMailIForJobAlert= {
+    println("sendMailIfUserExistWithTheSkillsRequiredForTheJob")
     val system = ActorSystem("jobActors")
-     val jobActor= system.actorOf(Props[InformUserAboutJobActor])
+    val jobActor= system.actorOf(Props[InformUserAboutJobActor])
     val jobSeekers = LogIn.findJobSeekers
+    val JobPostedInLastNHours=PostAJob.findJobsOfLastNHours
     for (jobSeeker <- jobSeekers) {
-      for (eachSkill <- jobSeeker.skills) {
-        if (job.skillsRequired.contains(eachSkill)) {
-          jobActor ! SendMailToUserInformingAboutTheJob(jobSeeker.emailId, job) //Calling The Actor
+      val filteredJobList=PostAJob.searchJobs(jobSeeker.skills,JobPostedInLastNHours)
+        if (!filteredJobList.isEmpty) {
+          jobActor ! SendMailToUserInformingAboutTheJob(jobSeeker.emailId, filteredJobList) //Calling The Actor
         }
-      }
     }
 
   }
+  
+  sendMailIForJobAlert
+ 
 }

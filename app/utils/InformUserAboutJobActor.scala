@@ -2,12 +2,15 @@ package utils
 import akka.actor.Actor
 import akka.actor.ActorSystem
 import akka.actor.Props
+import akka.util.duration._
+
 
 class InformUserAboutJobActor extends Actor {
   def receive = {
-    case "neel" => println("Hello Neel")
-    case message:NeelMessage => println("Sum is : " + ( message.firstNum+message.secondNum)) 
-    case sendEmailToUser : SendMailToUserInformingAboutTheJob => SendEmail.sendEmail(sendEmailToUser.emailId,sendEmailToUser.job)
+    case msg: String => println("Hello akka")
+    case sendEmailToUser: SendMailToUserInformingAboutTheJob =>
+      SendEmail.sendEmail(sendEmailToUser.emailId, sendEmailToUser.jobs)
+      context.system.scheduler.scheduleOnce(60 seconds, self, SendMailToUserInformingAboutTheJob(sendEmailToUser.emailId,sendEmailToUser.jobs))
   }
 }
 
