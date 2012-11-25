@@ -6,10 +6,12 @@ import models.PostAJob
 import net.liftweb.json.{ parse, DefaultFormats }
 import net.liftweb.json.Serialization.{ read, write }
 import models.Alert
+import models.ObjectIdSerializer
 
 object RESTServiceController extends Controller {
 
-  implicit val formats = DefaultFormats
+  implicit val formats = new net.liftweb.json.DefaultFormats {
+  } + new ObjectIdSerializer
 
   def restApi = Action { implicit request =>
     Ok(views.html.restapi(request.session.get("userId").getOrElse(null)))

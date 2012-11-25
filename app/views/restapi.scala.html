@@ -5,26 +5,121 @@
 <div id="homewhite">
 	<div class="page">
 		<table class="table table-striped table-bordered">
+			<thead>
 			<tr>
-			<td></td>
-			<td></td>
+			<th>Summary</th>
+			<th>Search Jobs</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+			<td colspan="2"><h2 style="text-align: center;">To Get All The Jobs</h2></td>
 			</tr>
 			<tr>
-			<td></td>
-			<td></td>
+			<td>REST Endpoint(URL)</td>
+			<td>http://Host:Port/URL</td>
 			</tr>
 			<tr>
-			<td></td>
-			<td></td>
+			<td>HTTP Method</td>
+			<td>GET</td>
 			</tr>
 			<tr>
-			<td></td>
-			<td></td>
+			<td>Request Example</td>
+			<td><a href="http://scalajobz.herokuapp.com/getAllJobs"><u>http://scalajobz.herokuapp.com/getAllJobs</u></a></td>
 			</tr>
 			<tr>
-			<td></td>
-			<td></td>
+			<td>Response Example</td>
+			<td>[{<br/>
+"id":{"id":"50b2403884ae8fe92ed4474a"},<br/>
+"userId":{"id":"50b23fd984ae8fe92ed44748"},<br/>
+"position":"Java Developer",<br/>
+"company":"Knoldus Software",<br/>
+"location":"New Delhi",<br/>
+"jobType":"Permanent",<br/>
+"emailAddress":"hr[at]knoldus.com",<br/>
+"skillsRequired":["Scala","Java"],<br/>
+"description":"Need Of Java Developer",<br/>
+"datePosted":"2012-11-25T15:58:48Z"<br/>
+},{<br/>
+"id":{"id":"50b2401084ae8fe92ed44749"},<br/>
+"userId":{"id":"50b23fd984ae8fe92ed44748"},<br/>
+"position":"Scala Developer",<br/>
+"company":"Knoldus Software",<br/>
+"location":"New Delhi",<br/>
+"jobType":"Contract",<br/>
+"emailAddress":"hr[at]knoldus.com",<br/>
+"skillsRequired":["Scala","Akka"],<br/>
+"description":"Need Scala Developer",<br/>
+"datePosted":"2012-11-25T15:58:08Z"<br/>
+}]</td>
 			</tr>
+			<tr>
+			<td>Error Response</td>
+			<td>{<br/>
+"alertType":"No Result Found",<br/>
+"message":"No Job Exist"<br/>
+}</td>
+			</tr>
+			<tr>
+			<td>Authentication Required</td>
+			<td>No</td>
+			</tr>
+			
+			<tr>
+			<td colspan="2"><h2 style="text-align: center;">To Get The Jobs For a Particular Searching Criteria</h2></td>
+			</tr>
+			<tr>
+			<td>REST Endpoint(URL)</td>
+			<td>http://Host:Port/URL/search_string</td>
+			</tr>
+			<tr>
+			<td>HTTP Method</td>
+			<td>GET</td>
+			</tr>
+			<tr>
+			<td>Request Example</td>
+			<td><a href="http://scalajobz.herokuapp.com/getJobsForACriteria/scala+knoldus"><u>http://scalajobz.herokuapp.com/getJobsForACriteria/scala+knoldus</u></a></td>
+			</tr>
+			<tr>
+			<td>Response Example</td>
+			<td>
+			[{<br/>
+"id":{"id":"50b24c2284ae6aa539512c60"},<br/>
+"userId":{"id":"50b23fd984ae8fe92ed44748"},<br/>
+"position":"Scala Developer",<br/>
+"company":"Knoldus Software",<br/>
+"location":"New Delhi",<br/>
+"jobType":"Contract",<br/>
+"emailAddress":"hr[at]knoldus.com",<br/>
+"skillsRequired":["Scala","Akka"],<br/>
+"description":"Need For Scala Developer",<br/>
+"datePosted":"2012-11-25T16:49:38Z"<br/>
+},{<br/>
+"id":{"id":"50b24c4484ae6aa539512c61"},<br/>
+"userId":{"id":"50b23fd984ae8fe92ed44748"},<br/>
+"position":"Java Developer",<br/>
+"company":"Knoldus Software",<br/>
+"location":"New Delhi",<br/>
+"jobType":"Contract",<br/>
+"emailAddress":"hr[at]knoldus.com",<br/>
+"skillsRequired":["Java","JPA"],<br/>
+"description":"Need For Java Developer",<br/>
+"datePosted":"2012-11-25T16:50:12Z"<br/>
+}]
+			</td>
+			</tr>
+			<tr>
+			<td>Error Response</td>
+			<td>{<br/>
+"alertType":"No Result Found",<br/>
+"message":"Your search did not match with any exist job."<br/>
+}</td>
+			</tr>
+			<tr>
+			<td>Authentication Required</td>
+			<td>No</td>
+			</tr>
+			</tbody>
 		</table>
 	</div>
 </div>
