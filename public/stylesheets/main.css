@@ -3560,7 +3560,7 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini {
 
 .popover-inner {
 	padding: 3px;
-	width: 800px;
+	width: 300px;
 	overflow: hidden;
 	background: #000000;
 	background: rgba(0, 0, 0, 0.8);
