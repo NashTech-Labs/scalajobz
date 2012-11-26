@@ -45,7 +45,7 @@ object PostAJob extends App {
    */
   def findJobsOfLastNHours: List[Job] = {
     for (job <- findAllJobs) yield {
-      val diffInHours = ((new Date).getTime - job.datePosted.getTime()) / (1000 * 60 * 60)
+      val diffInHours = ((new Date).getTime - job.datePosted.getTime) / (1000 * 60 * 60)
       (diffInHours <= 24) match { case true => job }
     }
   }

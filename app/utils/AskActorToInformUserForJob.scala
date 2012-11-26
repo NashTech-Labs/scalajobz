@@ -13,21 +13,20 @@ object AskActorToInformUserForJob extends App {
   /**
    * Send Mail To A User If The New Job Contains The Skills That A User Contains As Well Via  Akka Actor
    */
-  def sendMailIForJobAlert= {
-    println("sendMailIfUserExistWithTheSkillsRequiredForTheJob")
+  def sendMailIForJobAlert = {
     val system = ActorSystem("jobActors")
-    val jobActor= system.actorOf(Props[InformUserAboutJobActor])
+    val jobActor = system.actorOf(Props[InformUserAboutJobActor])
     val jobSeekers = LogIn.findJobSeekers
-    val JobPostedInLastNHours=PostAJob.findJobsOfLastNHours
+    val JobPostedInLastNHours = PostAJob.findJobsOfLastNHours
     for (jobSeeker <- jobSeekers) {
-      val filteredJobList=PostAJob.searchJobs(jobSeeker.skills,JobPostedInLastNHours)
-        if (!filteredJobList.isEmpty) {
-          jobActor ! SendMailToUserInformingAboutTheJob(jobSeeker.emailId, filteredJobList) //Calling The Actor
-        }
+      val filteredJobList = PostAJob.searchJobs(jobSeeker.skills, JobPostedInLastNHours)
+      if (!filteredJobList.isEmpty) {
+        jobActor ! SendMailToUserInformingAboutTheJob(jobSeeker.emailId, filteredJobList) //Calling The Actor
+      }
     }
 
   }
-  
+
   sendMailIForJobAlert
- 
+
 }
