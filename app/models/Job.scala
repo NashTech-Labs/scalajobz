@@ -28,6 +28,8 @@ case class JobEntity(@Key("_id") id: ObjectId,
   skillsRequired: List[String],
   description: String,
   datePosted: Date)
+  
+  
 object Job extends App {
 
   /**
@@ -42,9 +44,7 @@ object Job extends App {
    */
 
   def addJob(job: JobEntity) = {
-    val jobId = JobDAO.insert(job)
-    //DailyJobAlert.sendMailIForJobAlert
-    jobId
+    JobDAO.insert(job)
   }
 
   /**
