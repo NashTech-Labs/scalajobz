@@ -12,7 +12,13 @@ import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.MongoConnection
 import utils.AskActorToInformUserForJob
 
-case class PostAJobForm(position: String, company: String, location: String, jobType: String, emailAddress: String, skillsRequired: String, description: String)
+case class PostAJobForm(position: String,
+  company: String,
+  location: String,
+  jobType: String,
+  emailAddress: String,
+  skillsRequired: String,
+  description: String)
 case class Job(@Key("_id") id: ObjectId, userId: ObjectId, position: String, company: String, location: String, jobType: String, emailAddress: String, skillsRequired: List[String], description: String, datePosted: Date)
 object PostAJob extends App {
 
@@ -49,8 +55,7 @@ object PostAJob extends App {
       (diffInHours <= 24) match { case true => job }
     }
   }
-  
-  
+
   /**
    * Search The Job
    */
