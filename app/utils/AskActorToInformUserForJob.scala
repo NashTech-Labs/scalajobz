@@ -3,7 +3,7 @@ import akka.actor.ActorSystem
 import akka.actor.Props
 import models.JobEntity
 import models.EmployerDAO
-import models.LogIn
+import models.User
 import models.Job
 
 case class SendMailToUserInformingAboutTheJob(emailId: String,
@@ -17,7 +17,7 @@ object AskActorToInformUserForJob extends App {
   def sendMailIForJobAlert = {
     val system = ActorSystem("jobActors")
     val jobActor = system.actorOf(Props[InformUserAboutJobActor])
-    val jobSeekers = LogIn.findJobSeekers
+    val jobSeekers = User.findJobSeekers
     val JobPostedInLastNHours = Job.findJobsOfLastNHours
     for (jobSeeker <- jobSeekers) {
       val filteredJobList = Job.searchJobs(jobSeeker.skills, JobPostedInLastNHours)

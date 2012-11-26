@@ -5,7 +5,7 @@ import play.api._
 import play.api.mvc._
 import play.api.data.Forms
 import play.api.data._
-import models.SignUp
+import models.User
 import models.SignUpForm
 import play.api.mvc.Controller
 import play.api._
@@ -16,7 +16,6 @@ import play.mvc.Http.Request
 import play.libs._
 import org.bson.types.ObjectId
 import models.LogInForm
-import models.LogIn
 import utils.PasswordHashing
 import models.Job
 import models.Alert
@@ -61,12 +60,12 @@ object Application extends Controller {
     signUpForm.bindFromRequest.fold(
       errors => BadRequest(views.html.index(new Alert("error", "There Was Some Errors During The SignUp"), request.session.get("userId").getOrElse(null), Job.findAllJobs, false)),
       signUpForm => {
-        if (!SignUp.findUserByEmail(signUpForm.emailId).isEmpty) {
+        if (!User.findUserByEmail(signUpForm.emailId).isEmpty) {
           Ok(views.html.signup(new Alert("error", "This Email Is Already registered With ScalaJobz"), Application.signUpForm, request.session.get("userId").getOrElse(null), flag))
         } else {
           val encryptedPassword = (new PasswordHashing).encryptThePassword(signUpForm.password)
           val newUser = Employer(new ObjectId, signUpForm.emailId, encryptedPassword, List(), false)
-          val userId = SignUp.createUser(newUser)
+          val userId = User.createUser(newUser)
           val userSession = request.session + ("userId" -> userId.get.toString)
           Common.setAlert(new Alert("success", "Registration Successful"))
           if (flag.equals("login")) {
@@ -88,7 +87,7 @@ object Application extends Controller {
       errors => BadRequest(views.html.index(new Alert("error", "There Was Some Errors During The Login"), null, Job.findAllJobs, false)),
       logInForm => {
         val encryptedPassword = (new PasswordHashing).encryptThePassword(logInForm.password)
-        val users = LogIn.findUser(logInForm.emailId, encryptedPassword)
+        val users = User.findUser(logInForm.emailId, encryptedPassword)
         if (!users.isEmpty) {
           val userSession = request.session + ("userId" -> users(0).id.toString)
           if (flag.equals("login"))

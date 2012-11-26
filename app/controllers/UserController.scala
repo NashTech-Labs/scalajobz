@@ -5,7 +5,7 @@ import play.api._
 import play.api.mvc._
 import play.api.data.Forms
 import play.api.data._
-import models.SignUp
+import models.User
 import models.SignUpForm
 import play.api.mvc.Controller
 import play.api._
@@ -16,7 +16,6 @@ import play.mvc.Http.Request
 import play.libs._
 import org.bson.types.ObjectId
 import models.LogInForm
-import models.LogIn
 import utils.PasswordHashing
 import models.Job
 import models.Alert
@@ -38,7 +37,7 @@ object UserController extends Controller {
    */
 
   def editUserProfile = Action { implicit request =>
-    val userProfile = SignUp.findUserById(request.session.get("userId").get)
+    val userProfile = User.findUserById(request.session.get("userId").get)
     Ok(views.html.editUserProfile(new Alert(null, null), userProfile.get, editUserProfileForm, request.session.get("userId").getOrElse(null)))
   }
 
@@ -58,7 +57,7 @@ object UserController extends Controller {
    * Update User Profile
    */
   def updateUserProfile = Action { implicit request =>
-    val userProfile = SignUp.findUserById(request.session.get("userId").get).get
+    val userProfile = User.findUserById(request.session.get("userId").get).get
     editUserProfileForm.bindFromRequest.fold(
       errors => BadRequest(views.html.editUserProfile(new Alert("error", "There Was Some Errors During Profile Editing"),
         userProfile, editUserProfileForm, request.session.get("userId").getOrElse(null))),
@@ -66,7 +65,7 @@ object UserController extends Controller {
         val currentEncryptedPassword = (new PasswordHashing).encryptThePassword(editUserProfileForm.currentPassword)
         val encryptedPassword = (new PasswordHashing).encryptThePassword(editUserProfileForm.newPassword)
         if ((currentEncryptedPassword.equals(userProfile.password)) && (!currentEncryptedPassword.equals(encryptedPassword))) {
-          LogIn.updateUser(userProfile, encryptedPassword)
+          User.updateUser(userProfile, encryptedPassword)
           Ok(views.html.editUserProfile(new Alert("success", "Profile Updated"),
             userProfile, UserController.editUserProfileForm, request.session.get("userId").getOrElse(null)))
         } else if (currentEncryptedPassword.equals(encryptedPassword)) {
@@ -91,10 +90,10 @@ object UserController extends Controller {
    */
 
   def sendForgetPassword(emailId: String) = Action { implicit request =>
-    if (SignUp.findUserByEmail(emailId).isEmpty) {
+    if (User.findUserByEmail(emailId).isEmpty) {
       Ok(false.toString)
     } else {
-      val userList = SignUp.findUserByEmail(emailId)
+      val userList = User.findUserByEmail(emailId)
       val user = Option(userList.toList(0)).get
       SendEmail.sendPassword(user.emailId, (new PasswordHashing).decryptThePassword(user.password))
       Ok(true.toString)
@@ -107,7 +106,7 @@ object UserController extends Controller {
    */
   def registerJobSeeker(emailId: String, skillsToken: String) = Action { implicit request =>
     val newJobSeeker = Employer(new ObjectId, emailId, "", skillsToken.split(" ").toList.filter(x => !(x == "")), true)
-    val userId = SignUp.registerJobSeeker(newJobSeeker)
+    val userId = User.registerJobSeeker(newJobSeeker)
     Ok
   }
 }
