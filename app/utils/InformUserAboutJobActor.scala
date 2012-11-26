@@ -10,7 +10,7 @@ class InformUserAboutJobActor extends Actor {
     case msg: String => println("Hello akka")
     case sendEmailToUser: SendMailToUserInformingAboutTheJob =>
       SendEmail.sendEmail(sendEmailToUser.emailId, sendEmailToUser.jobs)
-      context.system.scheduler.scheduleOnce(60 seconds, self, SendMailToUserInformingAboutTheJob(sendEmailToUser.emailId,sendEmailToUser.jobs))
+      context.system.scheduler.scheduleOnce(24 hours, self, SendMailToUserInformingAboutTheJob(sendEmailToUser.emailId,sendEmailToUser.jobs))
   }
 }
 

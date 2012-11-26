@@ -19,7 +19,7 @@ object SendEmail extends App {
     props.setProperty("mail.smtp.starttls.enable", "true");
     props.setProperty("mail.host", "smtp.gmail.com");
     props.setProperty("mail.user", "scalajobz@gmail.com");
-    props.setProperty("mail.password", ConversionUtility.decodeMe("9295969384a4a2f2f0f1f2"))
+    props.setProperty("mail.password", ConversionUtility.decodeMe(Play.current.configuration.getString("email_password").get))
     val session = Session.getDefaultInstance(props, null);
     val msg = new MimeMessage(session)
     val recepientAddress = new InternetAddress(emailId)
@@ -28,7 +28,7 @@ object SendEmail extends App {
     msg.setSubject("Job Alert From ScalaJobz.com");
     msg.setContent(Common.setContentForJobAlert(jobs),"text/html")
     val transport = session.getTransport("smtp");
-    transport.connect("smtp.gmail.com", "scalajobz@gmail.com", ConversionUtility.decodeMe("9295969384a4a2f2f0f1f2"))
+    transport.connect("smtp.gmail.com", "scalajobz@gmail.com", ConversionUtility.decodeMe(Play.current.configuration.getString("email_password").get))
     transport.sendMessage(msg, msg.getAllRecipients)
   }
   
