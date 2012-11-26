@@ -10,7 +10,7 @@ import java.util.Date
 import java.util.regex.Pattern
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.MongoConnection
-import utils.AskActorToInformUserForJob
+import utils.DailyJobAlert
 
 case class PostAJobForm(position: String,
   company: String,
@@ -43,7 +43,7 @@ object Job extends App {
 
   def addJob(job: JobEntity) = {
     val jobId = JobDAO.insert(job)
-    //AskActorToInformUserForJob.sendMailIfUserExistWithTheSkillsRequiredForTheJob
+    //DailyJobAlert.sendMailIForJobAlert
     jobId
   }
 

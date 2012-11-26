@@ -11,13 +11,13 @@
 import play.api._
 import play.api.mvc._
 import play.api.mvc.Results._
-import utils.AskActorToInformUserForJob
+import utils.DailyJobAlert
 
 object Global extends GlobalSettings {
 
   override def onStart(app: Application) {
     Logger.info("Application has started")
-    AskActorToInformUserForJob.sendMailIForJobAlert
+    DailyJobAlert.sendMailIForJobAlert
   }
 
   override def onStop(app: Application) {
