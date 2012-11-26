@@ -9,16 +9,21 @@ import com.mongodb.casbah.MongoConnection
 import com.novus.salat.annotations._
 import utils.MongoHQConfig
 
+//LoginForm
 case class LogInForm(emailId: String,
   password: String)
-
+  
+//Edit User Profile Form
 case class EditUserProfileForm(currentPassword: String,
   newPassword: String,
   confirmPassword: String)
-
+  
+//Sign up Form
 case class SignUpForm(emailId: String,
   password: String,
   confirmPassword: String)
+  
+//Add Employer Form
 case class Employer(@Key("_id") id: ObjectId,
   emailId: String,
   password: String,

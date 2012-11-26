@@ -30,7 +30,7 @@ case class JobEntity(@Key("_id") id: ObjectId,
   datePosted: Date)
 object Job extends App {
 
-  /*
+  /**
    * Job Type
    */
   def jobType: Seq[(String, String)] = {
@@ -116,7 +116,6 @@ object Job extends App {
     JobDAO.find(MongoDBObject("userId" -> userId)).sort(orderBy = MongoDBObject("datePosted" -> -1)).toList
   }
 
-  //TODO:Check Method
   /**
    * Update The Job
    */
@@ -124,21 +123,6 @@ object Job extends App {
     JobDAO.update(MongoDBObject("_id" -> job.id), job, false, false, new WriteConcern)
   }
 
-  /**
-   * Find Job Matching User's Skills
-   */
-  //TO DO : Find A Good Approach Via MongoDB
-  def findJobMatchingUserKeySkills(keySkills: List[String]) = {
-    var jobsFound: List[JobEntity] = List()
-    val jobs = JobDAO.find(MongoDBObject()).toList
-
-    for (eachJob <- jobs) {
-      for (eackSkill <- keySkills) {
-        if (eachJob.skillsRequired.contains(eackSkill)) jobsFound ++= List(eachJob)
-      }
-    }
-    jobsFound
-  }
 
   /**
    * Delete the Job By Job Id

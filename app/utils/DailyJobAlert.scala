@@ -12,7 +12,7 @@ case class JobAlertMail(emailId: String,
 object DailyJobAlert extends App {
 
   /**
-   * Send Mail To A User If The New Job Contains The Skills That A User Contains As Well Via  Akka Actor
+   * Send Mail To Job Seekers on the basis of their search criteria Via  Akka Actor
    */
   def sendMailIForJobAlert = {
     val system = ActorSystem("jobActors")

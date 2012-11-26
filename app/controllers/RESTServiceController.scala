@@ -13,10 +13,16 @@ object RESTServiceController extends Controller {
   implicit val formats = new net.liftweb.json.DefaultFormats {
   } + new ObjectIdSerializer
 
+  /**
+   * Redirect To Rest Api UI
+   */
   def restApi = Action { implicit request =>
     Ok(views.html.restapi(request.session.get("userId").getOrElse(null)))
   }
 
+  /**
+   * REST Api To get all Jobs
+   */
   def processGetAllJobsList = Action {
     val results = Job.findAllJobs
     if (results.isEmpty)
@@ -24,6 +30,10 @@ object RESTServiceController extends Controller {
     else
       Ok(write(results)).as("application/json")
   }
+  
+  /**
+   * REST Api To get Jobs for a Token String
+   */
 
   def processGetJobListForSingleRequest(code: String) = Action {
     val results = Job.searchTheJob(code)

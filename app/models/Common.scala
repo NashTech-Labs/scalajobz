@@ -24,6 +24,10 @@ object Common {
   var alert: Alert = new Alert(null, null)
   def setAlert(alert: Alert) = this.alert = alert
 
+ /**
+  * Set Content For Sending Mail For Daily Job Alert
+  */
+  
   def setContentForJobAlert(jobs: List[JobEntity]): String = {
 
     var message = "<b>Job Alert from scalajobz.com</b>" +
@@ -38,6 +42,9 @@ object Common {
 
 }
 
+/**
+ * Override Object To get Object Id In json Response
+ */
 class ObjectIdSerializer extends Serializer[ObjectId] {
   private val Class = classOf[ObjectId]
 

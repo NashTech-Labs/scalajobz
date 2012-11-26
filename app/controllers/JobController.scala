@@ -78,11 +78,17 @@ object JobController extends Controller {
       Ok(views.html.ajax_result(searchJobList, false))
   }
 
+  /**
+   * Find Job Detail By JobId 
+   */
   def findJobDetail(jobId: String) = Action { implicit request =>
     val job: Option[JobEntity] = Job.findJobDetail(new ObjectId(jobId))
     Ok(views.html.jobDetail(job.get, request.session.get("userId").getOrElse(null)))
   }
 
+  /**
+   * Find Job Detial By JobId For Edit
+   */
   def findJobPostForEdit(jobId: String) = Action { implicit request =>
     val job = Job.findJobDetail(new ObjectId(jobId)).get
     Ok(views.html.editJob(job, postAJobForm, request.session.get("userId").getOrElse(null)))
@@ -108,9 +114,9 @@ object JobController extends Controller {
     }
   }
 
-  /*
-   * Delete Job
-   * */
+  /**
+   * Delete Job by JobId
+   */
 
   def deleteJob(jobId: String, editFlag: String) = Action { implicit request =>
     Job.deleteJobByJobId(new ObjectId(jobId))

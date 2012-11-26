@@ -4,6 +4,9 @@ import akka.actor.ActorSystem
 import akka.actor.Props
 import akka.util.duration._
 
+/**
+ * Running A Actor Periodically to send daily Job alert
+ */
 
 class JobAlertActor extends Actor {
   def receive = {
