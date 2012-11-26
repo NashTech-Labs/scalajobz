@@ -44,13 +44,9 @@ object PostAJob extends App {
    * Find Job posted in last N hours
    */
   def findJobsOfLastNHours: List[Job] = {
-    for (job <- findAllJobs) yield {
-      val diffInHours = ((new Date).getTime - job.datePosted.getTime) / (1000 * 60 * 60)
-      (diffInHours <= 24) match { case true => job }
-    }
+    findAllJobs filter (job => ((new Date).getTime - job.datePosted.getTime) / (1000 * 60 * 60) <= 24)
   }
-  
-  
+
   /**
    * Search The Job
    */
