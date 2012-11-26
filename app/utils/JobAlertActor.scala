@@ -12,8 +12,8 @@ class JobAlertActor extends Actor {
   def receive = {
     case msg: String => println("Hello akka")
     case jobAlertMail: JobAlertMail =>
-      SendEmail.sendEmail(jobAlertMail.emailId, jobAlertMail.jobs)
-      context.system.scheduler.scheduleOnce(24 hours, self, JobAlertMail(jobAlertMail.emailId,jobAlertMail.jobs))
+      SendEmail.sendEmail(jobAlertMail.jobSeeker, jobAlertMail.jobs)
+      context.system.scheduler.scheduleOnce(24 hours, self, JobAlertMail(jobAlertMail.jobSeeker,jobAlertMail.jobs))
   }
 }
 

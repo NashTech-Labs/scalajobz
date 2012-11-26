@@ -41,6 +41,8 @@ GET /deleteJob/:jobId/:editFlag			 controllers.JobController.deleteJob(jobId: St
 
 POST /registerJobSeeker/:emailId/:skillsToken			controllers.UserController.registerJobSeeker(emailId: String, skillsToken: String)
 
+GET  /unSubscribeJobSeeker/:userId		            controllers.UserController.unSubscribeJobSeeker(userId:String)			
+
 #Forget Password
 
 GET /forgetPassword 					controllers.UserController.forgetPassword

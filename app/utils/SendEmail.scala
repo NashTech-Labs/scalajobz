@@ -10,10 +10,11 @@ import org.bson.types.ObjectId
 import play.api.Play
 import models.JobEntity
 import models.Common
+import models.Employer
 
 object SendEmail extends App {
 
-  def sendEmail(emailId: String, jobs: List[JobEntity]) = {
+  def sendEmail(jobSeeker: Employer, jobs: List[JobEntity]) = {
     val props = new Properties
     props.setProperty("mail.transport.protocol", "smtp");
     props.setProperty("mail.smtp.starttls.enable", "true");
@@ -22,11 +23,11 @@ object SendEmail extends App {
     props.setProperty("mail.password", ConversionUtility.decodeMe(Play.current.configuration.getString("email_password").get))
     val session = Session.getDefaultInstance(props, null);
     val msg = new MimeMessage(session)
-    val recepientAddress = new InternetAddress(emailId)
+    val recepientAddress = new InternetAddress(jobSeeker.emailId)
     msg.setFrom(new InternetAddress("support@scalajobz.com", "support@scalajobz.com"))
     msg.addRecipient(Message.RecipientType.TO, recepientAddress);
     msg.setSubject("Job Alert From ScalaJobz.com");
-    msg.setContent(Common.setContentForJobAlert(jobs),"text/html")
+    msg.setContent(Common.setContentForJobAlert(jobs,jobSeeker),"text/html")
     val transport = session.getTransport("smtp");
     transport.connect("smtp.gmail.com", "scalajobz@gmail.com", ConversionUtility.decodeMe(Play.current.configuration.getString("email_password").get))
     transport.sendMessage(msg, msg.getAllRecipients)

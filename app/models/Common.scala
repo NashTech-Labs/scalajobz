@@ -15,6 +15,7 @@ import net.liftweb.json.JsonAST.JField
 import net.liftweb.json.Serializer
 import net.liftweb.json.JsonAST.JInt
 import net.liftweb.json.TypeInfo
+import play.api.Play
 
 case class Alert(alertType: String,
   message: String)
@@ -24,12 +25,13 @@ object Common {
   var alert: Alert = new Alert(null, null)
   def setAlert(alert: Alert) = this.alert = alert
 
- /**
-  * Set Content For Sending Mail For Daily Job Alert
-  */
-  
-  def setContentForJobAlert(jobs: List[JobEntity]): String = {
+  /**
+   * Set Content For Sending Mail For Daily Job Alert
+   */
 
+  def setContentForJobAlert(jobs: List[JobEntity], jobSeeker: Employer): String = {
+
+    val removeJobAlertLink = "http://" + getContextUrl + "/unSubscribeJobSeeker/" + jobSeeker.id
     var message = "<b>Job Alert from scalajobz.com</b>" +
       "<br/> <br/>" + "<b>Your Job Details</b>" + "<br/> <br/>"
     for (job <- jobs) {
@@ -37,7 +39,15 @@ object Common {
       message += job.company + "<br/>"
       message += job.location + "<br/>"
     }
+    message += "<br/>Click  <u>" + removeJobAlertLink + "</u> to unsubscribe from ScalaJobz"
     message
+  }
+
+  /**
+   * To get The root context from application.config
+   */
+  def getContextUrl: String = {
+    Play.current.configuration.getString("contextUrl").get
   }
 
 }

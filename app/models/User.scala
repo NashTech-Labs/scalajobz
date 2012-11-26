@@ -12,17 +12,17 @@ import utils.MongoHQConfig
 //LoginForm
 case class LogInForm(emailId: String,
   password: String)
-  
+
 //Edit User Profile Form
 case class EditUserProfileForm(currentPassword: String,
   newPassword: String,
   confirmPassword: String)
-  
+
 //Sign up Form
 case class SignUpForm(emailId: String,
   password: String,
   confirmPassword: String)
-  
+
 //Add Employer Form
 case class Employer(@Key("_id") id: ObjectId,
   emailId: String,
@@ -84,6 +84,20 @@ object User {
 
   def registerJobSeeker(employer: Employer) = {
     EmployerDAO.insert(employer)
+
+  }
+
+  /**
+   * UnSubscribe From Job Alerts By Using JobSeeker Id(UserId)
+   */
+
+  def unSubscribeJobSeeker(userId: String) = {
+    User.findUserById(userId) match {
+      case None => false
+      case Some(jobSeeker: Employer) =>
+        EmployerDAO.update(MongoDBObject("_id" -> jobSeeker.id), new Employer(jobSeeker.id, jobSeeker.emailId, jobSeeker.password, jobSeeker.skills, false), false, false, new WriteConcern)
+        true
+    }
 
   }
 

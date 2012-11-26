@@ -46,9 +46,9 @@ object UserController extends Controller {
    */
 
   def findJobPostByUserId = Action { implicit request =>
-   // println("--->"+request.queryString("alert").last+request.queryString("message"))
-    val alert=Common.alert
-    Common.setAlert(new Alert(null,null))
+    // println("--->"+request.queryString("alert").last+request.queryString("message"))
+    val alert = Common.alert
+    Common.setAlert(new Alert(null, null))
     val jobPostByUserList = Job.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
     Ok(views.html.index(alert, request.session.get("userId").getOrElse(null), jobPostByUserList, true))
   }
@@ -100,7 +100,6 @@ object UserController extends Controller {
     }
   }
 
-  
   /**
    * Register Job seeker for getting Job alert
    */
@@ -108,5 +107,16 @@ object UserController extends Controller {
     val newJobSeeker = Employer(new ObjectId, emailId, "", skillsToken.split(" ").toList.filter(x => !(x == "")), true)
     val userId = User.registerJobSeeker(newJobSeeker)
     Ok
+  }
+
+  /**
+   * UnSubscribe From Job Alerts By Using JobSeeker Id(UserId)
+   */
+
+  def unSubscribeJobSeeker(userId: String) = Action { implicit request =>
+    User.unSubscribeJobSeeker(userId) match {
+      case true => Ok(views.html.index(new Alert("success", "Unsubscribed From ScalaJobz"), request.session.get("userId").getOrElse(null), Job.findAllJobs, false))
+      case false => Ok(views.html.errorPage("There Is Some Error :User Not Subscribed With ScalaJobz"))
+    }
   }
 }

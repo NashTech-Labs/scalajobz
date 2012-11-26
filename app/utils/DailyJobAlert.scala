@@ -5,8 +5,9 @@ import models.JobEntity
 import models.EmployerDAO
 import models.User
 import models.Job
+import models.Employer
 
-case class JobAlertMail(emailId: String,
+case class JobAlertMail(jobSeeker: Employer,
   jobs: List[JobEntity])
 
 object DailyJobAlert extends App {
@@ -23,7 +24,7 @@ object DailyJobAlert extends App {
       for (jobSeeker <- jobSeekers) {
         val filteredJobList = Job.searchJobs(jobSeeker.skills, JobPostedInLastNHours)
         if (!filteredJobList.isEmpty) {
-          jobActor ! JobAlertMail(jobSeeker.emailId, filteredJobList) //Calling The Actor
+          jobActor ! JobAlertMail(jobSeeker, filteredJobList) //Calling The Actor
         }
       }
     }
