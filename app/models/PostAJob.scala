@@ -19,7 +19,15 @@ case class PostAJobForm(position: String,
   emailAddress: String,
   skillsRequired: String,
   description: String)
-case class Job(@Key("_id") id: ObjectId, userId: ObjectId, position: String, company: String, location: String, jobType: String, emailAddress: String, skillsRequired: List[String], description: String, datePosted: Date)
+case class Job(@Key("_id") id: ObjectId,
+  userId: ObjectId,
+  position: String,
+  company: String, location: String,
+  jobType: String,
+  emailAddress: String,
+  skillsRequired: List[String],
+  description: String,
+  datePosted: Date)
 object PostAJob extends App {
 
   /*
