@@ -1,13 +1,13 @@
 package utils
 import akka.actor.ActorSystem
 import akka.actor.Props
-import models.Job
+import models.JobEntity
 import models.EmployerDAO
 import models.LogIn
 import models.PostAJob
 
 case class SendMailToUserInformingAboutTheJob(emailId: String,
-  jobs: List[Job])
+  jobs: List[JobEntity])
 
 object AskActorToInformUserForJob extends App {
 

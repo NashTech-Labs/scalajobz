@@ -24,7 +24,7 @@ object Common {
   var alert: Alert = new Alert(null, null)
   def setAlert(alert: Alert) = this.alert = alert
 
-  def setContentForJobAlert(jobs: List[Job]): String = {
+  def setContentForJobAlert(jobs: List[JobEntity]): String = {
 
     var message = "<b>Job Alert from scalajobz.com</b>" +
       "<br/> <br/>" + "<b>Your Job Details</b>" + "<br/> <br/>"

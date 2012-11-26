@@ -8,12 +8,12 @@ import javax.mail.Message
 import javax.mail.Transport
 import org.bson.types.ObjectId
 import play.api.Play
-import models.Job
+import models.JobEntity
 import models.Common
 
 object SendEmail extends App {
 
-  def sendEmail(emailId: String, jobs: List[Job]) = {
+  def sendEmail(emailId: String, jobs: List[JobEntity]) = {
     val props = new Properties
     props.setProperty("mail.transport.protocol", "smtp");
     props.setProperty("mail.smtp.starttls.enable", "true");

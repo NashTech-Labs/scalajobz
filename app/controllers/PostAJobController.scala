@@ -13,7 +13,7 @@ import play.mvc.Http.Request
 import play.libs._
 import org.bson.types.ObjectId
 import models.PostAJobForm
-import models.Job
+import models.JobEntity
 import models.PostAJob
 import java.util.Date
 import models.Alert
@@ -54,7 +54,7 @@ object PostAJobController extends Controller {
         else {
           if (request.session.get("userId") == None) Ok(views.html.login(new Alert(null, null), Application.logInForm, request.session.get("userId").getOrElse(null), "jobPost"))
           else {
-            val job = Job(new ObjectId, new ObjectId(request.session.get("userId").get), postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList, postAJobForm.description, new Date)
+            val job = JobEntity(new ObjectId, new ObjectId(request.session.get("userId").get), postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList, postAJobForm.description, new Date)
             PostAJob.addJob(job)
             val jobPostByUserList = PostAJob.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
             //Ok(views.html.index(new Alert("success", "Job Posted Successfully"), request.session.get("userId").getOrElse(null), jobPostByUserList, true))
@@ -79,7 +79,7 @@ object PostAJobController extends Controller {
   }
 
   def findJobDetail(jobId: String) = Action { implicit request =>
-    val job: Option[Job] = PostAJob.findJobDetail(new ObjectId(jobId))
+    val job: Option[JobEntity] = PostAJob.findJobDetail(new ObjectId(jobId))
     Ok(views.html.jobDetail(job.get, request.session.get("userId").getOrElse(null)))
   }
 
@@ -95,11 +95,11 @@ object PostAJobController extends Controller {
     val existJob = PostAJob.findJobDetail(new ObjectId(jobId))
     existJob match {
       case None => Results.Redirect(routes.UserController.findJobPostByUserId)
-      case Some(job: Job) =>
+      case Some(job: JobEntity) =>
         postAJobForm.bindFromRequest.fold(
           errors => BadRequest(views.html.editJob(job, postAJobForm, request.session.get("userId").getOrElse(null))),
           postAJobForm => {
-            val editJob = Job(job.id, job.userId, postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList, postAJobForm.description, new Date)
+            val editJob = JobEntity(job.id, job.userId, postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList, postAJobForm.description, new Date)
             PostAJob.updateJob(editJob)
             val jobPostByUserList = PostAJob.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
             Ok(views.html.index(new Alert("success", "Job Updated Successfully"), request.session.get("userId").getOrElse(null), jobPostByUserList, true))

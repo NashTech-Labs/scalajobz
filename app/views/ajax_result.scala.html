@@ -1,4 +1,4 @@
-@(result: List[Job],editFlag:Boolean) 
+@(result: List[JobEntity],editFlag:Boolean) 
 @import java.text.SimpleDateFormat
 @format_date(date: java.util.Date) = @{ new SimpleDateFormat("MMM dd yyyy").format(date) } 
 @if(!result.isEmpty){

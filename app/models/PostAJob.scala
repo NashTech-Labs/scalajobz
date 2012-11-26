@@ -19,7 +19,7 @@ case class PostAJobForm(position: String,
   emailAddress: String,
   skillsRequired: String,
   description: String)
-case class Job(@Key("_id") id: ObjectId,
+case class JobEntity(@Key("_id") id: ObjectId,
   userId: ObjectId,
   position: String,
   company: String, location: String,
@@ -41,7 +41,7 @@ object PostAJob extends App {
    *  Create A Job
    */
 
-  def addJob(job: Job) = {
+  def addJob(job: JobEntity) = {
     val jobId = JobDAO.insert(job)
     //AskActorToInformUserForJob.sendMailIfUserExistWithTheSkillsRequiredForTheJob
     jobId
@@ -50,21 +50,21 @@ object PostAJob extends App {
   /**
    * Find All Jobs
    */
-  def findAllJobs: List[Job] = {
+  def findAllJobs: List[JobEntity] = {
     JobDAO.find(MongoDBObject()).sort(orderBy = MongoDBObject("datePosted" -> -1)).toList
   }
 
   /**
    * Find Job posted in last N hours
    */
-  def findJobsOfLastNHours: List[Job] = {
+  def findJobsOfLastNHours: List[JobEntity] = {
     findAllJobs filter (job => ((new Date).getTime - job.datePosted.getTime) / (1000 * 60 * 60) <= 24)
   }
 
   /**
    * Search The Job
    */
-  def searchTheJob(stringTobeSearched: String): List[Job] = {
+  def searchTheJob(stringTobeSearched: String): List[JobEntity] = {
     val searchStringTokenList = stringTobeSearched.split(" ").toList.filter(x => !(x == ""))
     val allJobs = JobDAO.find(MongoDBObject()).toList
     searchJobs(searchStringTokenList, allJobs)
@@ -74,8 +74,8 @@ object PostAJob extends App {
    * Search the jobs on the basis of list of searching tokens
    */
 
-  def searchJobs(searchStringTokenList: List[String], allJobs: List[Job]): List[Job] = {
-    var jobsFound: Set[Job] = Set()
+  def searchJobs(searchStringTokenList: List[String], allJobs: List[JobEntity]): List[JobEntity] = {
+    var jobsFound: Set[JobEntity] = Set()
     for (searchToken <- searchStringTokenList) {
       for (eachJob <- allJobs) {
         if (eachJob.position.toUpperCase.contains(searchToken.toUpperCase) || eachJob.company.toUpperCase.contains(searchToken.toUpperCase) ||
@@ -100,7 +100,7 @@ object PostAJob extends App {
   /**
    * Find Job By Id
    */
-  def findJobDetail(jobId: ObjectId): Option[Job] = {
+  def findJobDetail(jobId: ObjectId): Option[JobEntity] = {
     val jobFound = JobDAO.find(MongoDBObject("_id" -> jobId)).toList
     (jobFound.isEmpty) match {
       case true => None
@@ -112,7 +112,7 @@ object PostAJob extends App {
   /**
    * Job Posted by A Particular User
    */
-  def findJobsPostByUserId(userId: ObjectId): List[Job] = {
+  def findJobsPostByUserId(userId: ObjectId): List[JobEntity] = {
     JobDAO.find(MongoDBObject("userId" -> userId)).sort(orderBy = MongoDBObject("datePosted" -> -1)).toList
   }
 
@@ -120,7 +120,7 @@ object PostAJob extends App {
   /**
    * Update The Job
    */
-  def updateJob(job: Job) {
+  def updateJob(job: JobEntity) {
     JobDAO.update(MongoDBObject("_id" -> job.id), job, false, false, new WriteConcern)
   }
 
@@ -129,7 +129,7 @@ object PostAJob extends App {
    */
   //TO DO : Find A Good Approach Via MongoDB
   def findJobMatchingUserKeySkills(keySkills: List[String]) = {
-    var jobsFound: List[Job] = List()
+    var jobsFound: List[JobEntity] = List()
     val jobs = JobDAO.find(MongoDBObject()).toList
 
     for (eachJob <- jobs) {
@@ -150,4 +150,4 @@ object PostAJob extends App {
   }
 }
 
-object JobDAO extends SalatDAO[Job, ObjectId](collection = MongoHQConfig.mongoDB("job"))
+object JobDAO extends SalatDAO[JobEntity, ObjectId](collection = MongoHQConfig.mongoDB("job"))
