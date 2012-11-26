@@ -16,8 +16,8 @@ import net.liftweb.json.Serializer
 import net.liftweb.json.JsonAST.JInt
 import net.liftweb.json.TypeInfo
 
-
-case class Alert(alertType: String, message: String)
+case class Alert(alertType: String,
+  message: String)
 
 object Common {
 

@@ -7,9 +7,12 @@ import com.novus.salat.global._
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.MongoConnection
 
-case class LogInForm(emailId: String, password: String)
+case class LogInForm(emailId: String,
+  password: String)
 
-case class EditUserProfileForm(currentPassword: String, newPassword: String, confirmPassword: String)
+case class EditUserProfileForm(currentPassword: String,
+  newPassword: String,
+  confirmPassword: String)
 
 object LogIn {
 
@@ -26,8 +29,8 @@ object LogIn {
   def updateUser(employer: Employer, password: String) {
     EmployerDAO.update(MongoDBObject("_id" -> employer.id), new Employer(employer.id, employer.emailId, password, employer.skills, employer.jobSeeker), false, false, new WriteConcern)
   }
-  
-  def findJobSeekers= {
+
+  def findJobSeekers = {
     EmployerDAO.find(MongoDBObject("jobSeeker" -> true)).toList
   }
 

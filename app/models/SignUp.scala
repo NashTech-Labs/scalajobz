@@ -7,8 +7,14 @@ import com.novus.salat.dao.SalatDAO
 import utils.MongoHQConfig
 import com.mongodb.casbah.commons.MongoDBObject
 
-case class SignUpForm(emailId: String, password: String, confirmPassword: String)
-case class Employer(@Key("_id") id: ObjectId, emailId: String, password: String, skills: List[String], jobSeeker: Boolean)
+case class SignUpForm(emailId: String,
+  password: String,
+  confirmPassword: String)
+case class Employer(@Key("_id") id: ObjectId,
+  emailId: String,
+  password: String,
+  skills: List[String],
+  jobSeeker: Boolean)
 object SignUp {
 
   /**
@@ -29,7 +35,7 @@ object SignUp {
   /**
    * Find User By User Id
    */
-  
+
   def findUserById(userId: String): Option[Employer] = {
     val userFound = EmployerDAO.find(MongoDBObject("_id" -> new ObjectId(userId))).toList
     (userFound.isEmpty) match {
@@ -38,14 +44,14 @@ object SignUp {
     }
 
   }
-  
+
   /**
    *  Register Job Seeker
    */
-  
-  def registerJobSeeker(employer: Employer)={
+
+  def registerJobSeeker(employer: Employer) = {
     EmployerDAO.insert(employer)
-    
+
   }
 }
 

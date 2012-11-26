@@ -6,7 +6,8 @@ import models.EmployerDAO
 import models.LogIn
 import models.PostAJob
 
-case class SendMailToUserInformingAboutTheJob(emailId: String, jobs: List[Job])
+case class SendMailToUserInformingAboutTheJob(emailId: String,
+  jobs: List[Job])
 
 object AskActorToInformUserForJob extends App {
 
