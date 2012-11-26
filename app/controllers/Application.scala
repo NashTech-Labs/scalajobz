@@ -18,7 +18,7 @@ import org.bson.types.ObjectId
 import models.LogInForm
 import models.LogIn
 import utils.PasswordHashing
-import models.PostAJob
+import models.Job
 import models.Alert
 import models.Employer
 import models.Common
@@ -43,7 +43,7 @@ object Application extends Controller {
   def index = Action { implicit request =>
     val alert = Common.alert
     Common.setAlert(new Alert(null, null))
-    Ok(views.html.index(alert, request.session.get("userId").getOrElse(null), PostAJob.findAllJobs, false))
+    Ok(views.html.index(alert, request.session.get("userId").getOrElse(null), Job.findAllJobs, false))
   }
 
   /**
@@ -59,7 +59,7 @@ object Application extends Controller {
    */
   def newUser(flag: String) = Action { implicit request =>
     signUpForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.index(new Alert("error", "There Was Some Errors During The SignUp"), request.session.get("userId").getOrElse(null), PostAJob.findAllJobs, false)),
+      errors => BadRequest(views.html.index(new Alert("error", "There Was Some Errors During The SignUp"), request.session.get("userId").getOrElse(null), Job.findAllJobs, false)),
       signUpForm => {
         if (!SignUp.findUserByEmail(signUpForm.emailId).isEmpty) {
           Ok(views.html.signup(new Alert("error", "This Email Is Already registered With ScalaJobz"), Application.signUpForm, request.session.get("userId").getOrElse(null), flag))
@@ -71,7 +71,7 @@ object Application extends Controller {
           Common.setAlert(new Alert("success", "Registration Successful"))
           if (flag.equals("login")) {
             Results.Redirect("/findAllJobs").withSession(userSession)
-            //Ok(views.html.index(new Alert("success", "Registration Successful"), userId.get.toString, PostAJob.findAllJobs, false)).withSession(userSession)
+            //Ok(views.html.index(new Alert("success", "Registration Successful"), userId.get.toString, Job.findAllJobs, false)).withSession(userSession)
 
           } else
             Results.Redirect(routes.PostAJobController.newJob).withSession(userSession)
@@ -85,14 +85,14 @@ object Application extends Controller {
 
   def logIn(flag: String) = Action { implicit request =>
     logInForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.index(new Alert("error", "There Was Some Errors During The Login"), null, PostAJob.findAllJobs, false)),
+      errors => BadRequest(views.html.index(new Alert("error", "There Was Some Errors During The Login"), null, Job.findAllJobs, false)),
       logInForm => {
         val encryptedPassword = (new PasswordHashing).encryptThePassword(logInForm.password)
         val users = LogIn.findUser(logInForm.emailId, encryptedPassword)
         if (!users.isEmpty) {
           val userSession = request.session + ("userId" -> users(0).id.toString)
           if (flag.equals("login"))
-            Ok(views.html.index(new Alert(null,null), users(0).id.toString, PostAJob.findAllJobs, false)).withSession(userSession)
+            Ok(views.html.index(new Alert(null,null), users(0).id.toString, Job.findAllJobs, false)).withSession(userSession)
           else
             Ok(views.html.postajob(PostAJobController.postAJobForm, users(0).id.toString)).withSession(userSession)
         } else Ok(views.html.login(new Alert("error", "Invalid Credentials"), Application.logInForm, null, "login"))
@@ -111,7 +111,7 @@ object Application extends Controller {
    */
 
   def logOutFromScalaJobz = Action {
-    Ok(views.html.index(new Alert(null, null), null, PostAJob.findAllJobs, false)).withNewSession
+    Ok(views.html.index(new Alert(null, null), null, Job.findAllJobs, false)).withNewSession
   }
 
 }

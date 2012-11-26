@@ -2,7 +2,7 @@ package controllers
 
 import play.api.mvc.Action
 import play.api.mvc.Controller
-import models.PostAJob
+import models.Job
 import net.liftweb.json.{ parse, DefaultFormats }
 import net.liftweb.json.Serialization.{ read, write }
 import models.Alert
@@ -18,7 +18,7 @@ object RESTServiceController extends Controller {
   }
 
   def processGetAllJobsList = Action {
-    val results = PostAJob.findAllJobs
+    val results = Job.findAllJobs
     if (results.isEmpty)
       Ok(write(new Alert("No Result Found", "No Job Exist"))).as("application/json")
     else
@@ -26,7 +26,7 @@ object RESTServiceController extends Controller {
   }
 
   def processGetJobListForSingleRequest(code: String) = Action {
-    val results = PostAJob.searchTheJob(code)
+    val results = Job.searchTheJob(code)
     if (results.isEmpty)
       Ok(write(new Alert("No Result Found", "Your search did not match with any exist job."))).as("application/json")
     else

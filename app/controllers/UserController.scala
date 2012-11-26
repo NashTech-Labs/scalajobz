@@ -18,7 +18,7 @@ import org.bson.types.ObjectId
 import models.LogInForm
 import models.LogIn
 import utils.PasswordHashing
-import models.PostAJob
+import models.Job
 import models.Alert
 import models.Employer
 import models.EditUserProfileForm
@@ -50,7 +50,7 @@ object UserController extends Controller {
    // println("--->"+request.queryString("alert").last+request.queryString("message"))
     val alert=Common.alert
     Common.setAlert(new Alert(null,null))
-    val jobPostByUserList = PostAJob.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
+    val jobPostByUserList = Job.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
     Ok(views.html.index(alert, request.session.get("userId").getOrElse(null), jobPostByUserList, true))
   }
 

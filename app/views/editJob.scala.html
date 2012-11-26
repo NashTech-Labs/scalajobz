@@ -50,7 +50,7 @@
 										<div class="controls">
 											<select id="JobType" name="JobType" class="input-large">
 												<option value="">-- Select Job Type --</option>
-												@PostAJob.jobType.map{case(key, value)=>
+												@Job.jobType.map{case(key, value)=>
 												@if(job.jobType == value){
 												<option value=@value selected="selected">@key</option>
 												} else {
