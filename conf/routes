@@ -12,16 +12,16 @@ POST    /signup/:flag                      controllers.Application.newUser(flag:
 GET    /login                         controllers.Application.loginOnScalaJobz
 POST    /login/:flag                  controllers.Application.logIn(flag:String)
 
-GET    /postAJob                      controllers.PostAJobController.postAJob
-POST    /postAJob                     controllers.PostAJobController.newJob
+GET    /postAJob                      controllers.JobController.postAJob
+POST    /postAJob                     controllers.JobController.newJob
 
 GET    /findAllJobs                   controllers.Application.index
 
 GET    /logout                        controllers.Application.logOutFromScalaJobz
 
-POST   /findAJob/:searchString/:editFlag   controllers.PostAJobController.findAJob(searchString: String , editFlag: String)
+POST   /findAJob/:searchString/:editFlag   controllers.JobController.findAJob(searchString: String , editFlag: String)
 
-GET   /jobDetail/:jobId				controllers.PostAJobController.findJobDetail(jobId:String)
+GET   /jobDetail/:jobId				controllers.JobController.findJobDetail(jobId:String)
 
 #Edit By UserId
 
@@ -31,11 +31,11 @@ GET   /findJobPostByUserId				controllers.UserController.findJobPostByUserId
 
 POST /updateUserProfile					controllers.UserController.updateUserProfile
 
-GET /findJobPostForEdit/:jobId			controllers.PostAJobController.findJobPostForEdit(jobId: String)
+GET /findJobPostForEdit/:jobId			controllers.JobController.findJobPostForEdit(jobId: String)
 
-POST /editJob/:jobId				     controllers.PostAJobController.editJob(jobId: String)
+POST /editJob/:jobId				     controllers.JobController.editJob(jobId: String)
 
-GET /deleteJob/:jobId/:editFlag			 controllers.PostAJobController.deleteJob(jobId: String , editFlag: String)
+GET /deleteJob/:jobId/:editFlag			 controllers.JobController.deleteJob(jobId: String , editFlag: String)
 
 #Inform Me								
 
@@ -48,7 +48,7 @@ GET /forgetPassword 					controllers.UserController.forgetPassword
 POST /sendForgetPassword/:emailId 					controllers.UserController.sendForgetPassword(emailId:String)
 
 # Javascript routing
-#GET     /assets/javascripts/routes          controllers.PostAJobController.javascriptRoutes
+#GET     /assets/javascripts/routes          controllers.JobController.javascriptRoutes
 
 
 #REST API

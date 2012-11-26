@@ -74,7 +74,7 @@ object Application extends Controller {
             //Ok(views.html.index(new Alert("success", "Registration Successful"), userId.get.toString, Job.findAllJobs, false)).withSession(userSession)
 
           } else
-            Results.Redirect(routes.PostAJobController.newJob).withSession(userSession)
+            Results.Redirect(routes.JobController.newJob).withSession(userSession)
         }
       })
   }
@@ -94,7 +94,7 @@ object Application extends Controller {
           if (flag.equals("login"))
             Ok(views.html.index(new Alert(null,null), users(0).id.toString, Job.findAllJobs, false)).withSession(userSession)
           else
-            Ok(views.html.postajob(PostAJobController.postAJobForm, users(0).id.toString)).withSession(userSession)
+            Ok(views.html.postajob(JobController.postAJobForm, users(0).id.toString)).withSession(userSession)
         } else Ok(views.html.login(new Alert("error", "Invalid Credentials"), Application.logInForm, null, "login"))
       })
   }

@@ -19,7 +19,7 @@ import java.util.Date
 import models.Alert
 import models.Common
 
-object PostAJobController extends Controller {
+object JobController extends Controller {
 
   val postAJobForm = Form(
     mapping(

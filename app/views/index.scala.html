@@ -168,7 +168,7 @@ function showRecords(from, to) {
 	    var idToGet = $("#searchString").val();
 	    $.ajax({
 	        type : 'POST',
-	        url : '@routes.PostAJobController.findAJob("' + idToGet + '","' + editflag + '")',
+	        url : '@routes.JobController.findAJob("' + idToGet + '","' + editflag + '")',
 	        success : function(data) {
 	        	 $('#search-result').html(data);
 	        }
@@ -220,7 +220,7 @@ function deleteJob(jobId) {
 	var editflag=@editFlag+""
 	    $.ajax({
 	        type : 'GET',
-	        url : '@routes.PostAJobController.deleteJob("' + jobId + '","' + editflag + '")',
+	        url : '@routes.JobController.deleteJob("' + jobId + '","' + editflag + '")',
 	        success : function(data) {
 	        	$('#search-result').html(data);
 	        	var addAlert='<div class="alert alert-success">';
