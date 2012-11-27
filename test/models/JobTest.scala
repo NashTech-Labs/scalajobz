@@ -64,7 +64,7 @@ class JobTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Find Jobs Posted By A Particular User") {
-    val employer = new Employer(new ObjectId, "neelkanth@gmail.com", "12345", List(), true)
+    val employer = new UserEntity(new ObjectId, "neelkanth@gmail.com", "12345", List(), true)
     val employerId = User.createUser(employer)
     val job1 = JobEntity(new ObjectId, employerId.get, "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java", "Scala"), "Description", new Date)
     val job2 = JobEntity(new ObjectId, employerId.get, "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala", "MongoDB"), "Description", new Date)
@@ -77,7 +77,7 @@ class JobTest extends FunSuite with BeforeAndAfter {
     assert(Job.findJobsPostByUserId(employerId.get).size === 2)
   }
    test("Searching the Job") {
-    val employer = new Employer(new ObjectId, "neelkanth@gmail.com", "12345", List(), true)
+    val employer = new UserEntity(new ObjectId, "neelkanth@gmail.com", "12345", List(), true)
     val employerId = User.createUser(employer)
     val job1 = JobEntity(new ObjectId, employerId.get, "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java", "Scala"), "Description", new Date)
     val job2 = JobEntity(new ObjectId, employerId.get, "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala", "MongoDB"), "Description", new Date)
