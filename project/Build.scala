@@ -16,9 +16,11 @@ object ApplicationBuild extends Build {
     "com.typesafe.akka" % "akka-actor" % "2.0.2",
     "com.typesafe.akka" % "akka-remote" % "2.0.2",
     "commons-codec" % "commons-codec" % "1.6",
-    "org.scalatest" %% "scalatest" % "1.6.1")
+    "org.scalatest" %% "scalatest" % "1.7.2")
 
-  val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings( // Add your own project settings here      
+  val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings(
+      testOptions in Test := Nil
+      // Add your own project settings here      
   )
 
 }
