@@ -1,5 +1,6 @@
 //package controllers
 //import models.Job
+//import org.specs2.mutable._
 //
 //class ApplicationTest {
 //"" in {

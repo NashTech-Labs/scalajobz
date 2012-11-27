@@ -28,6 +28,7 @@ class UserTest extends FunSuite with BeforeAndAfter {
 
   after {
     UserDAO.remove(MongoDBObject("emailId" -> ".*".r))
+     JobDAO.remove(MongoDBObject("location" -> ".*".r))
   }
 
 }
