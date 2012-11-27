@@ -9,12 +9,12 @@ import models.UserEntity
 case class JobAlertMail(jobSeeker: UserEntity,
   jobs: List[JobEntity])
 
-object DailyJobAlert extends App {
+object DailyJobAlert  {
 
   /**
    * Send Mail To Job Seekers on the basis of their search criteria Via  Akka Actor
    */
-  def sendMailIForJobAlert = {
+  def sendMailIForJobAlert:Unit = {
     val system = ActorSystem("jobActors")
     val jobActor = system.actorOf(Props[JobAlertActor])
     val jobSeekers = User.findJobSeekers

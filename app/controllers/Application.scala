@@ -59,10 +59,12 @@ object Application extends Controller {
    */
   def newUser(flag: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
     signUpForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.index(new Alert(errorString, "There Was Some Errors During The SignUp"), request.session.get(currentUserId).getOrElse(null), Job.findAllJobs, false)),
+      errors => BadRequest(views.html.index(new Alert(errorString, "There Was Some Errors During The SignUp"),
+        request.session.get(currentUserId).getOrElse(null), Job.findAllJobs, false)),
       signUpForm => {
         if (!User.findUserByEmail(signUpForm.emailId).isEmpty) {
-          Ok(views.html.signup(new Alert(errorString, "This Email Is Already registered With ScalaJobz"), Application.signUpForm, request.session.get(currentUserId).getOrElse(null), flag))
+          Ok(views.html.signup(new Alert(errorString, "This Email Is Already registered With ScalaJobz"), Application.signUpForm
+              , request.session.get(currentUserId).getOrElse(null), flag))
         } else {
           val encryptedPassword = (new PasswordHashing).encryptThePassword(signUpForm.password)
           val newUser = UserEntity(new ObjectId, signUpForm.emailId, encryptedPassword, List(), false)
@@ -91,11 +93,12 @@ object Application extends Controller {
         val users = User.findUser(logInForm.emailId, encryptedPassword)
         if (!users.isEmpty) {
           val userSession = request.session + (currentUserId -> users(0).id.toString)
-          if (flag.equals("login")){
-            Ok(views.html.index(new Alert(null, null), users(0).id.toString, Job.findAllJobs, false)).withSession(userSession)}
-          else{
-            Ok(views.html.postajob(JobController.postAJobForm, users(0).id.toString)).withSession(userSession)}
-        } else Ok(views.html.login(new Alert(errorString, "Invalid Credentials"), Application.logInForm, null, "login"))
+          if (flag.equals("login")) {
+            Ok(views.html.index(new Alert(null, null), users(0).id.toString, Job.findAllJobs, false)).withSession(userSession)
+          } else {
+            Ok(views.html.postajob(JobController.postAJobForm, users(0).id.toString)).withSession(userSession)
+          }
+        } else { Ok(views.html.login(new Alert(errorString, "Invalid Credentials"), Application.logInForm, null, "login")) }
       })
   }
   /**

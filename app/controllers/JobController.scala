@@ -55,7 +55,8 @@ object JobController extends Controller {
           if (request.session.get("userId") == None) Ok(views.html.login(new Alert(null, null),
             Application.logInForm, request.session.get("userId").getOrElse(null), "jobPost"))
           else {
-            val job = JobEntity(new ObjectId, new ObjectId(request.session.get("userId").get), postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList, postAJobForm.description, new Date)
+            val job = JobEntity(new ObjectId, new ObjectId(request.session.get("userId").get),
+                postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList, postAJobForm.description, new Date)
             Job.addJob(job)
             val jobPostByUserList = Job.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
             Common.setAlert(new Alert("success", "Job Posted Successfully"))

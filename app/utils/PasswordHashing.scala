@@ -1,5 +1,4 @@
 package utils
-
 import java.security.Key
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
@@ -15,7 +14,6 @@ class PasswordHashing {
   /**
    * Creates The Unique Key For The Purpose Of Encryption & Decryption 
    */
-
   def generateKey : SecretKeySpec = {
     val key = new SecretKeySpec(keyValue, ALGO)
     key

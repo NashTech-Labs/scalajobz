@@ -1,5 +1,4 @@
 package models
-
 import net.liftweb.json.JsonDSL
 import net.liftweb.json.MappingException
 import net.liftweb.json.TypeInfo
@@ -23,7 +22,7 @@ case class Alert(alertType: String,
 object Common {
 
   var alert: Alert = new Alert(null, null)
-  def setAlert(alert: Alert) = this.alert = alert
+  def setAlert(alert: Alert):Unit = this.alert = alert
 
   /**
    * Set Content For Sending Mail For Daily Job Alert

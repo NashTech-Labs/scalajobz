@@ -1,5 +1,4 @@
 package utils
-
 import javax.mail.internet.MimeMessage
 import java.util.Properties
 import javax.mail.Session
