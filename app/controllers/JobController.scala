@@ -52,14 +52,12 @@ object JobController extends Controller {
           || postAJobForm.jobType == "" || postAJobForm.jobType.equals("-- Select Job Type --") ||
           postAJobForm.emailAddress == "") Ok("Please Fill The Mendatory Fields")
         else {
-          if (request.session.get("userId") == None) Ok(views.html.login(new Alert(null, null), 
-              Application.logInForm, request.session.get("userId").getOrElse(null), "jobPost"))
+          if (request.session.get("userId") == None) Ok(views.html.login(new Alert(null, null),
+            Application.logInForm, request.session.get("userId").getOrElse(null), "jobPost"))
           else {
             val job = JobEntity(new ObjectId, new ObjectId(request.session.get("userId").get), postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList, postAJobForm.description, new Date)
             Job.addJob(job)
             val jobPostByUserList = Job.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
-            //Ok(views.html.index(new Alert("success", "Job Posted Successfully"), request.session.get("userId").getOrElse(null), jobPostByUserList, true))
-            //Results.Redirect("/findJobPostByUserId?alert=success&message=Job Posted Successfully")
             Common.setAlert(new Alert("success", "Job Posted Successfully"))
             Results.Redirect("/findJobPostByUserId")
           }
