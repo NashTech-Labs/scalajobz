@@ -81,7 +81,7 @@ object Job extends App {
         if (eachJob.position.toUpperCase.contains(searchToken.toUpperCase) || eachJob.company.toUpperCase.contains(searchToken.toUpperCase) ||
           eachJob.jobType.toUpperCase.contains(searchToken.toUpperCase) || eachJob.location.toUpperCase.contains(searchToken.toUpperCase) ||
           isListContainElement(searchToken, eachJob.skillsRequired) || eachJob.datePosted.toString.toUpperCase.contains(searchToken.toUpperCase))
-          jobsFound ++= List(eachJob)
+          jobsFound ++= Set(eachJob)
       }
     }
     jobsFound.toList
