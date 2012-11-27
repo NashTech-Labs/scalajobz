@@ -78,8 +78,6 @@ object User {
 
   }
 
- 
-
   /**
    * UnSubscribe From Job Alerts By Using JobSeeker Id(UserId)
    */
@@ -87,7 +85,7 @@ object User {
   def unSubscribeJobSeeker(userId: String) = {
     User.findUserById(userId) match {
       case None => false
-      case Some(jobSeeker:UserEntity) =>
+      case Some(jobSeeker: UserEntity) =>
         UserDAO.remove(jobSeeker)
         true
     }

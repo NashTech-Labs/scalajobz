@@ -28,8 +28,7 @@ case class JobEntity(@Key("_id") id: ObjectId,
   skillsRequired: List[String],
   description: String,
   datePosted: Date)
-  
-  
+
 object Job extends App {
 
   /**
@@ -122,7 +121,6 @@ object Job extends App {
   def updateJob(job: JobEntity) {
     JobDAO.update(MongoDBObject("_id" -> job.id), job, false, false, new WriteConcern)
   }
-
 
   /**
    * Delete the Job By Job Id

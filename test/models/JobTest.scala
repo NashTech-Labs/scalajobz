@@ -11,8 +11,6 @@ import com.mongodb.casbah.commons.MongoDBObject
 
 @RunWith(classOf[JUnitRunner])
 class JobTest extends FunSuite with BeforeAndAfter {
-  
-  
 
   test("Create A Job") {
     val job1 = JobEntity(new ObjectId, new ObjectId, "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List(), "Description", new Date)

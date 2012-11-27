@@ -91,7 +91,7 @@ object Application extends Controller {
         if (!users.isEmpty) {
           val userSession = request.session + ("userId" -> users(0).id.toString)
           if (flag.equals("login"))
-            Ok(views.html.index(new Alert(null,null), users(0).id.toString, Job.findAllJobs, false)).withSession(userSession)
+            Ok(views.html.index(new Alert(null, null), users(0).id.toString, Job.findAllJobs, false)).withSession(userSession)
           else
             Ok(views.html.postajob(JobController.postAJobForm, users(0).id.toString)).withSession(userSession)
         } else Ok(views.html.login(new Alert("error", "Invalid Credentials"), Application.logInForm, null, "login"))

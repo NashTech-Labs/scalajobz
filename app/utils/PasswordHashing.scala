@@ -1,5 +1,5 @@
-
 package utils
+
 import java.security.Key
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
@@ -12,17 +12,16 @@ class PasswordHashing {
   val ALGO = Play.current.configuration.getString("algo").get
   val keyValue: Array[Byte] = Play.current.configuration.getString("encryptionKey").get.toCharArray.map(_.toByte)
 
-  /*
+  /**
    * Creates The Unique Key For The Purpose Of Encryption & Decryption 
    */
 
   def generateKey = {
     val key = new SecretKeySpec(keyValue, ALGO)
-    println(key)
     key
   }
 
-  /*
+  /**
    * Encryption Of Password By AES
    */
   def encryptThePassword(password: String) = {
@@ -34,7 +33,7 @@ class PasswordHashing {
     encryptedPassword
   }
 
-  /*
+  /**
    * Decryption Of Password By AES
    */
   def decryptThePassword(encryptedPassword: String) = {

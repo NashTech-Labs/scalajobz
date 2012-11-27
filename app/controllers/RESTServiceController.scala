@@ -30,7 +30,7 @@ object RESTServiceController extends Controller {
     else
       Ok(write(results)).as("application/json")
   }
-  
+
   /**
    * REST Api To get Jobs for a Token String
    */

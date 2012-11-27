@@ -62,7 +62,7 @@ class ObjectIdSerializer extends Serializer[ObjectId] {
     case (TypeInfo(Class, _), json) => json match {
       case JInt(s) => new ObjectId
       case JString(s) => new ObjectId(s)
-      case x => throw new MappingException("Can't convert " + x + " to ObjectId")
+      case x: Any => throw new MappingException("Can't convert " + x + " to ObjectId")
     }
   }
 

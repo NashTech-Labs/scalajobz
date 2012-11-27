@@ -59,7 +59,7 @@ object JobController extends Controller {
             val jobPostByUserList = Job.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
             //Ok(views.html.index(new Alert("success", "Job Posted Successfully"), request.session.get("userId").getOrElse(null), jobPostByUserList, true))
             //Results.Redirect("/findJobPostByUserId?alert=success&message=Job Posted Successfully")
-            Common.setAlert(new Alert("success","Job Posted Successfully"))
+            Common.setAlert(new Alert("success", "Job Posted Successfully"))
             Results.Redirect("/findJobPostByUserId")
           }
         }
@@ -79,7 +79,7 @@ object JobController extends Controller {
   }
 
   /**
-   * Find Job Detail By JobId 
+   * Find Job Detail By JobId
    */
   def findJobDetail(jobId: String) = Action { implicit request =>
     val job: Option[JobEntity] = Job.findJobDetail(new ObjectId(jobId))

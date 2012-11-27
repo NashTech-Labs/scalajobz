@@ -46,7 +46,6 @@ object UserController extends Controller {
    */
 
   def findJobPostByUserId = Action { implicit request =>
-    // println("--->"+request.queryString("alert").last+request.queryString("message"))
     val alert = Common.alert
     Common.setAlert(new Alert(null, null))
     val jobPostByUserList = Job.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))

@@ -1,13 +1,3 @@
-
-//object Bootstrap extends Job{
-//@OnApplicationStart
-//   def doJob ={
-//  println("hello")
-//        
-//    }
-//    
-//}
-
 import play.api._
 import play.api.mvc._
 import play.api.mvc.Results._
@@ -34,5 +24,4 @@ object Global extends GlobalSettings {
     InternalServerError(
       views.html.errorPage("Page Not Found - " + request.path))
   }
-
 }
