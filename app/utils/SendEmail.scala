@@ -10,11 +10,11 @@ import org.bson.types.ObjectId
 import play.api.Play
 import models.JobEntity
 import models.Common
-import models.Employer
+import models.UserEntity
 
 object SendEmail extends App {
 
-  def sendEmail(jobSeeker: Employer, jobs: List[JobEntity]) = {
+  def sendEmail(jobSeeker: UserEntity, jobs: List[JobEntity]) = {
     val props = new Properties
     props.setProperty("mail.transport.protocol", "smtp");
     props.setProperty("mail.smtp.starttls.enable", "true");

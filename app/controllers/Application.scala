@@ -19,7 +19,7 @@ import models.LogInForm
 import utils.PasswordHashing
 import models.Job
 import models.Alert
-import models.Employer
+import models.UserEntity
 import models.Common
 
 object Application extends Controller {
@@ -64,7 +64,7 @@ object Application extends Controller {
           Ok(views.html.signup(new Alert("error", "This Email Is Already registered With ScalaJobz"), Application.signUpForm, request.session.get("userId").getOrElse(null), flag))
         } else {
           val encryptedPassword = (new PasswordHashing).encryptThePassword(signUpForm.password)
-          val newUser = Employer(new ObjectId, signUpForm.emailId, encryptedPassword, List(), false)
+          val newUser = UserEntity(new ObjectId, signUpForm.emailId, encryptedPassword, List(), false)
           val userId = User.createUser(newUser)
           val userSession = request.session + ("userId" -> userId.get.toString)
           Common.setAlert(new Alert("success", "Registration Successful"))

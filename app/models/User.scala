@@ -24,7 +24,7 @@ case class SignUpForm(emailId: String,
   confirmPassword: String)
 
 //Add User(Employer/JobSeeker) Form
-case class Employer(@Key("_id") id: ObjectId,
+case class UserEntity(@Key("_id") id: ObjectId,
   emailId: String,
   password: String,
   skills: List[String],
@@ -42,8 +42,8 @@ object User {
   /**
    * Update user Profile
    */
-  def updateUser(employer: Employer, password: String) {
-    UserDAO.update(MongoDBObject("_id" -> employer.id), new Employer(employer.id, employer.emailId, password, employer.skills, employer.jobSeeker), false, false, new WriteConcern)
+  def updateUser(employer: UserEntity, password: String) {
+    UserDAO.update(MongoDBObject("_id" -> employer.id), new UserEntity(employer.id, employer.emailId, password, employer.skills, employer.jobSeeker), false, false, new WriteConcern)
   }
 
   def findJobSeekers = {
@@ -53,7 +53,7 @@ object User {
   /**
    * Create New User
    */
-  def createUser(employer: Employer) = {
+  def createUser(employer: UserEntity) = {
     UserDAO.insert(employer)
   }
 
@@ -69,7 +69,7 @@ object User {
    * Find User By User Id
    */
 
-  def findUserById(userId: String): Option[Employer] = {
+  def findUserById(userId: String): Option[UserEntity] = {
     val userFound = UserDAO.find(MongoDBObject("_id" -> new ObjectId(userId))).toList
     (userFound.isEmpty) match {
       case true => None
@@ -87,7 +87,7 @@ object User {
   def unSubscribeJobSeeker(userId: String) = {
     User.findUserById(userId) match {
       case None => false
-      case Some(jobSeeker) =>
+      case Some(jobSeeker:UserEntity) =>
         UserDAO.remove(jobSeeker)
         true
     }
@@ -96,4 +96,4 @@ object User {
 
 }
 
-object UserDAO extends SalatDAO[Employer, ObjectId](collection = MongoHQConfig.mongoDB("user"))
+object UserDAO extends SalatDAO[UserEntity, ObjectId](collection = MongoHQConfig.mongoDB("user"))

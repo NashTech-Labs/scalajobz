@@ -19,7 +19,7 @@ import models.LogInForm
 import utils.PasswordHashing
 import models.Job
 import models.Alert
-import models.Employer
+import models.UserEntity
 import models.EditUserProfileForm
 import utils.SendEmail
 import models.Common
@@ -104,7 +104,7 @@ object UserController extends Controller {
    * Register Job seeker for getting Job alert
    */
   def registerJobSeeker(emailId: String, skillsToken: String) = Action { implicit request =>
-    val newJobSeeker = Employer(new ObjectId, emailId, "", skillsToken.split(" ").toList.filter(x => !(x == "")), true)
+    val newJobSeeker = UserEntity(new ObjectId, emailId, "", skillsToken.split(" ").toList.filter(x => !(x == "")), true)
     val userId = User.createUser(newJobSeeker)
     Ok
   }

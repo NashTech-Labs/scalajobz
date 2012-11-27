@@ -4,9 +4,9 @@ import akka.actor.Props
 import models.JobEntity
 import models.User
 import models.Job
-import models.Employer
+import models.UserEntity
 
-case class JobAlertMail(jobSeeker: Employer,
+case class JobAlertMail(jobSeeker: UserEntity,
   jobs: List[JobEntity])
 
 object DailyJobAlert extends App {

@@ -29,7 +29,7 @@ object Common {
    * Set Content For Sending Mail For Daily Job Alert
    */
 
-  def setContentForJobAlert(jobs: List[JobEntity], jobSeeker: Employer): String = {
+  def setContentForJobAlert(jobs: List[JobEntity], jobSeeker: UserEntity): String = {
 
     val removeJobAlertLink = "http://" + getContextUrl + "/unSubscribeJobSeeker/" + jobSeeker.id
     var message = "<b>Job Alert from scalajobz.com</b>" +
