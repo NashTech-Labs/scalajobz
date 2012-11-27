@@ -78,14 +78,7 @@ object User {
 
   }
 
-  /**
-   *  Register Job Seeker
-   */
-
-  def registerJobSeeker(employer: Employer) = {
-    EmployerDAO.insert(employer)
-
-  }
+ 
 
   /**
    * UnSubscribe From Job Alerts By Using JobSeeker Id(UserId)

@@ -105,7 +105,7 @@ object UserController extends Controller {
    */
   def registerJobSeeker(emailId: String, skillsToken: String) = Action { implicit request =>
     val newJobSeeker = Employer(new ObjectId, emailId, "", skillsToken.split(" ").toList.filter(x => !(x == "")), true)
-    val userId = User.registerJobSeeker(newJobSeeker)
+    val userId = User.createUser(newJobSeeker)
     Ok
   }
 
