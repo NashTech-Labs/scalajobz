@@ -35,7 +35,7 @@ object User {
   /**
    * Authenticate User By Credentials Provided
    */
-  def findUser(emailId: String, password: String) = {
+  def findUser(emailId: String, password: String):List[UserEntity] = {
     UserDAO.find(MongoDBObject("emailId" -> emailId, "password" -> password)).toList
   }
 
@@ -46,14 +46,14 @@ object User {
     UserDAO.update(MongoDBObject("_id" -> employer.id), new UserEntity(employer.id, employer.emailId, password, employer.skills, employer.jobSeeker), false, false, new WriteConcern)
   }
 
-  def findJobSeekers = {
+  def findJobSeekers : List[UserEntity] = {
     UserDAO.find(MongoDBObject("jobSeeker" -> true)).toList
   }
 
   /**
    * Create New User
    */
-  def createUser(employer: UserEntity) = {
+  def createUser(employer: UserEntity) :Option[ObjectId] = {
     UserDAO.insert(employer)
   }
 
@@ -61,7 +61,7 @@ object User {
    *  Find User By Email But This Will Match With Employer Not with JobSeeker
    */
 
-  def findUserByEmail(emailId: String) = {
+  def findUserByEmail(emailId: String): List[UserEntity] = {
     UserDAO.find(MongoDBObject("emailId" -> emailId, "jobSeeker" -> false)).toList
   }
 
@@ -82,7 +82,7 @@ object User {
    * UnSubscribe From Job Alerts By Using JobSeeker Id(UserId)
    */
 
-  def unSubscribeJobSeeker(userId: String) = {
+  def unSubscribeJobSeeker(userId: String) : Boolean = {
     User.findUserById(userId) match {
       case None => false
       case Some(jobSeeker: UserEntity) =>

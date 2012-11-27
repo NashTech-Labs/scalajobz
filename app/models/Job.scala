@@ -91,7 +91,7 @@ object Job extends App {
    * Matching for a key skill in the list of skills Required
    */
 
-  def isListContainElement(stringTobeSearched: String, searchList: List[String]) = {
+  def isListContainElement(stringTobeSearched: String, searchList: List[String]): Boolean = {
     val resultList = searchList.map(_.toUpperCase.trim.contains(stringTobeSearched.toUpperCase))
     resultList.contains(true)
   }
