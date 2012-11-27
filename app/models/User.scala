@@ -36,25 +36,25 @@ object User {
    * Authenticate User By Credentials Provided
    */
   def findUser(emailId: String, password: String) = {
-    EmployerDAO.find(MongoDBObject("emailId" -> emailId, "password" -> password)).toList
+    UserDAO.find(MongoDBObject("emailId" -> emailId, "password" -> password)).toList
   }
 
   /**
    * Update user Profile
    */
   def updateUser(employer: Employer, password: String) {
-    EmployerDAO.update(MongoDBObject("_id" -> employer.id), new Employer(employer.id, employer.emailId, password, employer.skills, employer.jobSeeker), false, false, new WriteConcern)
+    UserDAO.update(MongoDBObject("_id" -> employer.id), new Employer(employer.id, employer.emailId, password, employer.skills, employer.jobSeeker), false, false, new WriteConcern)
   }
 
   def findJobSeekers = {
-    EmployerDAO.find(MongoDBObject("jobSeeker" -> true)).toList
+    UserDAO.find(MongoDBObject("jobSeeker" -> true)).toList
   }
 
   /**
    * Create New User
    */
   def createUser(employer: Employer) = {
-    EmployerDAO.insert(employer)
+    UserDAO.insert(employer)
   }
 
   /**
@@ -62,7 +62,7 @@ object User {
    */
 
   def findUserByEmail(emailId: String) = {
-    EmployerDAO.find(MongoDBObject("emailId" -> emailId, "jobSeeker" -> false)).toList
+    UserDAO.find(MongoDBObject("emailId" -> emailId, "jobSeeker" -> false)).toList
   }
 
   /**
@@ -70,7 +70,7 @@ object User {
    */
 
   def findUserById(userId: String): Option[Employer] = {
-    val userFound = EmployerDAO.find(MongoDBObject("_id" -> new ObjectId(userId))).toList
+    val userFound = UserDAO.find(MongoDBObject("_id" -> new ObjectId(userId))).toList
     (userFound.isEmpty) match {
       case true => None
       case false => Option(userFound.toList(0))
@@ -88,7 +88,7 @@ object User {
     User.findUserById(userId) match {
       case None => false
       case Some(jobSeeker) =>
-        EmployerDAO.remove(jobSeeker)
+        UserDAO.remove(jobSeeker)
         true
     }
 
@@ -96,4 +96,4 @@ object User {
 
 }
 
-object EmployerDAO extends SalatDAO[Employer, ObjectId](collection = MongoHQConfig.mongoDB("user"))
+object UserDAO extends SalatDAO[Employer, ObjectId](collection = MongoHQConfig.mongoDB("user"))

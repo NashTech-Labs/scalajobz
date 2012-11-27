@@ -2,7 +2,6 @@ package utils
 import akka.actor.ActorSystem
 import akka.actor.Props
 import models.JobEntity
-import models.EmployerDAO
 import models.User
 import models.Job
 import models.Employer
