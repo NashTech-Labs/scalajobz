@@ -52,7 +52,8 @@ object JobController extends Controller {
           || postAJobForm.jobType == "" || postAJobForm.jobType.equals("-- Select Job Type --") ||
           postAJobForm.emailAddress == "") Ok("Please Fill The Mendatory Fields")
         else {
-          if (request.session.get("userId") == None) Ok(views.html.login(new Alert(null, null), Application.logInForm, request.session.get("userId").getOrElse(null), "jobPost"))
+          if (request.session.get("userId") == None) Ok(views.html.login(new Alert(null, null), 
+              Application.logInForm, request.session.get("userId").getOrElse(null), "jobPost"))
           else {
             val job = JobEntity(new ObjectId, new ObjectId(request.session.get("userId").get), postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList, postAJobForm.description, new Date)
             Job.addJob(job)
@@ -103,8 +104,7 @@ object JobController extends Controller {
       case None => Results.Redirect(routes.UserController.findJobPostByUserId)
       case Some(job: JobEntity) =>
         postAJobForm.bindFromRequest.fold(
-          errors => BadRequest(views.html.editJob(job, postAJobForm, 
-              request.session.get("userId").getOrElse(null))),
+          errors => BadRequest(views.html.editJob(job, postAJobForm, request.session.get("userId").getOrElse(null))),
           postAJobForm => {
             val editJob = JobEntity(job.id, job.userId, postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList, postAJobForm.description, new Date)
             Job.updateJob(editJob)
