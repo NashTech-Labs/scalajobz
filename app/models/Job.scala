@@ -42,7 +42,7 @@ object Job extends App {
    *  Create A Job
    */
 
-  def addJob(job: JobEntity) = {
+  def addJob(job: JobEntity): Option[ObjectId] = {
     JobDAO.insert(job)
   }
 
