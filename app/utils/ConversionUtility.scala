@@ -8,14 +8,14 @@ object ConversionUtility extends App {
    * Does the encoding
    */
   val str = ""
-  val scheme = "cp424"
-  val encodedString = Hex.encodeHexString(str.getBytes(scheme))
+  val encodedString = Hex.encodeHexString(str.getBytes("cp424"))
+  println(encodedString)
 
   /*
    * Decoding Part for a string
    */
   def decodeMe(encodedString: String): String = {
-    val originalString = new String(Hex.decodeHex(encodedString.toCharArray), scheme)
+    val originalString = new String(Hex.decodeHex(encodedString.toCharArray), "cp424")
     originalString
   }
 
@@ -24,7 +24,8 @@ object ConversionUtility extends App {
    */
 
   def encryptPassword(password: String): String = {
-    val encryptedpassword = Hex.encodeHexString(password.getBytes(scheme))
+    val encryptedpassword = Hex.encodeHexString(password.getBytes("cp424"))
     encryptedpassword
   }
+
 }
