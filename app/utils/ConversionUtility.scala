@@ -27,5 +27,4 @@ object ConversionUtility extends App {
     val encryptedpassword = Hex.encodeHexString(password.getBytes(scheme))
     encryptedpassword
   }
-
 }
