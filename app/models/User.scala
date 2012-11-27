@@ -23,7 +23,7 @@ case class SignUpForm(emailId: String,
   password: String,
   confirmPassword: String)
 
-//Add Employer Form
+//Add User(Employer/JobSeeker) Form
 case class Employer(@Key("_id") id: ObjectId,
   emailId: String,
   password: String,
@@ -58,11 +58,11 @@ object User {
   }
 
   /**
-   *  Find User By Email
+   *  Find User By Email But This Will Match With Employer Not with JobSeeker
    */
 
   def findUserByEmail(emailId: String) = {
-    EmployerDAO.find(MongoDBObject("emailId" -> emailId)).toList
+    EmployerDAO.find(MongoDBObject("emailId" -> emailId, "jobSeeker" -> false)).toList
   }
 
   /**
@@ -95,7 +95,7 @@ object User {
     User.findUserById(userId) match {
       case None => false
       case Some(jobSeeker: Employer) =>
-        EmployerDAO.update(MongoDBObject("_id" -> jobSeeker.id), new Employer(jobSeeker.id, jobSeeker.emailId, jobSeeker.password, jobSeeker.skills, false), false, false, new WriteConcern)
+        EmployerDAO.remove(jobSeeker)
         true
     }
 
