@@ -82,12 +82,12 @@ object JobController extends Controller {
    * Find Job Detail By JobId
    */
   def findJobDetail(jobId: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
-    val job: Option[JobEntity] = Job.findJobDetail(new ObjectId(jobId))
+    val job : Option[JobEntity] = Job.findJobDetail(new ObjectId(jobId))
     Ok(views.html.jobDetail(job.get, request.session.get("userId").getOrElse(null)))
   }
 
   /**
-   * Find Job Detial By JobId For Edit
+   * Find Job Detail By JobId For Edit
    */
   def findJobPostForEdit(jobId: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
     val job = Job.findJobDetail(new ObjectId(jobId)).get
@@ -121,8 +121,8 @@ object JobController extends Controller {
   def deleteJob(jobId: String, editFlag: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
     Job.deleteJobByJobId(new ObjectId(jobId))
     val jobPostByUserList = Job.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
-    if (editFlag.equals("true"))
-      Ok(views.html.ajax_result(jobPostByUserList, true))
+    if (editFlag.equals("true")){
+      Ok(views.html.ajax_result(jobPostByUserList, true))}
     else
       Ok(views.html.ajax_result(jobPostByUserList, false))
   }
