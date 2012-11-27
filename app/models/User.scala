@@ -3,10 +3,10 @@ package models
 import com.mongodb.casbah.commons.MongoDBObject
 import org.bson.types.ObjectId
 import com.novus.salat.dao.SalatDAO
-import com.novus.salat.global._
-import com.mongodb.casbah.Imports._
+import com.novus.salat.global.ctx
+import com.mongodb.casbah.Imports.WriteConcern
 import com.mongodb.casbah.MongoConnection
-import com.novus.salat.annotations._
+import com.novus.salat.annotations.Key
 import utils.MongoHQConfig
 
 //LoginForm
@@ -42,7 +42,7 @@ object User {
   /**
    * Update user Profile
    */
-  def updateUser(employer: UserEntity, password: String) {
+  def updateUser(employer: UserEntity, password: String) : Unit = {
     UserDAO.update(MongoDBObject("_id" -> employer.id), new UserEntity(employer.id, employer.emailId, password, employer.skills, employer.jobSeeker), false, false, new WriteConcern)
   }
 

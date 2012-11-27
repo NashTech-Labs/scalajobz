@@ -1,16 +1,12 @@
 package controllers
 import play.api.mvc.Controller
-import play.api._
-import play.api.mvc._
 import play.api.data.Forms
-import play.api.data._
+import play.api.data.Form
 import play.api.mvc.Controller
-import play.api._
-import play.api.mvc._
-import play.api.data._
+import play.api.mvc
+import play.api.data
 import play.api.data.Forms._
 import play.mvc.Http.Request
-import play.libs._
 import org.bson.types.ObjectId
 import models.PostAJobForm
 import models.JobEntity
@@ -18,6 +14,8 @@ import models.Job
 import java.util.Date
 import models.Alert
 import models.Common
+import play.api.mvc.Action
+import play.api.mvc.Results
 
 object JobController extends Controller {
 

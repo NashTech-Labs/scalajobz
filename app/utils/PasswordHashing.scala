@@ -16,7 +16,7 @@ class PasswordHashing {
    * Creates The Unique Key For The Purpose Of Encryption & Decryption 
    */
 
-  def generateKey = {
+  def generateKey : SecretKeySpec = {
     val key = new SecretKeySpec(keyValue, ALGO)
     key
   }
@@ -24,7 +24,7 @@ class PasswordHashing {
   /**
    * Encryption Of Password By AES
    */
-  def encryptThePassword(password: String) = {
+  def encryptThePassword(password: String):String = {
     val key = generateKey
     val cipher = Cipher.getInstance(ALGO)
     cipher.init(Cipher.ENCRYPT_MODE, key)
@@ -36,7 +36,7 @@ class PasswordHashing {
   /**
    * Decryption Of Password By AES
    */
-  def decryptThePassword(encryptedPassword: String) = {
+  def decryptThePassword(encryptedPassword: String) : String  = {
     val key = generateKey
     val cipher = Cipher.getInstance(ALGO)
     cipher.init(Cipher.DECRYPT_MODE, key)

@@ -1,11 +1,12 @@
 package controllers
 
 import models.Job
-import org.specs2.mutable._
-import play.api.test._
+import org.specs2.mutable.Specification
+import play.api.test
 import play.api.test.Helpers._
 import org.junit.runner.RunWith
 import org.specs2.runner.JUnitRunner
+import play.api.test.FakeRequest
 
 @RunWith(classOf[JUnitRunner])
 class ApplicationTest extends Specification {

@@ -1,19 +1,17 @@
 package controllers
 
 import play.api.mvc.Controller
-import play.api._
-import play.api.mvc._
+import play.api
+import play.api.mvc
 import play.api.data.Forms
-import play.api.data._
+import play.api.data
 import models.User
 import models.SignUpForm
 import play.api.mvc.Controller
-import play.api._
-import play.api.mvc._
-import play.api.data._
+import play.api.data.Form
 import play.api.data.Forms._
 import play.mvc.Http.Request
-import play.libs._
+import play.libs
 import org.bson.types.ObjectId
 import models.LogInForm
 import utils.PasswordHashing
@@ -21,6 +19,8 @@ import models.Job
 import models.Alert
 import models.UserEntity
 import models.Common
+import play.api.mvc.Action
+import play.api.mvc.Results
 
 object Application extends Controller {
 

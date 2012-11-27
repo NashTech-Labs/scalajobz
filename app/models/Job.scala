@@ -1,14 +1,14 @@
 package models
 
-import com.novus.salat.global._
-import com.novus.salat.annotations._
+import com.novus.salat.global.ctx
+import com.novus.salat.annotations.Key
 import org.bson.types.ObjectId
 import com.novus.salat.dao.SalatDAO
 import utils.MongoHQConfig
 import com.mongodb.casbah.commons.MongoDBObject
 import java.util.Date
 import java.util.regex.Pattern
-import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.Imports.WriteConcern
 import com.mongodb.casbah.MongoConnection
 import utils.DailyJobAlert
 
@@ -118,7 +118,7 @@ object Job extends App {
   /**
    * Update The Job
    */
-  def updateJob(job: JobEntity) {
+  def updateJob(job: JobEntity): Unit = {
     JobDAO.update(MongoDBObject("_id" -> job.id), job, false, false, new WriteConcern)
   }
 
@@ -126,7 +126,7 @@ object Job extends App {
    * Delete the Job By Job Id
    */
 
-  def deleteJobByJobId(jobId: ObjectId) = {
+  def deleteJobByJobId(jobId: ObjectId): Unit = {
     val jobToBeDelete = findJobDetail(jobId).get
     JobDAO.remove(jobToBeDelete)
   }

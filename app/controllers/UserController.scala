@@ -1,19 +1,11 @@
 package controllers
 
 import play.api.mvc.Controller
-import play.api._
-import play.api.mvc._
-import play.api.data.Forms
-import play.api.data._
+import play.api.data.Form
 import models.User
 import models.SignUpForm
-import play.api.mvc.Controller
-import play.api._
-import play.api.mvc._
-import play.api.data._
 import play.api.data.Forms._
 import play.mvc.Http.Request
-import play.libs._
 import org.bson.types.ObjectId
 import models.LogInForm
 import utils.PasswordHashing
@@ -23,6 +15,7 @@ import models.UserEntity
 import models.EditUserProfileForm
 import utils.SendEmail
 import models.Common
+import play.api.mvc.Action
 
 object UserController extends Controller {
 
