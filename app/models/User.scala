@@ -58,11 +58,11 @@ object User {
   }
 
   /**
-   *  Find User By Email
+   *  Find User By Email But This Will Match With Employer Not with JobSeeker
    */
 
   def findUserByEmail(emailId: String) = {
-    EmployerDAO.find(MongoDBObject("emailId" -> emailId)).toList
+    EmployerDAO.find(MongoDBObject("emailId" -> emailId, "jobSeeker" -> false)).toList
   }
 
   /**
