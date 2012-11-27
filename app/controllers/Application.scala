@@ -64,7 +64,8 @@ object Application extends Controller {
         request.session.get(currentUserId).getOrElse(null), Job.findAllJobs, false)),
       signUpForm => {
         if (!User.findUserByEmail(signUpForm.emailId).isEmpty) {
-          Ok(views.html.signup(new Alert(errorString, "This Email Is Already registered With ScalaJobz"), Application.signUpForm, request.session.get(currentUserId).getOrElse(null), flag))
+          Ok(views.html.signup(new Alert(errorString, "This Email Is Already registered With ScalaJobz"),
+              Application.signUpForm, request.session.get(currentUserId).getOrElse(null), flag))
         } else {
           val encryptedPassword = (new PasswordHashing).encryptThePassword(signUpForm.password)
           val newUser = UserEntity(new ObjectId, signUpForm.emailId, encryptedPassword, List(), false)
@@ -73,7 +74,6 @@ object Application extends Controller {
           Common.setAlert(new Alert("success", "Registration Successful"))
           if (flag.equals(loginFlag)) {
             Results.Redirect("/findAllJobs").withSession(userSession)
-
           } else {
             Results.Redirect(routes.JobController.newJob).withSession(userSession)
           }

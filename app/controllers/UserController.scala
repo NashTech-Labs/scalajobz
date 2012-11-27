@@ -108,7 +108,8 @@ object UserController extends Controller {
 
   def unSubscribeJobSeeker(userId: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
     User.unSubscribeJobSeeker(userId) match {
-      case true => Ok(views.html.index(new Alert("success", "Unsubscribed From ScalaJobz"), request.session.get(activeUserId).getOrElse(null), Job.findAllJobs, false))
+      case true => Ok(views.html.index(new Alert("success", "Unsubscribed From ScalaJobz"),
+          request.session.get(activeUserId).getOrElse(null), Job.findAllJobs, false))
       case false => Ok(views.html.errorPage("There Is Some Error :User Not Subscribed With ScalaJobz"))
     }
   }

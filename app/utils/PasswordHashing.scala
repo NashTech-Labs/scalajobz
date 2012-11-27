@@ -10,7 +10,6 @@ class PasswordHashing {
 
   val ALGO = Play.current.configuration.getString("algo").get
   val keyValue: Array[Byte] = Play.current.configuration.getString("encryptionKey").get.toCharArray.map(_.toByte)
-
   /**
    * Creates The Unique Key For The Purpose Of Encryption & Decryption 
    */
@@ -30,7 +29,6 @@ class PasswordHashing {
     val encryptedPassword = new BASE64Encoder().encode(encVal)
     encryptedPassword
   }
-
   /**
    * Decryption Of Password By AES
    */
