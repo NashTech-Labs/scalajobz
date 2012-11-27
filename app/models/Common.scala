@@ -22,7 +22,7 @@ case class Alert(alertType: String,
 object Common {
 
   var alert: Alert = new Alert(null, null)
-  def setAlert(alert: Alert):Unit = this.alert = alert
+  def setAlert(alert: Alert): Unit = this.alert = alert
 
   /**
    * Set Content For Sending Mail For Daily Job Alert
@@ -57,7 +57,7 @@ object Common {
 class ObjectIdSerializer extends Serializer[ObjectId] {
   private val Class = classOf[ObjectId]
 
-  def deserialize(implicit format: Formats) : PartialFunction[(TypeInfo,JValue),ObjectId]= {
+  def deserialize(implicit format: Formats): PartialFunction[(TypeInfo, JValue), ObjectId] = {
     case (TypeInfo(Class, _), json) => json match {
       case JInt(s) => new ObjectId
       case JString(s) => new ObjectId(s)
@@ -65,7 +65,7 @@ class ObjectIdSerializer extends Serializer[ObjectId] {
     }
   }
 
-  def serialize(implicit format: Formats) : PartialFunction[Any,JValue]= {
+  def serialize(implicit format: Formats): PartialFunction[Any, JValue] = {
     case x: ObjectId => JObject(JField("id", JString(x.toString)) :: Nil)
 
   }

@@ -18,6 +18,8 @@ import models.Common
 import play.api.mvc.Action
 
 object UserController extends Controller {
+  val activeUserId = "userId"
+  val errorString="error"
 
   val editUserProfileForm = Form(
     mapping(
@@ -29,51 +31,50 @@ object UserController extends Controller {
    * Redirect To User Profile edit page
    */
 
-  def editUserProfile : Action[play.api.mvc.AnyContent] = Action { implicit request =>
-    val userProfile = User.findUserById(request.session.get("userId").get)
-    Ok(views.html.editUserProfile(new Alert(null, null), userProfile.get, editUserProfileForm, request.session.get("userId").getOrElse(null)))
+  def editUserProfile: Action[play.api.mvc.AnyContent] = Action { implicit request =>
+    val userProfile = User.findUserById(request.session.get(activeUserId).get)
+    Ok(views.html.editUserProfile(new Alert(null, null), userProfile.get, editUserProfileForm, request.session.get(activeUserId).getOrElse(null)))
   }
 
   /**
    * Find list of job post by a user
    */
 
-  def findJobPostByUserId : Action[play.api.mvc.AnyContent] = Action { implicit request =>
+  def findJobPostByUserId: Action[play.api.mvc.AnyContent] = Action { implicit request =>
     val alert = Common.alert
     Common.setAlert(new Alert(null, null))
-    val jobPostByUserList = Job.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
-    Ok(views.html.index(alert, request.session.get("userId").getOrElse(null), jobPostByUserList, true))
+    val jobPostByUserList = Job.findJobsPostByUserId(new ObjectId(request.session.get(activeUserId).get))
+    Ok(views.html.index(alert, request.session.get(activeUserId).getOrElse(null), jobPostByUserList, true))
   }
 
   /**
    * Update User Profile
    */
-  def updateUserProfile : Action[play.api.mvc.AnyContent] = Action { implicit request =>
-    val userProfile = User.findUserById(request.session.get("userId").get).get
+  def updateUserProfile: Action[play.api.mvc.AnyContent] = Action { implicit request =>
+    val userProfile = User.findUserById(request.session.get(activeUserId).get).get
     editUserProfileForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.editUserProfile(new Alert("error", "There Was Some Errors During Profile Editing"),
-        userProfile, editUserProfileForm, request.session.get("userId").getOrElse(null))),
+      errors => BadRequest(views.html.editUserProfile(new Alert(errorString, "There Was Some Errors During Profile Editing"),
+        userProfile, editUserProfileForm, request.session.get(activeUserId).getOrElse(null))),
       editUserProfileForm => {
         val currentEncryptedPassword = (new PasswordHashing).encryptThePassword(editUserProfileForm.currentPassword)
         val encryptedPassword = (new PasswordHashing).encryptThePassword(editUserProfileForm.newPassword)
         if ((currentEncryptedPassword.equals(userProfile.password)) && (!currentEncryptedPassword.equals(encryptedPassword))) {
           User.updateUser(userProfile, encryptedPassword)
           Ok(views.html.editUserProfile(new Alert("success", "Profile Updated"),
-            userProfile, UserController.editUserProfileForm, request.session.get("userId").getOrElse(null)))
+            userProfile, UserController.editUserProfileForm, request.session.get(activeUserId).getOrElse(null)))
         } else if (currentEncryptedPassword.equals(encryptedPassword)) {
-          Ok(views.html.editUserProfile(new Alert("error", "Current Password & New Password are same"),
-            userProfile, UserController.editUserProfileForm, request.session.get("userId").getOrElse(null)))
+          Ok(views.html.editUserProfile(new Alert(errorString, "Current Password & New Password are same"),
+            userProfile, UserController.editUserProfileForm, request.session.get(activeUserId).getOrElse(null)))
         } else
-          Ok(views.html.editUserProfile(new Alert("error", "Invalid Current Password"),
-            userProfile, UserController.editUserProfileForm, request.session.get("userId").getOrElse(null)))
-
+          Ok(views.html.editUserProfile(new Alert(errorString, "Invalid Current Password"),
+            userProfile, UserController.editUserProfileForm, request.session.get(activeUserId).getOrElse(null)))
       })
   }
 
   /**
    * Redirect To Forget Password Page
    */
-  def forgetPassword  : Action[play.api.mvc.AnyContent] = Action { implicit request =>
+  def forgetPassword: Action[play.api.mvc.AnyContent] = Action { implicit request =>
     Ok(views.html.forgetPassword(new Alert(null, null)))
   }
 
@@ -95,7 +96,7 @@ object UserController extends Controller {
   /**
    * Register Job seeker for getting Job alert
    */
-  def registerJobSeeker(emailId: String, skillsToken: String) : Action[play.api.mvc.AnyContent] = Action { implicit request =>
+  def registerJobSeeker(emailId: String, skillsToken: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
     val newJobSeeker = UserEntity(new ObjectId, emailId, "", skillsToken.split(" ").toList.filter(x => !(x == "")), true)
     val userId = User.createUser(newJobSeeker)
     Ok
@@ -105,10 +106,9 @@ object UserController extends Controller {
    * UnSubscribe From Job Alerts By Using JobSeeker Id(UserId)
    */
 
-  def unSubscribeJobSeeker(userId: String) : Action[play.api.mvc.AnyContent]= Action { implicit request =>
+  def unSubscribeJobSeeker(userId: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
     User.unSubscribeJobSeeker(userId) match {
-      case true => Ok(views.html.index(new Alert("success", "Unsubscribed From ScalaJobz")
-      , request.session.get("userId").getOrElse(null), Job.findAllJobs, false))
+      case true => Ok(views.html.index(new Alert("success", "Unsubscribed From ScalaJobz"), request.session.get(activeUserId).getOrElse(null), Job.findAllJobs, false))
       case false => Ok(views.html.errorPage("There Is Some Error :User Not Subscribed With ScalaJobz"))
     }
   }

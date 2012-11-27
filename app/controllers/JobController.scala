@@ -34,9 +34,9 @@ object JobController extends Controller {
    */
 
   def postAJob: Action[play.api.mvc.AnyContent] = Action { implicit request =>
-    if (request.session.get("userId") == None)
+    if (request.session.get("userId") == None){
       Ok(views.html.login(new Alert(null, null), Application.logInForm, request.session.get("userId").getOrElse(null), "jobPost"))
-    else
+    } else
       Ok(views.html.postajob(postAJobForm, request.session.get("userId").getOrElse(null)))
   }
 
@@ -50,10 +50,10 @@ object JobController extends Controller {
       postAJobForm => {
         if (postAJobForm.position == "" || postAJobForm.company == "" || postAJobForm.location == ""
           || postAJobForm.jobType == "" || postAJobForm.jobType.equals("-- Select Job Type --") ||
-          postAJobForm.emailAddress == "") Ok("Please Fill The Mendatory Fields")
+          postAJobForm.emailAddress == ""){ Ok("Please Fill The Mendatory Fields")}
         else {
-          if (request.session.get("userId") == None) Ok(views.html.login(new Alert(null, null),
-            Application.logInForm, request.session.get("userId").getOrElse(null), "jobPost"))
+          if (request.session.get("userId") == None) {Ok(views.html.login(new Alert(null, null),
+            Application.logInForm, request.session.get("userId").getOrElse(null), "jobPost"))}
           else {
             val job = JobEntity(new ObjectId, new ObjectId(request.session.get("userId").get),
                 postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList, postAJobForm.description, new Date)
@@ -72,8 +72,8 @@ object JobController extends Controller {
 
   def findAJob(searchString: String, editFlag: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
     val searchJobList = Job.searchTheJob(searchString)
-    if (editFlag.equals("true"))
-      Ok(views.html.ajax_result(searchJobList, true))
+    if (editFlag.equals("true")){
+      Ok(views.html.ajax_result(searchJobList, true))}
     else
       Ok(views.html.ajax_result(searchJobList, false))
   }

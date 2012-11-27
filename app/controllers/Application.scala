@@ -25,6 +25,7 @@ import play.api.mvc.Results
 object Application extends Controller {
   val errorString = "error"
   val currentUserId = "userId"
+  val loginFlag = "login"
   val signUpForm = Form(
     mapping(
       "EmailId" -> nonEmptyText,
@@ -63,15 +64,14 @@ object Application extends Controller {
         request.session.get(currentUserId).getOrElse(null), Job.findAllJobs, false)),
       signUpForm => {
         if (!User.findUserByEmail(signUpForm.emailId).isEmpty) {
-          Ok(views.html.signup(new Alert(errorString, "This Email Is Already registered With ScalaJobz"), Application.signUpForm
-              , request.session.get(currentUserId).getOrElse(null), flag))
+          Ok(views.html.signup(new Alert(errorString, "This Email Is Already registered With ScalaJobz"), Application.signUpForm, request.session.get(currentUserId).getOrElse(null), flag))
         } else {
           val encryptedPassword = (new PasswordHashing).encryptThePassword(signUpForm.password)
           val newUser = UserEntity(new ObjectId, signUpForm.emailId, encryptedPassword, List(), false)
           val userId = User.createUser(newUser)
           val userSession = request.session + (currentUserId -> userId.get.toString)
           Common.setAlert(new Alert("success", "Registration Successful"))
-          if (flag.equals("login")) {
+          if (flag.equals(loginFlag)) {
             Results.Redirect("/findAllJobs").withSession(userSession)
 
           } else {
@@ -93,12 +93,12 @@ object Application extends Controller {
         val users = User.findUser(logInForm.emailId, encryptedPassword)
         if (!users.isEmpty) {
           val userSession = request.session + (currentUserId -> users(0).id.toString)
-          if (flag.equals("login")) {
+          if (flag.equals(loginFlag)) {
             Ok(views.html.index(new Alert(null, null), users(0).id.toString, Job.findAllJobs, false)).withSession(userSession)
           } else {
             Ok(views.html.postajob(JobController.postAJobForm, users(0).id.toString)).withSession(userSession)
           }
-        } else { Ok(views.html.login(new Alert(errorString, "Invalid Credentials"), Application.logInForm, null, "login")) }
+        } else { Ok(views.html.login(new Alert(errorString, "Invalid Credentials"), Application.logInForm, null, loginFlag)) }
       })
   }
   /**
@@ -106,7 +106,7 @@ object Application extends Controller {
    */
 
   def loginOnScalaJobz: Action[play.api.mvc.AnyContent] = Action { implicit request =>
-    Ok(views.html.login(new Alert(null, null), logInForm, request.session.get(currentUserId).getOrElse(null), "login"))
+    Ok(views.html.login(new Alert(null, null), logInForm, request.session.get(currentUserId).getOrElse(null), loginFlag))
   }
 
   /**
