@@ -1,8 +1,8 @@
 package template
 
 import models.Job
-import org.specs2.mutable._
-import play.api.test._
+import org.specs2.mutable.Specification
+import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import org.junit.runner.RunWith
 import org.specs2.runner.JUnitRunner
