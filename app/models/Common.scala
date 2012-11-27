@@ -21,7 +21,7 @@ case class Alert(alertType: String,
 
 object Common {
 
-  var alert: Alert = new Alert(null, null)
+  var alert: Alert = new Alert("", "")
   def setAlert(alert: Alert): Unit = this.alert = alert
 
   /**

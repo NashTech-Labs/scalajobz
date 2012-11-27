@@ -40,7 +40,7 @@ window.setTimeout(function() { $(".alert").alert('close'); }, 5000);
 						<ul style="margin-right: 0">
 							<li><a class="menulink" href="/findAllJobs">All Jobs</a></li>
 							<li><a class="menulink" href="/postAJob">Post a job</a></li>
-							@if(userId != null) {
+							@if(userId != "") {
 						
 							<li class="dropdown">  
           						<a class="menulink" data-toggle="dropdown" href="#">Edit<b class="caret"></b></a>  
@@ -68,7 +68,7 @@ window.setTimeout(function() { $(".alert").alert('close'); }, 5000);
 
 
 		<div id="main" class="container">
-		@if(alert.alertType != null){
+		@if(alert.alertType != ""){
    		<div class="alert alert-@alert.alertType">  
   			<a class="close" data-dismiss="alert">×</a>  
   			<strong style="text-transform: capitalize;">@alert.alertType ! </strong>@alert.message  

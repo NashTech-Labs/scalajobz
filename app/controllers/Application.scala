@@ -43,8 +43,8 @@ object Application extends Controller {
 
   def index: Action[play.api.mvc.AnyContent] = Action { implicit request =>
     val alert = Common.alert
-    Common.setAlert(new Alert(null, null))
-    Ok(views.html.index(alert, request.session.get(currentUserId).getOrElse(null), Job.findAllJobs, false))
+    Common.setAlert(new Alert("", ""))
+    Ok(views.html.index(alert, request.session.get(currentUserId).getOrElse(""), Job.findAllJobs, false))
   }
 
   /**
@@ -52,7 +52,7 @@ object Application extends Controller {
    */
 
   def signUpOnScalaJobz(flag: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
-    Ok(views.html.signup(new Alert(null, null), signUpForm, request.session.get(currentUserId).getOrElse(null), flag))
+    Ok(views.html.signup(new Alert("", ""), signUpForm, request.session.get(currentUserId).getOrElse(""), flag))
   }
 
   /**
@@ -61,11 +61,11 @@ object Application extends Controller {
   def newUser(flag: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
     signUpForm.bindFromRequest.fold(
       errors => BadRequest(views.html.index(new Alert(errorString, "There Was Some Errors During The SignUp"),
-        request.session.get(currentUserId).getOrElse(null), Job.findAllJobs, false)),
+        request.session.get(currentUserId).getOrElse(""), Job.findAllJobs, false)),
       signUpForm => {
         if (!User.findUserByEmail(signUpForm.emailId).isEmpty) {
           Ok(views.html.signup(new Alert(errorString, "This Email Is Already registered With ScalaJobz"),
-              Application.signUpForm, request.session.get(currentUserId).getOrElse(null), flag))
+              Application.signUpForm, request.session.get(currentUserId).getOrElse(""), flag))
         } else {
           val encryptedPassword = (new PasswordHashing).encryptThePassword(signUpForm.password)
           val newUser = UserEntity(new ObjectId, signUpForm.emailId, encryptedPassword, List(), false)
@@ -87,18 +87,18 @@ object Application extends Controller {
 
   def logIn(flag: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
     logInForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.index(new Alert(errorString, "There Was Some Errors During The Login"), null, Job.findAllJobs, false)),
+      errors => BadRequest(views.html.index(new Alert(errorString, "There Was Some Errors During The Login"), "", Job.findAllJobs, false)),
       logInForm => {
         val encryptedPassword = (new PasswordHashing).encryptThePassword(logInForm.password)
         val users = User.findUser(logInForm.emailId, encryptedPassword)
         if (!users.isEmpty) {
           val userSession = request.session + (currentUserId -> users(0).id.toString)
           if (flag.equals(loginFlag)) {
-            Ok(views.html.index(new Alert(null, null), users(0).id.toString, Job.findAllJobs, false)).withSession(userSession)
+            Ok(views.html.index(new Alert("", ""), users(0).id.toString, Job.findAllJobs, false)).withSession(userSession)
           } else {
             Ok(views.html.postajob(JobController.postAJobForm, users(0).id.toString)).withSession(userSession)
           }
-        } else { Ok(views.html.login(new Alert(errorString, "Invalid Credentials"), Application.logInForm, null, loginFlag)) }
+        } else { Ok(views.html.login(new Alert(errorString, "Invalid Credentials"), Application.logInForm, "", loginFlag)) }
       })
   }
   /**
@@ -106,7 +106,7 @@ object Application extends Controller {
    */
 
   def loginOnScalaJobz: Action[play.api.mvc.AnyContent] = Action { implicit request =>
-    Ok(views.html.login(new Alert(null, null), logInForm, request.session.get(currentUserId).getOrElse(null), loginFlag))
+    Ok(views.html.login(new Alert("", ""), logInForm, request.session.get(currentUserId).getOrElse(""), loginFlag))
   }
 
   /**
@@ -114,7 +114,7 @@ object Application extends Controller {
    */
 
   def logOutFromScalaJobz: Action[play.api.mvc.AnyContent] = Action {
-    Ok(views.html.index(new Alert(null, null), null, Job.findAllJobs, false)).withNewSession
+    Ok(views.html.index(new Alert("", ""), "", Job.findAllJobs, false)).withNewSession
   }
 
 }

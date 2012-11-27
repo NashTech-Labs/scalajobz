@@ -17,7 +17,7 @@ object RESTServiceController extends Controller {
    * Redirect To Rest API UI
    */
   def restApi: Action[play.api.mvc.AnyContent] = Action { implicit request =>
-    Ok(views.html.restapi(request.session.get("userId").getOrElse(null)))
+    Ok(views.html.restapi(request.session.get("userId").getOrElse("")))
   }
 
   /**

@@ -1,5 +1,4 @@
 package utils
-
 import org.apache.commons.codec.binary.Hex
 
 object ConversionUtility extends App {

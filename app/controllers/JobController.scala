@@ -34,10 +34,10 @@ object JobController extends Controller {
    */
 
   def postAJob: Action[play.api.mvc.AnyContent] = Action { implicit request =>
-    if (request.session.get("userId") == None){
-      Ok(views.html.login(new Alert(null, null), Application.logInForm, request.session.get("userId").getOrElse(null), "jobPost"))
+    if (request.session.get("userId") == None) {
+      Ok(views.html.login(new Alert("", ""), Application.logInForm, request.session.get("userId").getOrElse(""), "jobPost"))
     } else
-      Ok(views.html.postajob(postAJobForm, request.session.get("userId").getOrElse(null)))
+      Ok(views.html.postajob(postAJobForm, request.session.get("userId").getOrElse("")))
   }
 
   /**
@@ -46,19 +46,19 @@ object JobController extends Controller {
   def newJob: Action[play.api.mvc.AnyContent] = Action { implicit request =>
     postAJobForm.bindFromRequest.fold(
       errors => BadRequest(views.html.index(new Alert("error", "There Was Some Errors During Job Posting"),
-        request.session.get("userId").getOrElse(null), Job.findAllJobs, false)),
+        request.session.get("userId").getOrElse(""), Job.findAllJobs, false)),
       postAJobForm => {
         if (postAJobForm.position == "" || postAJobForm.company == "" || postAJobForm.location == ""
           || postAJobForm.jobType == "" || postAJobForm.jobType.equals("-- Select Job Type --") ||
-          postAJobForm.emailAddress == ""){ Ok("Please Fill The Mendatory Fields")}
+          postAJobForm.emailAddress == "") { Ok("Please Fill The Mendatory Fields") }
         else {
-          if (request.session.get("userId") == None) {Ok(views.html.login(new Alert(null, null),
-            Application.logInForm, request.session.get("userId").getOrElse(null), "jobPost"))}
-          else {
+          if (request.session.get("userId") == None) {
+            Ok(views.html.login(new Alert("", ""),
+              Application.logInForm, request.session.get("userId").getOrElse(""), "jobPost"))
+          } else {
             val job = JobEntity(new ObjectId, new ObjectId(request.session.get("userId").get),
-                postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList, postAJobForm.description, new Date)
+              postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList, postAJobForm.description, new Date)
             Job.addJob(job)
-            val jobPostByUserList = Job.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
             Common.setAlert(new Alert("success", "Job Posted Successfully"))
             Results.Redirect("/findJobPostByUserId")
           }
@@ -72,9 +72,9 @@ object JobController extends Controller {
 
   def findAJob(searchString: String, editFlag: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
     val searchJobList = Job.searchTheJob(searchString)
-    if (editFlag.equals("true")){
-      Ok(views.html.ajax_result(searchJobList, true))}
-    else
+    if (editFlag.equals("true")) {
+      Ok(views.html.ajax_result(searchJobList, true))
+    } else
       Ok(views.html.ajax_result(searchJobList, false))
   }
 
@@ -82,8 +82,8 @@ object JobController extends Controller {
    * Find Job Detail By JobId
    */
   def findJobDetail(jobId: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
-    val job : Option[JobEntity] = Job.findJobDetail(new ObjectId(jobId))
-    Ok(views.html.jobDetail(job.get, request.session.get("userId").getOrElse(null)))
+    val job: Option[JobEntity] = Job.findJobDetail(new ObjectId(jobId))
+    Ok(views.html.jobDetail(job.get, request.session.get("userId").getOrElse("")))
   }
 
   /**
@@ -91,7 +91,7 @@ object JobController extends Controller {
    */
   def findJobPostForEdit(jobId: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
     val job = Job.findJobDetail(new ObjectId(jobId)).get
-    Ok(views.html.editJob(job, postAJobForm, request.session.get("userId").getOrElse(null)))
+    Ok(views.html.editJob(job, postAJobForm, request.session.get("userId").getOrElse("")))
   }
 
   /**
@@ -103,13 +103,12 @@ object JobController extends Controller {
       case None => Results.Redirect(routes.UserController.findJobPostByUserId)
       case Some(job: JobEntity) =>
         postAJobForm.bindFromRequest.fold(
-          errors => BadRequest(views.html.editJob(job, postAJobForm, request.session.get("userId").getOrElse(null))),
+          errors => BadRequest(views.html.editJob(job, postAJobForm, request.session.get("userId").getOrElse(""))),
           postAJobForm => {
             val editJob = JobEntity(job.id, job.userId, postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList, postAJobForm.description, new Date)
             Job.updateJob(editJob)
-            val jobPostByUserList = Job.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
-            Ok(views.html.index(new Alert("success", "Job Updated Successfully"), request.session.get("userId").getOrElse(null), jobPostByUserList, true))
-
+            Common.setAlert(new Alert("success", "Job Posted Successfully"))
+            Results.Redirect("/findJobPostByUserId")
           })
     }
   }
@@ -121,9 +120,9 @@ object JobController extends Controller {
   def deleteJob(jobId: String, editFlag: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
     Job.deleteJobByJobId(new ObjectId(jobId))
     val jobPostByUserList = Job.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
-    if (editFlag.equals("true")){
-      Ok(views.html.ajax_result(jobPostByUserList, true))}
-    else
+    if (editFlag.equals("true")) {
+      Ok(views.html.ajax_result(jobPostByUserList, true))
+    } else
       Ok(views.html.ajax_result(jobPostByUserList, false))
   }
 

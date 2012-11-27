@@ -33,7 +33,7 @@ object UserController extends Controller {
 
   def editUserProfile: Action[play.api.mvc.AnyContent] = Action { implicit request =>
     val userProfile = User.findUserById(request.session.get(activeUserId).get)
-    Ok(views.html.editUserProfile(new Alert(null, null), userProfile.get, editUserProfileForm, request.session.get(activeUserId).getOrElse(null)))
+    Ok(views.html.editUserProfile(new Alert("", ""), userProfile.get, editUserProfileForm, request.session.get(activeUserId).getOrElse("")))
   }
 
   /**
@@ -42,9 +42,9 @@ object UserController extends Controller {
 
   def findJobPostByUserId: Action[play.api.mvc.AnyContent] = Action { implicit request =>
     val alert = Common.alert
-    Common.setAlert(new Alert(null, null))
+    Common.setAlert(new Alert("", ""))
     val jobPostByUserList = Job.findJobsPostByUserId(new ObjectId(request.session.get(activeUserId).get))
-    Ok(views.html.index(alert, request.session.get(activeUserId).getOrElse(null), jobPostByUserList, true))
+    Ok(views.html.index(alert, request.session.get(activeUserId).getOrElse(""), jobPostByUserList, true))
   }
 
   /**
@@ -54,20 +54,20 @@ object UserController extends Controller {
     val userProfile = User.findUserById(request.session.get(activeUserId).get).get
     editUserProfileForm.bindFromRequest.fold(
       errors => BadRequest(views.html.editUserProfile(new Alert(errorString, "There Was Some Errors During Profile Editing"),
-        userProfile, editUserProfileForm, request.session.get(activeUserId).getOrElse(null))),
+        userProfile, editUserProfileForm, request.session.get(activeUserId).getOrElse(""))),
       editUserProfileForm => {
         val currentEncryptedPassword = (new PasswordHashing).encryptThePassword(editUserProfileForm.currentPassword)
         val encryptedPassword = (new PasswordHashing).encryptThePassword(editUserProfileForm.newPassword)
         if ((currentEncryptedPassword.equals(userProfile.password)) && (!currentEncryptedPassword.equals(encryptedPassword))) {
           User.updateUser(userProfile, encryptedPassword)
           Ok(views.html.editUserProfile(new Alert("success", "Profile Updated"),
-            userProfile, UserController.editUserProfileForm, request.session.get(activeUserId).getOrElse(null)))
+            userProfile, UserController.editUserProfileForm, request.session.get(activeUserId).getOrElse("")))
         } else if (currentEncryptedPassword.equals(encryptedPassword)){
           Ok(views.html.editUserProfile(new Alert(errorString, "Current Password & New Password are same"),
-            userProfile, UserController.editUserProfileForm, request.session.get(activeUserId).getOrElse(null)))
+            userProfile, UserController.editUserProfileForm, request.session.get(activeUserId).getOrElse("")))
         } else
           Ok(views.html.editUserProfile(new Alert(errorString, "Invalid Current Password"),
-            userProfile, UserController.editUserProfileForm, request.session.get(activeUserId).getOrElse(null)))
+            userProfile, UserController.editUserProfileForm, request.session.get(activeUserId).getOrElse("")))
       })
   }
 
@@ -75,7 +75,7 @@ object UserController extends Controller {
    * Redirect To Forget Password Page
    */
   def forgetPassword: Action[play.api.mvc.AnyContent] = Action { implicit request =>
-    Ok(views.html.forgetPassword(new Alert(null, null)))
+    Ok(views.html.forgetPassword(new Alert("", "")))
   }
 
   /**
@@ -109,7 +109,7 @@ object UserController extends Controller {
   def unSubscribeJobSeeker(userId: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
     User.unSubscribeJobSeeker(userId) match {
       case true => Ok(views.html.index(new Alert("success", "Unsubscribed From ScalaJobz"),
-          request.session.get(activeUserId).getOrElse(null), Job.findAllJobs, false))
+          request.session.get(activeUserId).getOrElse(""), Job.findAllJobs, false))
       case false => Ok(views.html.errorPage("There Is Some Error :User Not Subscribed With ScalaJobz"))
     }
   }

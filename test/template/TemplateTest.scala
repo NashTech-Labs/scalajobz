@@ -12,7 +12,7 @@ import models.Alert
 class TemplateTest extends Specification {
 
   "index template" in {
-    val html = views.html.index(new Alert("Welcome", "Welcome in scalajobz"), null, List(), false)
+    val html = views.html.index(new Alert("Welcome", "Welcome in scalajobz"), "", List(), false)
     println("html")
     contentType(html) must equalTo("text/html")
     contentAsString(html) must contain("Welcome")
