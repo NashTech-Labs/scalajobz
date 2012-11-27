@@ -25,6 +25,9 @@ class UserTest extends FunSuite with BeforeAndAfter {
     val updatedEmployer = User.updateUser(employer, "ABCDEF")
     assert(User.findUserById(employer.id.toString).get.password === "ABCDEF")
   }
+  
+  
+  
   after {
     EmployerDAO.remove(MongoDBObject("emailId" -> ".*".r))
   }

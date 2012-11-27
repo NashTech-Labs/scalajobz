@@ -94,7 +94,7 @@ object User {
   def unSubscribeJobSeeker(userId: String) = {
     User.findUserById(userId) match {
       case None => false
-      case Some(jobSeeker: Employer) =>
+      case Some(jobSeeker) =>
         EmployerDAO.remove(jobSeeker)
         true
     }
