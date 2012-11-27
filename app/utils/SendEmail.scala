@@ -12,54 +12,60 @@ import models.JobEntity
 import models.Common
 import models.UserEntity
 
-object SendEmail extends App {
+object SendEmail {
 
-  def sendEmail(jobSeeker: UserEntity, jobs: List[JobEntity]) : Unit = {
+  val duplicateSenderName = "support@scalajobz.com"
+  val mailAddress = "scalajobz@gmail.com"
+  val mailProtocol = "smtp.gmail.com"
+  val transportProtocaolName="smtp"
+  val emailPassword="email_password"
+  val htmlBreak="<br>"
+  def sendEmail(jobSeeker: UserEntity, jobs: List[JobEntity]): Unit = {
     val props = new Properties
-    props.setProperty("mail.transport.protocol", "smtp");
+    props.setProperty("mail.transport.protocol", transportProtocaolName);
     props.setProperty("mail.smtp.starttls.enable", "true");
-    props.setProperty("mail.host", "smtp.gmail.com");
-    props.setProperty("mail.user", "scalajobz@gmail.com");
-    props.setProperty("mail.password", ConversionUtility.decodeMe(Play.current.configuration.getString("email_password").get))
+    props.setProperty("mail.host", mailProtocol);
+    props.setProperty("mail.user", mailAddress);
+    props.setProperty("mail.password", ConversionUtility.decodeMe(Play.current.configuration.getString(emailPassword).get))
     val session = Session.getDefaultInstance(props, null);
     val msg = new MimeMessage(session)
     val recepientAddress = new InternetAddress(jobSeeker.emailId)
-    msg.setFrom(new InternetAddress("support@scalajobz.com", "support@scalajobz.com"))
+    msg.setFrom(new InternetAddress(duplicateSenderName, duplicateSenderName))
     msg.addRecipient(Message.RecipientType.TO, recepientAddress);
     msg.setSubject("Job Alert From ScalaJobz.com");
     msg.setContent(Common.setContentForJobAlert(jobs, jobSeeker), "text/html")
-    val transport = session.getTransport("smtp");
-    transport.connect("smtp.gmail.com", "scalajobz@gmail.com", ConversionUtility.decodeMe(Play.current.configuration.getString("email_password").get))
+    val transport = session.getTransport(transportProtocaolName);
+    transport.connect(mailProtocol, mailAddress, ConversionUtility.decodeMe(Play.current.configuration.getString(emailPassword).get))
     transport.sendMessage(msg, msg.getAllRecipients)
   }
 
-  def sendPassword(emailId: String, password: String) : Unit = {
+  def sendPassword(emailId: String, password: String): Unit = {
     val props = new Properties
-    props.setProperty("mail.transport.protocol", "smtp")
+    props.setProperty("mail.transport.protocol", transportProtocaolName)
     props.setProperty("mail.smtp.starttls.enable", "true")
-    props.setProperty("mail.host", "smtp.gmail.com")
-    props.setProperty("mail.user", "scalajobz@gmail.com")
-    props.setProperty("mail.password", ConversionUtility.decodeMe(Play.current.configuration.getString("email_password").get))
+    props.setProperty("mail.host", mailProtocol)
+    props.setProperty("mail.user", mailAddress)
+    props.setProperty("mail.password", ConversionUtility.decodeMe(Play.current.configuration.getString(emailPassword).get))
 
     val session = Session.getDefaultInstance(props, null)
     val msg = new MimeMessage(session)
     val recepientAddress = new InternetAddress(emailId)
-    msg.setFrom(new InternetAddress("support@scalajobz.com", "support@scalajobz.com"))
+    msg.setFrom(new InternetAddress(duplicateSenderName, duplicateSenderName))
     msg.addRecipient(Message.RecipientType.TO, recepientAddress);
     msg.setSubject("Password Recovery On ScalaJobz")
 
     msg.setContent(
 
-      "Hi <b>ScalaJobz</b> User." + "<br>" + "<br>" +
-        "Here is your account details " + "<br>" + "<br>" +
-        "Email-Id: " + emailId + "<br>" +
-        "Password: " + password + "<br>" +
-        "<br>" + "<br>" + "<br>" +
-        "Cheers," + "<br>" +
-        "ScalaJobz" + "<br>", "text/html")
+      "Hi <b>ScalaJobz</b> User." + htmlBreak + htmlBreak +
+        "Here is your account details " + htmlBreak + htmlBreak +
+        "Email-Id: " + emailId + htmlBreak +
+        "Password: " + password + htmlBreak +
+        htmlBreak + htmlBreak + htmlBreak +
+        "Cheers," + htmlBreak +
+        "ScalaJobz" + htmlBreak, "text/html")
 
-    val transport = session.getTransport("smtp")
-    transport.connect("smtp.gmail.com", "scalajobz@gmail.com", ConversionUtility.decodeMe(Play.current.configuration.getString("email_password").get))
+    val transport = session.getTransport(transportProtocaolName)
+    transport.connect(mailProtocol, mailAddress, ConversionUtility.decodeMe(Play.current.configuration.getString(emailPassword).get))
     transport.sendMessage(msg, msg.getAllRecipients)
   }
 

@@ -1,7 +1,8 @@
 import play.api._
 import play.api.mvc._
-import play.api.mvc.Results._
+import play.api.mvc.Results.InternalServerError	
 import utils.DailyJobAlert
+import play.api.Logger
 
 object Global extends GlobalSettings {
 

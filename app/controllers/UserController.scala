@@ -29,7 +29,7 @@ object UserController extends Controller {
    * Redirect To User Profile edit page
    */
 
-  def editUserProfile = Action { implicit request =>
+  def editUserProfile : Action[play.api.mvc.AnyContent] = Action { implicit request =>
     val userProfile = User.findUserById(request.session.get("userId").get)
     Ok(views.html.editUserProfile(new Alert(null, null), userProfile.get, editUserProfileForm, request.session.get("userId").getOrElse(null)))
   }
@@ -38,7 +38,7 @@ object UserController extends Controller {
    * Find list of job post by a user
    */
 
-  def findJobPostByUserId = Action { implicit request =>
+  def findJobPostByUserId : Action[play.api.mvc.AnyContent] = Action { implicit request =>
     val alert = Common.alert
     Common.setAlert(new Alert(null, null))
     val jobPostByUserList = Job.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
@@ -48,7 +48,7 @@ object UserController extends Controller {
   /**
    * Update User Profile
    */
-  def updateUserProfile = Action { implicit request =>
+  def updateUserProfile : Action[play.api.mvc.AnyContent] = Action { implicit request =>
     val userProfile = User.findUserById(request.session.get("userId").get).get
     editUserProfileForm.bindFromRequest.fold(
       errors => BadRequest(views.html.editUserProfile(new Alert("error", "There Was Some Errors During Profile Editing"),
@@ -73,7 +73,7 @@ object UserController extends Controller {
   /**
    * Redirect To Forget Password Page
    */
-  def forgetPassword = Action { implicit request =>
+  def forgetPassword  : Action[play.api.mvc.AnyContent] = Action { implicit request =>
     Ok(views.html.forgetPassword(new Alert(null, null)))
   }
 
@@ -81,7 +81,7 @@ object UserController extends Controller {
    * Send Password To User Email Id
    */
 
-  def sendForgetPassword(emailId: String) = Action { implicit request =>
+  def sendForgetPassword(emailId: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
     if (User.findUserByEmail(emailId).isEmpty) {
       Ok(false.toString)
     } else {
@@ -95,7 +95,7 @@ object UserController extends Controller {
   /**
    * Register Job seeker for getting Job alert
    */
-  def registerJobSeeker(emailId: String, skillsToken: String) = Action { implicit request =>
+  def registerJobSeeker(emailId: String, skillsToken: String) : Action[play.api.mvc.AnyContent] = Action { implicit request =>
     val newJobSeeker = UserEntity(new ObjectId, emailId, "", skillsToken.split(" ").toList.filter(x => !(x == "")), true)
     val userId = User.createUser(newJobSeeker)
     Ok
@@ -105,7 +105,7 @@ object UserController extends Controller {
    * UnSubscribe From Job Alerts By Using JobSeeker Id(UserId)
    */
 
-  def unSubscribeJobSeeker(userId: String) = Action { implicit request =>
+  def unSubscribeJobSeeker(userId: String) : Action[play.api.mvc.AnyContent]= Action { implicit request =>
     User.unSubscribeJobSeeker(userId) match {
       case true => Ok(views.html.index(new Alert("success", "Unsubscribed From ScalaJobz"), request.session.get("userId").getOrElse(null), Job.findAllJobs, false))
       case false => Ok(views.html.errorPage("There Is Some Error :User Not Subscribed With ScalaJobz"))

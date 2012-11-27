@@ -23,7 +23,8 @@ import play.api.mvc.Action
 import play.api.mvc.Results
 
 object Application extends Controller {
-
+  val errorString = "error"
+  val currentUserId = "userId"
   val signUpForm = Form(
     mapping(
       "EmailId" -> nonEmptyText,
@@ -39,41 +40,41 @@ object Application extends Controller {
       "EmailId" -> nonEmptyText,
       "Password" -> nonEmptyText)(LogInForm.apply)(LogInForm.unapply))
 
-  def index = Action { implicit request =>
+  def index: Action[play.api.mvc.AnyContent] = Action { implicit request =>
     val alert = Common.alert
     Common.setAlert(new Alert(null, null))
-    Ok(views.html.index(alert, request.session.get("userId").getOrElse(null), Job.findAllJobs, false))
+    Ok(views.html.index(alert, request.session.get(currentUserId).getOrElse(null), Job.findAllJobs, false))
   }
 
   /**
    * Signup on scalajobz.com
    */
 
-  def signUpOnScalaJobz(flag: String) = Action { implicit request =>
-    Ok(views.html.signup(new Alert(null, null), signUpForm, request.session.get("userId").getOrElse(null), flag))
+  def signUpOnScalaJobz(flag: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
+    Ok(views.html.signup(new Alert(null, null), signUpForm, request.session.get(currentUserId).getOrElse(null), flag))
   }
 
   /**
    * Create A New User
    */
-  def newUser(flag: String) = Action { implicit request =>
+  def newUser(flag: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
     signUpForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.index(new Alert("error", "There Was Some Errors During The SignUp"), request.session.get("userId").getOrElse(null), Job.findAllJobs, false)),
+      errors => BadRequest(views.html.index(new Alert(errorString, "There Was Some Errors During The SignUp"), request.session.get(currentUserId).getOrElse(null), Job.findAllJobs, false)),
       signUpForm => {
         if (!User.findUserByEmail(signUpForm.emailId).isEmpty) {
-          Ok(views.html.signup(new Alert("error", "This Email Is Already registered With ScalaJobz"), Application.signUpForm, request.session.get("userId").getOrElse(null), flag))
+          Ok(views.html.signup(new Alert(errorString, "This Email Is Already registered With ScalaJobz"), Application.signUpForm, request.session.get(currentUserId).getOrElse(null), flag))
         } else {
           val encryptedPassword = (new PasswordHashing).encryptThePassword(signUpForm.password)
           val newUser = UserEntity(new ObjectId, signUpForm.emailId, encryptedPassword, List(), false)
           val userId = User.createUser(newUser)
-          val userSession = request.session + ("userId" -> userId.get.toString)
+          val userSession = request.session + (currentUserId -> userId.get.toString)
           Common.setAlert(new Alert("success", "Registration Successful"))
           if (flag.equals("login")) {
             Results.Redirect("/findAllJobs").withSession(userSession)
-            //Ok(views.html.index(new Alert("success", "Registration Successful"), userId.get.toString, Job.findAllJobs, false)).withSession(userSession)
 
-          } else
+          } else {
             Results.Redirect(routes.JobController.newJob).withSession(userSession)
+          }
         }
       })
   }
@@ -82,34 +83,34 @@ object Application extends Controller {
    * Login On ScalaJobz
    */
 
-  def logIn(flag: String) = Action { implicit request =>
+  def logIn(flag: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
     logInForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.index(new Alert("error", "There Was Some Errors During The Login"), null, Job.findAllJobs, false)),
+      errors => BadRequest(views.html.index(new Alert(errorString, "There Was Some Errors During The Login"), null, Job.findAllJobs, false)),
       logInForm => {
         val encryptedPassword = (new PasswordHashing).encryptThePassword(logInForm.password)
         val users = User.findUser(logInForm.emailId, encryptedPassword)
         if (!users.isEmpty) {
-          val userSession = request.session + ("userId" -> users(0).id.toString)
-          if (flag.equals("login"))
-            Ok(views.html.index(new Alert(null, null), users(0).id.toString, Job.findAllJobs, false)).withSession(userSession)
-          else
-            Ok(views.html.postajob(JobController.postAJobForm, users(0).id.toString)).withSession(userSession)
-        } else Ok(views.html.login(new Alert("error", "Invalid Credentials"), Application.logInForm, null, "login"))
+          val userSession = request.session + (currentUserId -> users(0).id.toString)
+          if (flag.equals("login")){
+            Ok(views.html.index(new Alert(null, null), users(0).id.toString, Job.findAllJobs, false)).withSession(userSession)}
+          else{
+            Ok(views.html.postajob(JobController.postAJobForm, users(0).id.toString)).withSession(userSession)}
+        } else Ok(views.html.login(new Alert(errorString, "Invalid Credentials"), Application.logInForm, null, "login"))
       })
   }
   /**
    * Login on scalajobz.com
    */
 
-  def loginOnScalaJobz = Action { implicit request =>
-    Ok(views.html.login(new Alert(null, null), logInForm, request.session.get("userId").getOrElse(null), "login"))
+  def loginOnScalaJobz: Action[play.api.mvc.AnyContent] = Action { implicit request =>
+    Ok(views.html.login(new Alert(null, null), logInForm, request.session.get(currentUserId).getOrElse(null), "login"))
   }
 
   /**
    * Log Out
    */
 
-  def logOutFromScalaJobz = Action {
+  def logOutFromScalaJobz: Action[play.api.mvc.AnyContent] = Action {
     Ok(views.html.index(new Alert(null, null), null, Job.findAllJobs, false)).withNewSession
   }
 
