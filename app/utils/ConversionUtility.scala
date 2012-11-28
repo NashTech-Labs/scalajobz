@@ -1,19 +1,20 @@
 package utils
 import org.apache.commons.codec.binary.Hex
 
-object ConversionUtility extends App {
+object ConversionUtility {
 
   /*
    * Does the encoding
    */
   val str = ""
-  val encodedString = Hex.encodeHexString(str.getBytes("cp424"))
+  val scheme="cp424"
+  val encodedString = Hex.encodeHexString(str.getBytes(scheme))
 
   /*
    * Decoding Part for a string
    */
   def decodeMe(encodedString: String): String = {
-    val originalString = new String(Hex.decodeHex(encodedString.toCharArray), "cp424")
+    val originalString = new String(Hex.decodeHex(encodedString.toCharArray), scheme)
     originalString
   }
 
@@ -22,7 +23,7 @@ object ConversionUtility extends App {
    */
 
   def encryptPassword(password: String): String = {
-    val encryptedpassword = Hex.encodeHexString(password.getBytes("cp424"))
+    val encryptedpassword = Hex.encodeHexString(password.getBytes(scheme))
     encryptedpassword
   }
 
