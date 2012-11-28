@@ -50,13 +50,13 @@ object SendEmail extends App {
 
     msg.setContent(
 
-      "Hi <b>ScalaJobz</b> User." + "<br>" + "<br>" +
-        "Here is your account details " + "<br>" + "<br>" +
-        "Email-Id: " + emailId + "<br>" +
-        "Password: " + password + "<br>" +
-        "<br>" + "<br>" + "<br>" +
-        "Cheers," + "<br>" +
-        "ScalaJobz" + "<br>", "text/html")
+      "Hi <b>ScalaJobz</b> User." + "<br/>" + "<br/>" +
+        "Here is your account details " + "<br/>" + "<br/>" +
+        "Email-Id: " + emailId + "<br/>" +
+        "Password: " + password + "<br/>" +
+        "<br/>" + "<br/>" + "<br/>" +
+        "Cheers," + "<br/>" +
+        "ScalaJobz" + "<br/>", "text/html")
 
     val transport = session.getTransport("smtp")
     transport.connect("smtp.gmail.com", "scalajobz@gmail.com", ConversionUtility.decodeMe(Play.current.configuration.getString("email_password").get))
