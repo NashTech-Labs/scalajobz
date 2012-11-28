@@ -19,7 +19,7 @@ object Global extends GlobalSettings {
   override def onError(request: RequestHeader, ex: Throwable): SimpleResult[play.api.templates.Html] = {
     Logger.error("Error occurred", ex)
     InternalServerError(
-      views.html.errorPage("There Is Some Error"))
+      views.html.errorPage("oops ! Some Error Occured"))
   }
 
   override def onHandlerNotFound(request: RequestHeader): Result = {
