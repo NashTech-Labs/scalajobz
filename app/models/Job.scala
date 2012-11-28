@@ -78,11 +78,12 @@ object Job extends App {
     val patternToFindJob = Pattern.compile("(?i)" + searchStringTokenList.mkString("|"))
     def searchJobPattern(job: List[JobEntity]): List[JobEntity] = {
       if (!(job.isEmpty)) {
-        if (patternToFindJob.matcher(job.head.toString).find == true) {
+        if (patternToFindJob.matcher(job.head.toString).find) {
           job.head :: searchJobPattern(job.tail)
-        } else
+        } else {
           searchJobPattern(job.tail)
-      } else Nil
+        }
+      } else { Nil }
     }
     searchJobPattern(allJobs)
   }

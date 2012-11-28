@@ -43,7 +43,8 @@ object User {
    * Update user Profile
    */
   def updateUser(employer: UserEntity, password: String) : Unit = {
-    UserDAO.update(MongoDBObject("_id" -> employer.id), new UserEntity(employer.id, employer.emailId, password, employer.skills, employer.jobSeeker), false, false, new WriteConcern)
+    UserDAO.update(MongoDBObject("_id" -> employer.id), new UserEntity(employer.id, employer.emailId
+        ,password, employer.skills, employer.jobSeeker), false, false, new WriteConcern)
   }
 
   def findJobSeekers : List[UserEntity] = {

@@ -65,10 +65,10 @@ object UserController extends Controller {
         } else if(currentEncryptedPassword.equals(encryptedPassword)){
           Ok(views.html.editUserProfile(new Alert(errorString, "Current Password & New Password are same"),
             userProfile, UserController.editUserProfileForm, request.session.get(activeUserId).getOrElse("")))
-        } else
+        } else{
           Ok(views.html.editUserProfile(new Alert(errorString, "Invalid Current Password"),
             userProfile, UserController.editUserProfileForm, request.session.get(activeUserId).getOrElse("")))
-      })
+      }})
   }
 
   /**
