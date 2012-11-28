@@ -12,7 +12,7 @@ class JobAlertActor extends Actor {
   def receive : PartialFunction[Any,Unit] = {
     case jobAlertMail: JobAlertMail =>
       SendEmail.sendEmail(jobAlertMail.jobSeeker, jobAlertMail.jobs)
-      context.system.scheduler.scheduleOnce(1 hours, self, JobAlertMail(jobAlertMail.jobSeeker, jobAlertMail.jobs))
+      context.system.scheduler.scheduleOnce(30 seconds, self, JobAlertMail(jobAlertMail.jobSeeker, jobAlertMail.jobs))
   }
 }
 
