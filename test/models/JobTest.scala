@@ -12,6 +12,11 @@ import com.mongodb.casbah.commons.MongoDBObject
 @RunWith(classOf[JUnitRunner])
 class JobTest extends FunSuite with BeforeAndAfter {
 
+  before {
+    JobDAO.remove(MongoDBObject("location" -> ".*".r))
+    UserDAO.remove(MongoDBObject("emailId" -> ".*".r))
+  }
+
   test("Create A Job") {
     val job1 = JobEntity(new ObjectId, new ObjectId, "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List(), "Description", new Date)
     val job2 = JobEntity(new ObjectId, new ObjectId, "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List(), "Description", new Date)

@@ -10,6 +10,12 @@ import com.mongodb.casbah.commons.MongoDBObject
 
 @RunWith(classOf[JUnitRunner])
 class UserTest extends FunSuite with BeforeAndAfter {
+
+  before {
+    JobDAO.remove(MongoDBObject("location" -> ".*".r))
+    UserDAO.remove(MongoDBObject("emailId" -> ".*".r))
+  }
+
   test("create a user & find a user") {
     val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false)
     val employerId = User.createUser(employer)
@@ -28,7 +34,7 @@ class UserTest extends FunSuite with BeforeAndAfter {
 
   after {
     UserDAO.remove(MongoDBObject("emailId" -> ".*".r))
-     JobDAO.remove(MongoDBObject("location" -> ".*".r))
+    JobDAO.remove(MongoDBObject("location" -> ".*".r))
   }
 
 }
