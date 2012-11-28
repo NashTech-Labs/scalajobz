@@ -4,7 +4,7 @@ import play.api.mvc.Controller
 import play.api.data.Form
 import models.User
 import models.SignUpForm
-import play.api.data.Forms._
+import play.api.data.Forms.nonEmptyText
 import play.mvc.Http.Request
 import org.bson.types.ObjectId
 import models.LogInForm
@@ -16,13 +16,14 @@ import models.EditUserProfileForm
 import utils.SendEmail
 import models.Common
 import play.api.mvc.Action
+import play.api.data.Forms
 
 object UserController extends Controller {
   val activeUserId = "userId"
   val errorString="error"
 
   val editUserProfileForm = Form(
-    mapping(
+    Forms.mapping(
       "CurrentPassword" -> nonEmptyText,
       "NewPassword" -> nonEmptyText,
       "ConfirmPassword" -> nonEmptyText)(EditUserProfileForm.apply)(EditUserProfileForm.unapply))

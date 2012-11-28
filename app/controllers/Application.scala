@@ -9,7 +9,7 @@ import models.User
 import models.SignUpForm
 import play.api.mvc.Controller
 import play.api.data.Form
-import play.api.data.Forms._
+import play.api.data.Forms.nonEmptyText
 import play.mvc.Http.Request
 import play.libs
 import org.bson.types.ObjectId
@@ -27,7 +27,7 @@ object Application extends Controller {
   val currentUserId = "userId"
   val loginFlag = "login"
   val signUpForm = Form(
-    mapping(
+   Forms.mapping(
       "EmailId" -> nonEmptyText,
       "Password" -> nonEmptyText,
       "ConfirmPassword" -> nonEmptyText)(SignUpForm.apply)(SignUpForm.unapply))
@@ -37,7 +37,7 @@ object Application extends Controller {
    */
 
   val logInForm = Form(
-    mapping(
+    Forms.mapping(
       "EmailId" -> nonEmptyText,
       "Password" -> nonEmptyText)(LogInForm.apply)(LogInForm.unapply))
 

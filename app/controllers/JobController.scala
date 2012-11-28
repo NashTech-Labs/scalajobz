@@ -1,11 +1,11 @@
 package controllers
 import play.api.mvc.Controller
-import play.api.data.Forms
+import play.api.data.Forms.nonEmptyText
 import play.api.data.Form
 import play.api.mvc.Controller
 import play.api.mvc
 import play.api.data
-import play.api.data.Forms._
+import play.api.data.Forms
 import play.mvc.Http.Request
 import org.bson.types.ObjectId
 import models.PostAJobForm
@@ -20,7 +20,7 @@ import play.api.mvc.Results
 object JobController extends Controller {
 
   val postAJobForm = Form(
-    mapping(
+    Forms.mapping(
       "Position" -> nonEmptyText,
       "Company" -> nonEmptyText,
       "Location" -> nonEmptyText,
