@@ -21,6 +21,7 @@ case class Alert(alertType: String,
 
 object Common {
 
+  val break = "<br/>"
   var alert: Alert = new Alert("", "")
   def setAlert(alert: Alert): Unit = this.alert = alert
 
@@ -32,11 +33,11 @@ object Common {
 
     val removeJobAlertLink = "http://" + getContextUrl + "/unSubscribeJobSeeker/" + jobSeeker.id
     var message = "<b>Job Alert from scalajobz.com</b>" +
-      "<br/> <br/>" + "<b>Your Job Details</b>" + "<br/> <br/>"
+      break + break + "<b>Your Job Details</b>" + break + break
     for (job <- jobs) {
-      message += "<b><u>" + job.position + "</u></b>" + "<br/>"
-      message += job.company + "<br/>"
-      message += job.location + "<br/>"
+      message += "<b><u>" + job.position + "</u></b>" + break
+      message += job.company + break
+      message += job.location + break
     }
     message += "<br/>Click  <u>" + removeJobAlertLink + "</u> to unsubscribe from ScalaJobz"
     message

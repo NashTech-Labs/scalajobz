@@ -38,9 +38,9 @@ object RESTServiceController extends Controller {
 
   def processGetJobListForSingleRequest(code: String): Action[play.api.mvc.AnyContent] = Action {
     val results = Job.searchTheJob(code)
-    if (results.isEmpty){
+    if(results.isEmpty){
       Ok(write(new Alert("No Result Found", "Your search did not match with any exist job."))).as("application/json")
-    } else
+    } else{
       Ok(write(results)).as("application/json")
-  }
+  }}
 }
