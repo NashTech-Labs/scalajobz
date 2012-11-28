@@ -22,7 +22,8 @@ case class PostAJobForm(position: String,
 case class JobEntity(@Key("_id") id: ObjectId,
   userId: ObjectId,
   position: String,
-  company: String, location: String,
+  company: String, 
+  location: String,
   jobType: String,
   emailAddress: String,
   skillsRequired: List[String],
@@ -74,26 +75,18 @@ object Job extends App {
    */
 
   def searchJobs(searchStringTokenList: List[String], allJobs: List[JobEntity]): List[JobEntity] = {
-    var jobsFound: Set[JobEntity] = Set()
-    for (searchToken <- searchStringTokenList) {
-      for (eachJob <- allJobs) {
-        if (eachJob.position.toUpperCase.contains(searchToken.toUpperCase) || eachJob.company.toUpperCase.contains(searchToken.toUpperCase) ||
-          eachJob.jobType.toUpperCase.contains(searchToken.toUpperCase) || eachJob.location.toUpperCase.contains(searchToken.toUpperCase) ||
-          isListContainElement(searchToken, eachJob.skillsRequired) || eachJob.datePosted.toString.toUpperCase.contains(searchToken.toUpperCase))
-          jobsFound ++= Set(eachJob)
-      }
+    val patternToFindJob = Pattern.compile("(?i)" + searchStringTokenList.mkString("|"))
+    def searchJobPattern(job: List[JobEntity]): List[JobEntity] = {
+      if (!job.isEmpty) {
+        if (patternToFindJob.matcher(job.head.toString).find == true)
+          job.head :: searchJobPattern(job.tail)
+        else
+          searchJobPattern(job.tail)
+      } else
+        Nil
+
     }
-    jobsFound.toList
-
-  }
-
-  /**
-   * Matching for a key skill in the list of skills Required
-   */
-
-  def isListContainElement(stringTobeSearched: String, searchList: List[String]): Boolean = {
-    val resultList = searchList.map(_.toUpperCase.trim.contains(stringTobeSearched.toUpperCase))
-    resultList.contains(true)
+    searchJobPattern(allJobs)
   }
 
   /**
