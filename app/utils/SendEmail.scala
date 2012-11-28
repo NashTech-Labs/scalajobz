@@ -14,7 +14,7 @@ import models.UserEntity
 
 object SendEmail extends App {
 
-  def sendEmail(jobSeeker: UserEntity, jobs: List[JobEntity]) = {
+  def sendEmail(jobSeeker: UserEntity, jobs: List[JobEntity]) : Unit = {
     val props = new Properties
     props.setProperty("mail.transport.protocol", "smtp");
     props.setProperty("mail.smtp.starttls.enable", "true");
@@ -32,7 +32,7 @@ object SendEmail extends App {
     transport.connect("smtp.gmail.com", "scalajobz@gmail.com", ConversionUtility.decodeMe(Play.current.configuration.getString("email_password").get))
     transport.sendMessage(msg, msg.getAllRecipients)
   }
-  
+
   def sendPassword(emailId: String, password: String) {
     val props = new Properties
     props.setProperty("mail.transport.protocol", "smtp")

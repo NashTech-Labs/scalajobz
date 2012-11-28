@@ -62,7 +62,7 @@ object UserController extends Controller {
           User.updateUser(userProfile, encryptedPassword)
           Ok(views.html.editUserProfile(new Alert("success", "Profile Updated"),
             userProfile, UserController.editUserProfileForm, request.session.get(activeUserId).getOrElse("")))
-        } else if (currentEncryptedPassword.equals(encryptedPassword)){
+        } else if(currentEncryptedPassword.equals(encryptedPassword)){
           Ok(views.html.editUserProfile(new Alert(errorString, "Current Password & New Password are same"),
             userProfile, UserController.editUserProfileForm, request.session.get(activeUserId).getOrElse("")))
         } else

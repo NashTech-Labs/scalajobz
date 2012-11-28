@@ -34,7 +34,7 @@ object JobController extends Controller {
    */
 
   def postAJob: Action[play.api.mvc.AnyContent] = Action { implicit request =>
-    if (request.session.get("userId") == None) {
+    if(request.session.get("userId") == None){
       Ok(views.html.login(new Alert("", ""), Application.logInForm, request.session.get("userId").getOrElse(""), "jobPost"))
     } else
       Ok(views.html.postajob(postAJobForm, request.session.get("userId").getOrElse("")))
@@ -72,7 +72,7 @@ object JobController extends Controller {
 
   def findAJob(searchString: String, editFlag: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
     val searchJobList = Job.searchTheJob(searchString)
-    if (editFlag.equals("true")) {
+    if(editFlag.equals("true")){
       Ok(views.html.ajax_result(searchJobList, true))
     } else
       Ok(views.html.ajax_result(searchJobList, false))
@@ -120,7 +120,7 @@ object JobController extends Controller {
   def deleteJob(jobId: String, editFlag: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
     Job.deleteJobByJobId(new ObjectId(jobId))
     val jobPostByUserList = Job.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
-    if (editFlag.equals("true")) {
+    if(editFlag.equals("true")){
       Ok(views.html.ajax_result(jobPostByUserList, true))
     } else
       Ok(views.html.ajax_result(jobPostByUserList, false))

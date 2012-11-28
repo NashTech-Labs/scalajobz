@@ -22,7 +22,7 @@ case class PostAJobForm(position: String,
 case class JobEntity(@Key("_id") id: ObjectId,
   userId: ObjectId,
   position: String,
-  company: String, 
+  company: String,
   location: String,
   jobType: String,
   emailAddress: String,
@@ -77,13 +77,12 @@ object Job extends App {
   def searchJobs(searchStringTokenList: List[String], allJobs: List[JobEntity]): List[JobEntity] = {
     val patternToFindJob = Pattern.compile("(?i)" + searchStringTokenList.mkString("|"))
     def searchJobPattern(job: List[JobEntity]): List[JobEntity] = {
-      if (!job.isEmpty) {
-        if (patternToFindJob.matcher(job.head.toString).find == true)
+      if(!(job.isEmpty)){
+        if(patternToFindJob.matcher(job.head.toString).find == true){
           job.head :: searchJobPattern(job.tail)
-        else
+        } else
           searchJobPattern(job.tail)
-      } else
-        Nil
+      } else Nil
 
     }
     searchJobPattern(allJobs)

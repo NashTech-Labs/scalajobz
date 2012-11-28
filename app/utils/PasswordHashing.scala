@@ -11,7 +11,7 @@ class PasswordHashing {
   val ALGO = Play.current.configuration.getString("algo").get
   val keyValue: Array[Byte] = Play.current.configuration.getString("encryptionKey").get.toCharArray.map(_.toByte)
   /**
-   * Creates The Unique Key For The Purpose Of Encryption & Decryption 
+   * Creates The Unique Key For The Purpose Of Encryption & Decryption
    */
   def generateKey : SecretKeySpec = {
     val key = new SecretKeySpec(keyValue, ALGO)
