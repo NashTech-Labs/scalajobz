@@ -10,9 +10,18 @@ import org.bson.types.ObjectId
 import models.JobEntity
 import java.util.Date
 import play.api.test.FakeRequest
+import org.specs2.mutable.BeforeAfter
+import models.JobDAO
+import models.UserDAO
+import com.mongodb.casbah.commons.MongoDBObject
 
 @RunWith(classOf[JUnitRunner])
-class JobControllerTest extends Specification {
+class JobControllerTest extends Specification with BeforeAfter {
+
+  override def before {
+    JobDAO.remove(MongoDBObject("location" -> ".*".r))
+    UserDAO.remove(MongoDBObject("emailId" -> ".*".r))
+  }
 
   "postAJob" in {
     val result = controllers.JobController.postAJob(FakeRequest())
@@ -38,6 +47,11 @@ class JobControllerTest extends Specification {
     val result = controllers.JobController.findJobDetail((job1.id).toString)(FakeRequest())
     status(result) must equalTo(OK)
     contentType(result) must beSome("text/html")
+  }
+
+  override def after {
+    JobDAO.remove(MongoDBObject("location" -> ".*".r))
+    UserDAO.remove(MongoDBObject("emailId" -> ".*".r))
   }
 
 }
