@@ -1,4 +1,53 @@
-This is your new Play 2.0 application
-=====================================
+Project Description :-
 
-This file will be packaged with your application, when using `play dist`.
+-----------------------------------------------
+What the project does, the problem it solves :-
+-----------------------------------------------
+
+Scalajobz is a community driven job portal for Scala jobs.  It is specifically focussed on the Scala ecosystem. It allows employment opportunities to be listed on the site with details so that Job seekers can search and apply for the relevant jobs. It also allows job seekers to enroll for email alerts which would allow them to get a daily email for new jobs which match their search criteria. 
+External systems can fetch all job details and search for specific jobs using the REST Api.
+
+------------------------------------------------
+Why it does it this way, benefits and drawbacks:-
+------------------------------------------------
+
+Scalajobz uses a lot of inherent Play 2.0 functionality to drive the job flow. Actors are used to send out daily alerts when matching jobs are found for all enrolled job seekers.
+
+------------------------------------
+High-level design and architecture :-
+------------------------------------
+
+Scalajobz is using the latest Typesafe 2.0.2 stack which includes
+
+Twitter Bootstrap 2.2.1
+Play 2.0.2
+Scala 2.9.1
+Sbt 0.11.3
+Akka 2.0.1
+MongoDB  2.0.4
+org.scalatest
+org.specs2
+Verified with scalastyle guide (No serious warnings)
+
+The product follows a standard MVC architecture. The request handling is done in the following path
+HttpRequest -> Router -> Controller -> Model -> Database, the rendering of HttpResponse is done via HTML
+Actor is used to asynchronously process new jobs and match search criteria for enrolled job seekers
+
+-----------------------------------------------------------------------
+Instructions that detail how the project is compiled, deployed and used :-
+-----------------------------------------------------------------------
+
+The live application is currently hosted at :  http://www.scalajobz.com
+The Gihub code for the project is at    :  https://github.com/knoldus/scalajobz
+* Clone the project into local system
+* install sbt 0.11.3  if you do not have it already. You can get it from here: https://github.com/harrah/xsbt/wiki/Getting-Started-Setup
+* execute `sbt compile` to build the product
+* execute `sbt run' to execute the product
+* Scalajobz should now be accessible at localhost:9000
+
+How to run tests :
+
+In order to run all the tests for controllers,templates,routers,models(DB Calls),server
+
+* execute  `sbt test` 
+
