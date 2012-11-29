@@ -44,11 +44,12 @@ case class JobEntity(@Key("_id") id: ObjectId,
   description: String,
   datePosted: Date)
 
-  /** Factory for [[models.JobEntity]] instances. */
-object Job  {
+/** Factory for [[models.JobEntity]] instances. */
+object Job {
 
   /**
    * Job Type
+   * To be displayed in drop down list on UI
    */
   def jobType: Seq[(String, String)] = {
     Seq("Contract" -> "Contract", "Permanent" -> "Permanent")
@@ -56,6 +57,7 @@ object Job  {
 
   /**
    *  Create A Job
+   *  @param job the job to be created
    */
 
   def addJob(job: JobEntity): Option[ObjectId] = {
@@ -63,14 +65,14 @@ object Job  {
   }
 
   /**
-   * Find All Jobs
+   * Find All Jobs currently available
    */
   def findAllJobs: List[JobEntity] = {
     JobDAO.find(MongoDBObject()).sort(orderBy = MongoDBObject("datePosted" -> -1)).toList
   }
 
   /**
-   * Find Job posted in last N hours
+   * Find Job posted in last 24 hours
    */
   def findJobsOfLastNHours: List[JobEntity] = {
     findAllJobs filter (job => ((new Date).getTime - job.datePosted.getTime) / (1000 * 60 * 60) <= 24)
@@ -78,6 +80,7 @@ object Job  {
 
   /**
    * Search The Job
+   * @param stringTobeSearched contains skills
    */
   def searchTheJob(stringTobeSearched: String): List[JobEntity] = {
     val searchStringTokenList = stringTobeSearched.split(" ").toList.filter(x => !(x == ""))
@@ -87,6 +90,8 @@ object Job  {
 
   /**
    * Search the jobs on the basis of list of searching tokens
+   * @param searchStringTokenList contains skills
+   * @param allJobs is the list of all jobs in the system
    */
 
   def searchJobs(searchStringTokenList: List[String], allJobs: List[JobEntity]): List[JobEntity] = {
@@ -96,6 +101,7 @@ object Job  {
 
   /**
    * Find Job By Id
+   * @param id is the id of job to be searched
    */
   def findJobDetail(jobId: ObjectId): Option[JobEntity] = {
     val jobFound = JobDAO.find(MongoDBObject("_id" -> jobId)).toList
@@ -108,6 +114,7 @@ object Job  {
 
   /**
    * Job Posted by A Particular User
+   * @param userId is the id of user who has posted the different jobs
    */
   def findJobsPostByUserId(userId: ObjectId): List[JobEntity] = {
     JobDAO.find(MongoDBObject("userId" -> userId)).sort(orderBy = MongoDBObject("datePosted" -> -1)).toList
@@ -115,6 +122,7 @@ object Job  {
 
   /**
    * Update The Job
+   * @param job is the updated job
    */
   def updateJob(job: JobEntity): Unit = {
     JobDAO.update(MongoDBObject("_id" -> job.id), job, false, false, new WriteConcern)
@@ -122,6 +130,7 @@ object Job  {
 
   /**
    * Delete the Job By Job Id
+   * @param jobId is the id of job to be deleted
    */
 
   def deleteJobByJobId(jobId: ObjectId): Unit = {

@@ -19,6 +19,9 @@ class JobAlertActor extends Actor {
       context.system.scheduler.scheduleOnce(30 seconds, self, JobAlertMail())
   }
 
+  /**
+   * Send the job alert to users through mail
+   */
   def sendJobAlert: Unit = {
     val jobSeekers = User.findJobSeekers
     val JobPostedInLastNHours = Job.findJobsOfLastNHours

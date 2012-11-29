@@ -21,6 +21,11 @@ object MailUtility {
   val protocolName = "smtp"
   val break = "<br/>"
 
+  /**
+   * Send mail to user for job alerts
+   * @param jobSeeker is the mail receiver
+   * @param jobs are the jobs matching the seekers skills
+   */
   def sendEmail(jobSeeker: UserEntity, jobs: List[JobEntity]): Unit = {
     val props = new Properties
     props.setProperty("mail.transport.protocol", protocolName)
@@ -40,6 +45,12 @@ object MailUtility {
     transport.sendMessage(msg, msg.getAllRecipients)
   }
 
+  /**
+   * Forgot password functionality
+   * @param emailId is the mailId f password
+   * @param password is the password of that user
+   *
+   */
   def sendPassword(emailId: String, password: String) {
     val props = new Properties
     props.setProperty("mail.transport.protocol", protocolName)

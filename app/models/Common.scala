@@ -32,6 +32,8 @@ object Common {
 
   /**
    * Set Content For Sending Mail For Daily Job Alert
+   * @param jobs is the list of jobs that matches the jobseekere's skills
+   * @param jobSeeker is the jobseeker with same the skills required for job 
    */
 
   def setContentForJobAlert(jobs: List[JobEntity], jobSeeker: UserEntity): String = {

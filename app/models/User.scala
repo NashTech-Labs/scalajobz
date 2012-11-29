@@ -42,11 +42,14 @@ case class UserEntity(@Key("_id") id: ObjectId,
   skills: List[String],
   jobSeeker: Boolean)
 
-   /** Factory for [[models.UserEntity]] instances. */
+/** Factory for [[models.UserEntity]] instances. */
 object User {
 
   /**
    * Authenticate User By Credentials Provided
+   *
+   * @param emailId is emailId of user to be searched
+   * @param password is password of user to be searched
    */
   def findUser(emailId: String, password: String): List[UserEntity] = {
     UserDAO.find(MongoDBObject("emailId" -> emailId, "password" -> password)).toList
@@ -54,6 +57,8 @@ object User {
 
   /**
    * Update user Profile
+   * @param employer is employer object to be updated
+   * @param password is password of user to be updated
    */
   def updateUser(employer: UserEntity, password: String): Unit = {
     UserDAO.update(MongoDBObject("_id" -> employer.id), new UserEntity(employer.id, employer.emailId, password, employer.skills, employer.jobSeeker), false, false, new WriteConcern)
@@ -67,6 +72,7 @@ object User {
 
   /**
    * Create New User
+   * @param employer is the employer object to be created
    */
   def createUser(employer: UserEntity): Option[ObjectId] = {
     UserDAO.insert(employer)
@@ -74,6 +80,7 @@ object User {
 
   /**
    *  Find User By Email But This Will Match With Employer Not with JobSeeker
+   *  @param emailId is the emailId of jobseeker to be searched
    */
 
   def findUserByEmail(emailId: String): List[UserEntity] = {
@@ -82,6 +89,7 @@ object User {
 
   /**
    * Find User By User Id
+   * @param userId is the id of the user to be searched
    */
 
   def findUserById(userId: String): Option[UserEntity] = {
@@ -95,6 +103,7 @@ object User {
 
   /**
    * UnSubscribe From Job Alerts By Using JobSeeker Id(UserId)
+   * @param userId is the id of the user to be unsubscribed
    */
 
   def unSubscribeJobSeeker(userId: String): Boolean = {
@@ -110,5 +119,6 @@ object User {
 }
 /**
  * Instantiate UserDAO
+ * Access the settings from MongoHQConfig file
  */
 object UserDAO extends SalatDAO[UserEntity, ObjectId](collection = MongoHQConfig.mongoDB("user"))
