@@ -16,6 +16,12 @@ import net.liftweb.json.JsonAST.JInt
 import net.liftweb.json.TypeInfo
 import play.api.Play
 
+/**
+ * class to show alert
+ * @param alertType the Alert Type
+ * @param message the message on Alert
+ */
+
 case class Alert(alertType: String,
   message: String)
 

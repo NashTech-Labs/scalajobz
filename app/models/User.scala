@@ -1,5 +1,4 @@
 package models
-
 import com.mongodb.casbah.commons.MongoDBObject
 import org.bson.types.ObjectId
 import com.novus.salat.dao.SalatDAO
@@ -9,21 +8,34 @@ import com.mongodb.casbah.MongoConnection
 import com.novus.salat.annotations.Key
 import utils.MongoHQConfig
 
-//LoginForm
+/**
+ * class for creating LoginForm
+ */
 case class LogInForm(emailId: String,
   password: String)
 
-//Edit User Profile Form
+/**
+ * class for creating Edit User Profile Form
+ */
 case class EditUserProfileForm(currentPassword: String,
   newPassword: String,
   confirmPassword: String)
 
-//Sign up Form
+/**
+ * class for creating Sign up Form
+ */
 case class SignUpForm(emailId: String,
   password: String,
   confirmPassword: String)
 
-//Add User(Employer/JobSeeker) Form
+/**
+ * User Entity
+ * @param id the user's id
+ * @param emailId the user's emailId
+ * @param password the user's emailId
+ * @param skills the user's skills
+ * @param jobSeeker the user's jobSeeker
+ */
 case class UserEntity(@Key("_id") id: ObjectId,
   emailId: String,
   password: String,
@@ -35,26 +47,27 @@ object User {
   /**
    * Authenticate User By Credentials Provided
    */
-  def findUser(emailId: String, password: String):List[UserEntity] = {
+  def findUser(emailId: String, password: String): List[UserEntity] = {
     UserDAO.find(MongoDBObject("emailId" -> emailId, "password" -> password)).toList
   }
 
   /**
    * Update user Profile
    */
-  def updateUser(employer: UserEntity, password: String) : Unit = {
-    UserDAO.update(MongoDBObject("_id" -> employer.id), new UserEntity(employer.id, employer.emailId
-        ,password, employer.skills, employer.jobSeeker), false, false, new WriteConcern)
+  def updateUser(employer: UserEntity, password: String): Unit = {
+    UserDAO.update(MongoDBObject("_id" -> employer.id), new UserEntity(employer.id, employer.emailId, password, employer.skills, employer.jobSeeker), false, false, new WriteConcern)
   }
-
-  def findJobSeekers : List[UserEntity] = {
+  /**
+   * Finding the job seekers
+   */
+  def findJobSeekers: List[UserEntity] = {
     UserDAO.find(MongoDBObject("jobSeeker" -> true)).toList
   }
 
   /**
    * Create New User
    */
-  def createUser(employer: UserEntity) :Option[ObjectId] = {
+  def createUser(employer: UserEntity): Option[ObjectId] = {
     UserDAO.insert(employer)
   }
 
@@ -83,7 +96,7 @@ object User {
    * UnSubscribe From Job Alerts By Using JobSeeker Id(UserId)
    */
 
-  def unSubscribeJobSeeker(userId: String) : Boolean = {
+  def unSubscribeJobSeeker(userId: String): Boolean = {
     User.findUserById(userId) match {
       case None => false
       case Some(jobSeeker: UserEntity) =>
@@ -94,5 +107,7 @@ object User {
   }
 
 }
-
+/**
+ * Instantiate UserDAO
+ */
 object UserDAO extends SalatDAO[UserEntity, ObjectId](collection = MongoHQConfig.mongoDB("user"))

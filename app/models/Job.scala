@@ -11,7 +11,9 @@ import java.util.regex.Pattern
 import com.mongodb.casbah.Imports.WriteConcern
 import com.mongodb.casbah.MongoConnection
 import utils.DailyJobAlert
-
+/**
+ * Class for Post A Job Form
+ */
 case class PostAJobForm(position: String,
   company: String,
   location: String,
@@ -19,6 +21,18 @@ case class PostAJobForm(position: String,
   emailAddress: String,
   skillsRequired: String,
   description: String)
+
+/**
+ * Job Entity
+ * @param userId the person's id
+ * @param position the job position
+ * @param company the company name
+ * @param location the job location
+ * @param emailAddress the person's email to apply to
+ * @param skillsRequired the skills required for the Job
+ * @param description the job's description
+ * @param datePosted the date on which job has been posted
+ */
 case class JobEntity(@Key("_id") id: ObjectId,
   userId: ObjectId,
   position: String,
