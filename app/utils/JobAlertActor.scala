@@ -16,7 +16,7 @@ class JobAlertActor extends Actor {
     case jobAlertMail: JobAlertMail =>
       Thread.sleep(10000)
       sendJobAlert
-      context.system.scheduler.scheduleOnce(30 seconds, self, JobAlertMail())
+      context.system.scheduler.scheduleOnce(24 hours, self, JobAlertMail())
   }
 
   /**
