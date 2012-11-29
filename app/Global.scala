@@ -8,12 +8,12 @@ import play.api.mvc.Result
 
 object Global extends GlobalSettings {
 
-  override def onStart(app: Application) {
+  override def onStart(app: Application): Unit= {
     Logger.info("Application has started")
     DailyJobAlert.sendMailIForJobAlert
   }
 
-  override def onStop(app: Application) : Unit = {
+  override def onStop(app: Application): Unit = {
     Logger.info("Application shutdown...")
   }
   override def onError(request: RequestHeader, ex: Throwable): SimpleResult[play.api.templates.Html] = {

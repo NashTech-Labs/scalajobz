@@ -42,6 +42,7 @@ case class UserEntity(@Key("_id") id: ObjectId,
   skills: List[String],
   jobSeeker: Boolean)
 
+   /** Factory for [[models.UserEntity]] instances. */
 object User {
 
   /**

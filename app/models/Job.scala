@@ -44,7 +44,8 @@ case class JobEntity(@Key("_id") id: ObjectId,
   description: String,
   datePosted: Date)
 
-object Job extends App {
+  /** Factory for [[models.JobEntity]] instances. */
+object Job  {
 
   /**
    * Job Type

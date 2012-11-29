@@ -21,7 +21,6 @@ import play.api.Play
  * @param alertType the Alert Type
  * @param message the message on Alert
  */
-
 case class Alert(alertType: String,
   message: String)
 
