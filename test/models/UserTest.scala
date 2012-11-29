@@ -16,7 +16,7 @@ class UserTest extends FunSuite with BeforeAndAfter {
     UserDAO.remove(MongoDBObject("emailId" -> ".*".r))
   }
 
-  test("create a user & find a user") {
+  test("create a user & find a user (Job seeker/employer)") {
     val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false)
     val employerId = User.createUser(employer)
     val employers = User.findUserByEmail("neelkanth@knoldus.com")
@@ -30,6 +30,21 @@ class UserTest extends FunSuite with BeforeAndAfter {
     assert(employers.head.jobSeeker === false)
     val updatedEmployer = User.updateUser(employer, "ABCDEF")
     assert(User.findUserById(employer.id.toString).get.password === "ABCDEF")
+  }
+
+  test("Find User(Employer) Via Email Id & Password") {
+    val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false)
+    User.createUser(employer)
+    val employers = User.findUserByEmail("neelkanth@knoldus.com")
+    assert(employers.head.password === "ABCD")
+    assert(employers.head.emailId === "neelkanth@knoldus.com")
+  }
+
+  test("Find Job Seeker") {
+    val jobSeeker = UserEntity(new ObjectId, "neelkanth@knoldus.com", "", List("Scala"), true)
+    User.createUser(jobSeeker)
+    val jobseekers = User.findUserById(jobSeeker.id.toString)
+    assert(jobseekers.head.jobSeeker === true)
   }
 
   after {

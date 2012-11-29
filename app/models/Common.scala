@@ -35,7 +35,8 @@ object Common {
     var message = "<b>Job Alert from scalajobz.com</b>" +
       break + break + "<b>Your Job Details</b>" + break + break
     for (job <- jobs) {
-      message += "<b><u>" + job.position + "</u></b>" + break
+      val redirectToJobLink = "http://" + getContextUrl + "/jobDetail/" + job.id
+      message += "<b><u><a href= " + redirectToJobLink + ">" + job.position + "</a></u></b>" + break
       message += job.company + break
       message += job.location + break
     }

@@ -13,7 +13,7 @@ import models.Job
 import models.Alert
 import models.UserEntity
 import models.EditUserProfileForm
-import utils.SendEmail
+import utils.MailUtility
 import models.Common
 import play.api.mvc.Action
 import play.api.data.Forms
@@ -89,7 +89,7 @@ object UserController extends Controller {
     } else {
       val userList = User.findUserByEmail(emailId)
       val user = Option(userList.toList(0)).get
-      SendEmail.sendPassword(user.emailId, (new PasswordHashing).decryptThePassword(user.password))
+      MailUtility.sendPassword(user.emailId, (new PasswordHashing).decryptThePassword(user.password))
       Ok(true.toString)
     }
   }

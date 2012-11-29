@@ -81,7 +81,7 @@ class JobTest extends FunSuite with BeforeAndAfter {
     Job.addJob(job4)
     assert(Job.findJobsPostByUserId(employerId.get).size === 2)
   }
-  test("Searching the Job") {
+  test("Searching the Job by Search Token") {
     val employer = new UserEntity(new ObjectId, "neelkanth@gmail.com", "12345", List(), true)
     val employerId = User.createUser(employer)
     val job1 = JobEntity(new ObjectId, employerId.get, "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java", "Scala"), "Description", new Date)
@@ -107,6 +107,28 @@ class JobTest extends FunSuite with BeforeAndAfter {
     val updatedJobFound = Job.findJobDetail(job1.id)
     assert(Job.findJobDetail(updatedJobFound.get.id).head.position === "Software Developer")
 
+  }
+
+  test("Delete Job") {
+    val job1 = JobEntity(new ObjectId, new ObjectId, "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala", "MongoDB"), "Description", new Date)
+    Job.addJob(job1)
+    assert(Job.findJobDetail(job1.id).head.position === "Software Programmer")
+    val jobFound = Job.findJobDetail(job1.id)
+    Job.deleteJobByJobId(jobFound.get.id)
+    assert(Job.findAllJobs.size === 0)
+  }
+
+  test("Find Job Post In Last N Hours") {
+    val employer = new UserEntity(new ObjectId, "neelkanth@gmail.com", "12345", List(), true)
+    val employerId = User.createUser(employer)
+    val job1 = JobEntity(new ObjectId, employerId.get, "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java", "Scala"), "Description", new Date)
+    val job2 = JobEntity(new ObjectId, employerId.get, "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala", "MongoDB"), "Description", new Date)
+    val job3 = JobEntity(new ObjectId, new ObjectId, "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java", "Scala"), "Description", new Date)
+    val job4 = JobEntity(new ObjectId, new ObjectId, "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Python", "MongoDB"), "Description", new Date)
+    Job.addJob(job1)
+    Job.addJob(job2)
+    Job.addJob(job3)
+    assert(Job.findJobsOfLastNHours.size === 3)
   }
 
   after {
