@@ -11,6 +11,8 @@ import java.util.regex.Pattern
 import com.mongodb.casbah.Imports.WriteConcern
 import com.mongodb.casbah.MongoConnection
 import utils.DailyJobAlert
+import utils.TwitterTweet
+
 /**
  * Class for Post A Job Form
  */
@@ -34,7 +36,7 @@ case class PostAJobForm(position: String,
  * @param datePosted the date on which job has been posted
  */
 case class JobEntity(@Key("_id") id: ObjectId,
-  userId: ObjectId,
+  userId: Option[ObjectId],
   position: String,
   company: String,
   location: String,
@@ -42,7 +44,8 @@ case class JobEntity(@Key("_id") id: ObjectId,
   emailAddress: String,
   skillsRequired: List[String],
   description: String,
-  datePosted: Date)
+  datePosted: Date,
+  jobBy: JobBy.Value)
 
 /** Factory for [[models.JobEntity]] instances. */
 object Job {
@@ -61,14 +64,36 @@ object Job {
    */
 
   def addJob(job: JobEntity): Option[ObjectId] = {
-    JobDAO.insert(job)
+    jobExist(job.position, job.company, job.location, job.jobBy.toString) match {
+      case true => None
+      case false =>
+        JobDAO.insert(job)
+    }
+
   }
 
   /**
-   * Find All Jobs currently available
+   *  Check For redundancy of job
+   *  @param position is the title of job
+   *  @param company is the name of employer company
+   *  @param location is the job location
+   *  @param jobBy is the source of the job
+   */
+  def jobExist(position: String, company: String, location: String, jobBy: String): Boolean = {
+    val jobList = JobDAO.find(MongoDBObject("position" -> position, "company" -> company,
+      "location" -> location, "jobBy" -> jobBy)).toList
+    (jobList.isEmpty) match {
+      case true => false
+      case false => true
+    }
+  }
+
+  /**
+   * Find All Jobs Posted In Last 30 days
    */
   def findAllJobs: List[JobEntity] = {
-    JobDAO.find(MongoDBObject()).sort(orderBy = MongoDBObject("datePosted" -> -1)).toList
+    val jobs = JobDAO.find(MongoDBObject()).sort(orderBy = MongoDBObject("datePosted" -> -1)).toList
+    jobs filter (job => ((new Date).getTime - job.datePosted.getTime) / (1000 * 60 * 60 * 24) <= 30)
   }
 
   /**
@@ -84,8 +109,17 @@ object Job {
    */
   def searchTheJob(stringTobeSearched: String): List[JobEntity] = {
     val searchStringTokenList = stringTobeSearched.split(" ").toList.filter(x => !(x == ""))
-    val allJobs = JobDAO.find(MongoDBObject()).toList
+    val allJobs = findAllJobs
     searchJobs(searchStringTokenList, allJobs)
+  }
+
+  /**
+   * Search The Job for last 24 hours for rest api
+   * @param stringTobeSearched contains skills
+   */
+  def searchTheJobForRestAPI(stringTobeSearched: String): List[JobEntity] = {
+    val searchStringTokenList = stringTobeSearched.split(" ").toList.filter(x => !(x == ""))
+    searchJobs(searchStringTokenList, findJobsOfLastNHours)
   }
 
   /**
@@ -96,7 +130,11 @@ object Job {
 
   def searchJobs(searchStringTokenList: List[String], allJobs: List[JobEntity]): List[JobEntity] = {
     val patternToFindJob = Pattern.compile("(?i)" + searchStringTokenList.mkString("|"))
-    allJobs filter (job => patternToFindJob.matcher(job.toString).find)
+    allJobs filter (job =>
+      patternToFindJob.matcher(job.position + "," + job.company
+        + "," + job.location + "," + job.jobType
+        + "," + job.skillsRequired + "," + job.datePosted
+        + "," + job.description + "," + job.jobBy).find)
   }
 
   /**
@@ -136,6 +174,23 @@ object Job {
   def deleteJobByJobId(jobId: ObjectId): Unit = {
     val jobToBeDelete = findJobDetail(jobId).get
     JobDAO.remove(jobToBeDelete)
+  }
+
+  /**
+   * Count Total Number of Jobs
+   */
+
+  def countTotalJobs: Long = {
+    JobDAO.count()
+  }
+
+  /**
+   * Get Job By Pagination
+   */
+
+  def getJobByPagination(pageNumber: Int, jobsPerPage: Int): List[JobEntity] = {
+    val jobs = JobDAO.find(MongoDBObject()).sort(orderBy = MongoDBObject("datePosted" -> -1)).skip((pageNumber) * jobsPerPage).limit(jobsPerPage).toList
+    jobs
   }
 }
 

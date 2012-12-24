@@ -23,10 +23,17 @@
 					<Strong>Date Posted:</Strong>
 				
 					<h3>@format_date(job.datePosted)</h3>
+					
+					@if(job.userId == None){
+					
+						<Strong>Link To Apply:</Strong>
+						<a href="@job.emailAddress"><h5><u>@job.emailAddress</u></h5></a>
+					
+					}else{
 				
-					<Strong>Email Address To Apply:</Strong>
-				
-					<a href="mailto:@job.emailAddress"><h3><u>@job.emailAddress</u></h3></a>
+						<Strong>Email Address To Apply:</Strong>
+						<a href="mailto:@job.emailAddress"><h3><u>@job.emailAddress</u></h3></a>
+					}
 				
 			<div class="separator-line"></div>
 			<p>	@job.description</p>

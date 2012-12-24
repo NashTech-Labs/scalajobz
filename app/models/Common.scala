@@ -24,6 +24,18 @@ import play.api.Play
 case class Alert(alertType: String,
   message: String)
 
+/**
+ * class for creating Contact Us Form
+ * @param name is mail sender name
+ * @param emailAddress is sender email id
+ * @param subject is mail subject
+ * @param message is sender message
+ */
+case class ContactUsForm(name: String,
+  emailAddress: String,
+  subject: String,
+  message: String)
+
 object Common {
 
   val break = "<br/>"
@@ -31,9 +43,19 @@ object Common {
   def setAlert(alert: Alert): Unit = this.alert = alert
 
   /**
+   * Getter Setter For Number of methods
+   */
+
+  var totalJobs: Int = 0
+
+  def setTotalJobs(jobs: Int) = {
+    totalJobs = jobs
+  }
+
+  /**
    * Set Content For Sending Mail For Daily Job Alert
    * @param jobs is the list of jobs that matches the jobseekere's skills
-   * @param jobSeeker is the jobseeker with same the skills required for job 
+   * @param jobSeeker is the jobseeker with same the skills required for job
    */
 
   def setContentForJobAlert(jobs: List[JobEntity], jobSeeker: UserEntity): String = {
@@ -44,10 +66,47 @@ object Common {
     for (job <- jobs) {
       val redirectToJobLink = "http://" + getContextUrl + "/jobDetail/" + job.id
       message += "<b><u><a href= " + redirectToJobLink + ">" + job.position + "</a></u></b>" + break
-      message += job.company + break
-      message += job.location + break
+      message += job.company + " - " + job.location + break
+      if (job.description.length > 150) {
+        message += job.description.substring(0, 150) + " ..." + break
+      } else {
+        message += job.description + break
+      }
+
     }
-    message += "<br/>Click  <u>" + removeJobAlertLink + "</u> to unsubscribe from ScalaJobz"
+    message += break + "Click  <u>" + removeJobAlertLink + "</u> to unsubscribe from ScalaJobz"
+    message
+  }
+
+  /**
+   * Set Content For Sending Mail To Scalajobz Through Contact Us Page
+   * @param name is mail sender name
+   * @param emailAddress is sender email id
+   * @param subject is mail subject
+   * @param message is sender message
+   */
+
+  def setContentForContactUsMail(name: String, emailAddress: String, subject: String, sendermessage: String): String = {
+    var message = "<b>" + name + "</b>" + " sent you a mail through scalajobz contact us page" + break + break
+    message += "<b> Sender Email Address is : </b>" + emailAddress + break
+    message += "<b> Subject is : </b>" + subject + break
+    message += "<b> Message is : </b>" + sendermessage + break
+    message
+  }
+
+  /**
+   * Set Content For Acknowledgement Mail Send Through ScalaJobz
+   * @param name is mail sender name
+   */
+
+  def setContentForAcknowledgementMail(name: String): String = {
+    val scalaJobzSiteLink = "http://" + getContextUrl
+    var message = "This is an acknowledgement Mail From ScalaJobz. " + break + break
+    message += "Thanks  <b>" + name + "</b> For Contacting Us." + break + break + break
+    message += "Feel Free To Contact Us." + break + break
+    message += "Thanks & Regards !" + break
+    message += "<b> ScalaJobz Support Team </b>" + break
+    message += scalaJobzSiteLink
     message
   }
 
@@ -78,4 +137,11 @@ class ObjectIdSerializer extends Serializer[ObjectId] {
     case x: ObjectId => JObject(JField("id", JString(x.toString)) :: Nil)
 
   }
+}
+
+object JobBy extends Enumeration {
+  val ScalaJobz = Value(0, "ScalaJobz")
+  val Indeed = Value(1, "Indeed")
+  val SimplyHired = Value(2, "SimplyHired")
+  val CareerBuilder = Value(3, "CareerBuilder")
 }

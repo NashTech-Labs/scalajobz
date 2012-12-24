@@ -24,7 +24,9 @@
 	<div class="page">
 	<div id="alertHold"></div>
 	<div id="alert-button" style="padding-bottom: 12px;">
-		<button id="job-alert" class="btn btn-primary btn-large" disabled="disabled"  data-toggle="modal">Get Job Alert</button>
+		<button id="job-alert" class="btn btn-primary btn-large" disabled="disabled"  data-toggle="modal" title="Enter Search Criteria For Job Alert">
+			Get Job Alert
+		</button>
 	</div>
 	
 	<div id="myModal" class="modal hide fade" tabindex="-1">
@@ -97,14 +99,13 @@
 	} else {
 	
 	<div id="search-result">
-		<table id="results" class="table table-striped table-bordered">
+		<table id="results" class="table table-striped table-bordered table-condensed tablesorter">
 			<thead>
 				<tr>
 					<th>POSITION</th>
 					<th>COMPANY</th>
 					<th>LOCATION</th>
 					<th>TYPE</th>
-					<th>KEY SKILLS</th>
 					<th>POSTED</th>
 					
 					@if(editFlag == true){<th>OPTION</th>}
@@ -113,11 +114,25 @@
 			<tbody data-provides="rowlink">
 				@jobs.map { job =>
 				<tr>
-					<td><a href="/jobDetail/@job.id"><b>@job.position</b></a></td>
+					<td><a href="/jobDetail/@job.id"><b>@job.position</b></a>
+					@if(job.jobBy.toString != "ScalaJobz" && job.jobBy.toString != "SimplyHired"){
+					<div style="text-align: right;">
+					<a href="http://www.indeed.com."><img src="@routes.Assets.at("images/" + job.jobBy.toString + ".gif")" alt="Job By @job.jobBy.toString" title="Job By @job.jobBy.toString"/></a>
+					</div>
+					}
+					@if(job.jobBy.toString == "SimplyHired"){
+					<div style="text-align: right;">
+					<a STYLE="text-decoration:none" href="http://www.simplyhired.com/">
+					<span style="color: rgb(0, 0, 0); font-size: 12px;">Jobs</span>
+					</a> <span style="font-size: 12px;">by </span>
+					<a STYLE="text-decoration:none" href="http://www.simplyhired.com/">
+					<span style="color: rgb(0, 159, 223); font-weight: bold;  font-size: 12px;">Simply</span>
+					<span style="color: rgb(163, 204, 64); font-weight: bold; font-size: 12px;">Hired</span></a></div>
+					}
+					</td>
 					<td>@job.company</td>
 					<td>@job.location</td>
 					<td>@job.jobType</td>
-					<td>@job.skillsRequired.mkString(",")</td>
 					<td>@format_date(job.datePosted)</td>
 					@if(editFlag == true){
 					<td class="nolink"><a href="/findJobPostForEdit/@job.id"><i class="icon-pencil" title="Edit"></i> </a>
@@ -138,23 +153,39 @@
 
  <script  type="text/javascript">
  
- $(function ()  
-		 { $("#searchString").popover({placement:'bottom'});  
-		 }); 
  $(document).ready(function() {
+	 $("#results").tablesorter();
 	 changeVal();
-	 showRecords(1,10);
+	 showRecords(1,25);
+	 window.addEventListener("load", function() {
+		 jobPagination();
+		}, false); 
+	 $("#searchString").popover({placement:'bottom'}); 
+	
 	});
  
+ function jobPagination() {
+	 var editflag=@editFlag+""
+	    $.ajax({
+	        type : 'GET',
+	        url : '@routes.Application.jobPagination("' + editflag + '")',
+	        success : function(data) {
+	        	 $('#search-result').html(data);
+	        }
+	    });
+	    return false;
+	}
+ 
  $('#myPager').pagination(@jobs.size,{callback:function(page,component){
-	 var itemperpage=10;
+	 var itemperpage=25;
 	 var from=((page + 1) - 1) * itemperpage + 1;
 	 var to=from + itemperpage - 1;
 	 showRecords(from,to);
 	 console.info(page);
-	}})
+	}});
 	
-function showRecords(from, to) {          
+function showRecords(from, to) { 
+	if(document.getElementById("results") != null){
      var rows = document.getElementById("results").rows;  
       // i starts from 1 to skip table header row  
      for (var i = 1; i < rows.length; i++) {  
@@ -163,6 +194,7 @@ function showRecords(from, to) {
          else  
              rows[i].style.display = '';  
      }  
+	}
    }  
  
  $('#search').click(function(e) {
@@ -202,9 +234,17 @@ function showRecords(from, to) {
 	        type : 'POST',
 	        url : '@routes.UserController.registerJobSeeker("' + emailId + '","' + skillsToken + '")',
 	        success : function(data) {
-	        	 document.getElementById("errormsg").innerHTML = '<h3>You Are Successfully Enrolled With ScalaJobz for Job Alerts !</h3>';
-	        	 $("#myModal").modal("hide");
-	        	 $("#successModal").modal("show");
+	        	if (data == "false") {
+	        	 		document.getElementById("errormsg").innerHTML = '<h3>You Are Already Enrolled With ScalaJobz for Job Alerts With Same Attributes ( '+skillsToken+' ) !</h3>';
+	        	 		$("#myModal").modal("hide");
+	        	 		$("#successModal").modal("show");
+	        	}
+	        	else
+	        		{
+	        			document.getElementById("errormsg").innerHTML = '<h3>You Are Successfully Enrolled With ScalaJobz for Job Alerts !</h3>';
+		        	    $("#myModal").modal("hide");
+		        	 	$("#successModal").modal("show");
+	        		}
 	        	 
 	        }
 	    });
@@ -222,14 +262,9 @@ function deleteJob(jobId) {
 	var editflag=@editFlag+""
 	    $.ajax({
 	        type : 'GET',
-	        url : '@routes.JobController.deleteJob("' + jobId + '","' + editflag + '")',
+	        url : '@routes.JobController.deleteJob("' + jobId + '")',
 	        success : function(data) {
-	        	$('#search-result').html(data);
-	        	var addAlert='<div class="alert alert-success">';
-       		 		addAlert += '<a class="close" data-dismiss="alert">×</a>' ; 
-       	     		addAlert += '<strong style="text-transform: capitalize;">Success! </strong>Job Deleted Successfully </div>';
-       	     		document.getElementById("alertHold").innerHTML = addAlert;
-       	     	    window.setTimeout(function() { $(".alert").alert('close'); }, 5000);
+	        	window.location = "/findJobPostByUserId"
 	        }
 	    });
 	    return false;

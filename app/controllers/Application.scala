@@ -21,16 +21,25 @@ import models.UserEntity
 import models.Common
 import play.api.mvc.Action
 import play.api.mvc.Results
+import models.ContactUsForm
+import utils.MailUtility
 
 object Application extends Controller {
   val errorString = "error"
   val currentUserId = "userId"
   val loginFlag = "login"
   val signUpForm = Form(
-   Forms.mapping(
+    Forms.mapping(
       "EmailId" -> nonEmptyText,
       "Password" -> nonEmptyText,
       "ConfirmPassword" -> nonEmptyText)(SignUpForm.apply)(SignUpForm.unapply))
+
+  val contactUsForm = Form(
+    Forms.mapping(
+      "Name" -> nonEmptyText,
+      "EmailAddress" -> nonEmptyText,
+      "Subject" -> nonEmptyText,
+      "Message" -> nonEmptyText)(ContactUsForm.apply)(ContactUsForm.unapply))
 
   /**
    * Login Form Mapping
@@ -44,7 +53,22 @@ object Application extends Controller {
   def index: Action[play.api.mvc.AnyContent] = Action { implicit request =>
     val alert = Common.alert
     Common.setAlert(new Alert("", ""))
-    Ok(views.html.index(alert, request.session.get(currentUserId).getOrElse(""), Job.findAllJobs, false))
+    val pageNumber = 0
+    val jobsPerPage = 25
+    Ok(views.html.index(alert, request.session.get(currentUserId).getOrElse(""), Job.getJobByPagination(pageNumber, jobsPerPage), false))
+  }
+
+  /**
+   * Job Pagination Call
+   */
+
+  def jobPagination(editFlag: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
+    if (editFlag.equals("true")) {
+      val jobPostByUserList = Job.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
+      Ok(views.html.ajax_result(jobPostByUserList, true))
+    } else {
+      Ok(views.html.ajax_result(Job.findAllJobs, false))
+    }
   }
 
   /**
@@ -65,14 +89,14 @@ object Application extends Controller {
       signUpForm => {
         if (!User.findUserByEmail(signUpForm.emailId).isEmpty) {
           Ok(views.html.signup(new Alert(errorString, "This Email Is Already registered With ScalaJobz"),
-              Application.signUpForm, request.session.get(currentUserId).getOrElse(""), flag))
+            Application.signUpForm, request.session.get(currentUserId).getOrElse(""), flag))
         } else {
           val encryptedPassword = (new PasswordHashing).encryptThePassword(signUpForm.password)
-          val newUser = UserEntity(new ObjectId, signUpForm.emailId, encryptedPassword, List(), false)
+          val newUser = UserEntity(new ObjectId, signUpForm.emailId, encryptedPassword, List(), false, None, None)
           val userId = User.createUser(newUser)
           val userSession = request.session + (currentUserId -> userId.get.toString)
-          Common.setAlert(new Alert("success", "Registration Successful"))
           if (flag.equals(loginFlag)) {
+            Common.setAlert(new Alert("success", "Registered Successfully"))
             Results.Redirect("/findAllJobs").withSession(userSession)
           } else {
             Results.Redirect(routes.JobController.newJob).withSession(userSession)
@@ -94,7 +118,7 @@ object Application extends Controller {
         if (!users.isEmpty) {
           val userSession = request.session + (currentUserId -> users(0).id.toString)
           if (flag.equals(loginFlag)) {
-            Ok(views.html.index(new Alert("", ""), users(0).id.toString, Job.findAllJobs, false)).withSession(userSession)
+            Results.Redirect("/findAllJobs").withSession(userSession)
           } else {
             Ok(views.html.postajob(JobController.postAJobForm, users(0).id.toString)).withSession(userSession)
           }
@@ -114,7 +138,47 @@ object Application extends Controller {
    */
 
   def logOutFromScalaJobz: Action[play.api.mvc.AnyContent] = Action {
-    Ok(views.html.index(new Alert("", ""), "", Job.findAllJobs, false)).withNewSession
+    Common.setAlert(new Alert("success", "SignOut Successfully"))
+    Results.Redirect("/findAllJobs").withNewSession
+  }
+
+  /**
+   * Redirect To Contact Us Page
+   */
+
+  def contactUs: Action[play.api.mvc.AnyContent] = Action { implicit request =>
+    Ok(views.html.contactus(contactUsForm, request.session.get(currentUserId).getOrElse("")))
+  }
+
+  /**
+   * Send mail to ScalaJobz through Contact Us Page & Send The Acknowledgement Mail To The Sender
+   */
+
+  def contactUsEmail: Action[play.api.mvc.AnyContent] = Action { implicit request =>
+    contactUsForm.bindFromRequest.fold(
+      errors => BadRequest(views.html.index(new Alert(errorString, "There Was Some Error"), "", Job.findAllJobs, false)),
+      contactUsForm => {
+        MailUtility.sendEmailToScalaJobzFromContactUs(contactUsForm.name, contactUsForm.emailAddress, contactUsForm.subject, contactUsForm.message)
+        MailUtility.acknowledgementMail(contactUsForm.name, contactUsForm.emailAddress)
+        Common.setAlert(new Alert("success", "Your Message Has Been Sent"))
+        Results.Redirect("/findAllJobs")
+      })
+  }
+
+  /**
+   * Redirect To error page
+   */
+
+  def errorPage: Action[play.api.mvc.AnyContent] = Action { implicit request =>
+    Ok(views.html.errorPage("Page Not Found- " + "There Is Some Error"))
+  }
+
+  /**
+   * Redirect To Login Page When Login Failed Via Social Networks
+   */
+
+  def loginFailureViaSocialNetworks: Action[play.api.mvc.AnyContent] = Action { implicit request =>
+    Ok(views.html.login(new Alert(errorString, "SignIn Failure"), Application.logInForm, "", loginFlag))
   }
 
 }

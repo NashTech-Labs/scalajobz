@@ -13,17 +13,16 @@ import org.specs2.mutable.BeforeAfter
 import models.JobDAO
 import models.UserDAO
 import com.mongodb.casbah.commons.MongoDBObject
-
-
+import models.JobBy
 
 @RunWith(classOf[JUnitRunner])
-class RouterTest extends Specification with BeforeAfter{
-  
- override def before{
-   JobDAO.remove(MongoDBObject("location" -> ".*".r))
-   UserDAO.remove(MongoDBObject("emailId" -> ".*".r))
- }
-  
+class RouterTest extends Specification with BeforeAfter {
+
+  override def before {
+    JobDAO.remove(MongoDBObject("location" -> ".*".r))
+    UserDAO.remove(MongoDBObject("emailId" -> ".*".r))
+  }
+
   "respond to the index Action" in {
     val Some(result) = routeAndCall(FakeRequest(GET, "/"))
     status(result) must equalTo(OK)
@@ -85,9 +84,7 @@ class RouterTest extends Specification with BeforeAfter{
 
   "logout Action" in {
     val Some(result) = routeAndCall(FakeRequest(GET, "/logout"))
-    status(result) must equalTo(OK)
-    contentType(result) must beSome("text/html")
-    charset(result) must beSome("utf-8")
+    status(result) must equalTo(303)
   }
 
   "find a job with search token Action" in {
@@ -98,38 +95,17 @@ class RouterTest extends Specification with BeforeAfter{
   }
 
   "find a job via jobid Action" in {
-    val job = JobEntity(new ObjectId, new ObjectId, "Consultant", "HCL", " Noida", "Contract", "narender@gmail.com", List(), "Description", new Date)
+    val job = JobEntity(new ObjectId, Option(new ObjectId), "Consultant", "HCL", " Noida", "Contract", "narender@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"))
     Job.addJob(job)
-    val Some(result) = routeAndCall(FakeRequest(GET, "/jobDetail/"+ job.id ))
+    val Some(result) = routeAndCall(FakeRequest(GET, "/jobDetail/" + job.id))
     status(result) must equalTo(OK)
     contentType(result) must beSome("text/html")
     charset(result) must beSome("utf-8")
   }
-  
-//  "redirect to User Profile Action " in {
-//    val Some(result) = routeAndCall(FakeRequest(GET, "/editUserProfile"))
-//    status(result) must equalTo(OK)
-//    contentType(result) must beSome("text/html")
-//    charset(result) must beSome("utf-8")
-//  }
-// 
-//  "find Job Post By UserId Action " in {
-//    val Some(result) = routeAndCall(FakeRequest(GET, "/findJobPostByUserId"))
-//    status(result) must equalTo(OK)
-//    contentType(result) must beSome("text/html")
-//    charset(result) must beSome("utf-8")
-//  }
-//  
-//  "update User Profile Action " in {
-//    val Some(result) = routeAndCall(FakeRequest(POST, "/updateUserProfile"))
-//    status(result) must equalTo(OK)
-//    contentType(result) must beSome("text/html")
-//    charset(result) must beSome("utf-8")
-//  }
- 
- override def after{
-   JobDAO.remove(MongoDBObject("location" -> ".*".r))
-   UserDAO.remove(MongoDBObject("emailId" -> ".*".r))
- }
- 
+
+  override def after {
+    JobDAO.remove(MongoDBObject("location" -> ".*".r))
+    UserDAO.remove(MongoDBObject("emailId" -> ".*".r))
+  }
+
 }

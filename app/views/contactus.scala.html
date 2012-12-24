@@ -1,0 +1,86 @@
+@(contactUsForm: Form[ContactUsForm],userId:String) 
+@import models.Alert 
+@main("Welcome to Scalajobz.com",userId,Alert("","")) {
+
+<div id="homewhite">
+	<div class="page">
+		<h1>Lets get in touch </h1>
+		<div class="border-center">
+			<div class="box-post">
+				<div class="bordered">
+					<form id="contactus-form" class="form-horizontal" action="/contactUsEmail" method="post">
+						<table>
+							<tr>
+								<td>
+									<div class="control-group">
+										<label class="control-label" for="Name">Name</label>
+										<div class="controls">
+											<input id="Name" name="Name" type="text" placeholder="Name" class="input-large"/>
+										</div>
+									</div>
+								</td>
+							</tr>
+						
+							<tr>
+								<td>
+									<div class="control-group">
+										<label class="control-label" for="EmailAddress">Email Address</label>
+										<div class="controls">
+											<input id="EmailAddress" name="EmailAddress" type="text"
+												placeholder="Email Address" class="input-large"/>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="control-group">
+										<label class="control-label" for="Subject">Subject</label>
+										<div class="controls">
+											<input id="Subject" name="Subject" type="text"
+												placeholder="Subject" class="input-large"/>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="control-group">
+										<label class="control-label" for="Message">Message</label>
+										<div class="controls">
+											<textarea id="Message" name="Message" rows="6"  style="resize: none;"
+												placeholder="Message" class="input-tlarge"></textarea>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="control-group">
+										<div class="controls">
+											<input type="submit" value="Send Message" class="btn btn-primary" />
+											<img id="ajaxImageCtrl" src="@routes.Assets.at("/images/load.gif")" style="display: none;" />
+										</div>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$('#contactus-form').submit(function(e) {
+		var name = $("#Name").val();
+		var emailAddress = $("#EmailAddress").val();
+		var message = $("#Message").val();
+		var subject = $("#Subject").val();
+		if (!name == "" && !emailAddress == ""&& !message == "" && !subject == "" && validateEmail(emailAddress)) {
+			document.getElementById("ajaxImageCtrl").style.display = 'inline'	
+		}
+	});
+	</script>
+}

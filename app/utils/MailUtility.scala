@@ -81,4 +81,54 @@ object MailUtility {
     transport.sendMessage(msg, msg.getAllRecipients)
   }
 
+  /**
+   * Sent mail to Scalajobz when anyone make a suggestion on contact us page
+   * @param name is mail sender name
+   * @param emailAddress is sender email id
+   * @param subject is mail subject
+   * @param message is sender message
+   */
+  def sendEmailToScalaJobzFromContactUs(name: String, senderEmailAddress: String, subject: String, message: String): Unit = {
+    val props = new Properties
+    props.setProperty("mail.transport.protocol", protocolName)
+    props.setProperty("mail.smtp.starttls.enable", "true")
+    props.setProperty("mail.host", serverProtocol)
+    props.setProperty("mail.user", mailServer)
+    props.setProperty("mail.password", ConversionUtility.decodeMe(Play.current.configuration.getString(email_password).get))
+    val session = Session.getDefaultInstance(props, null);
+    val msg = new MimeMessage(session)
+    val recepientAddress = new InternetAddress(mailServer)
+    msg.setFrom(new InternetAddress(supportMailString, supportMailString))
+    msg.addRecipient(Message.RecipientType.TO, recepientAddress);
+    msg.setSubject("Contact Us ScalaJobz : " + subject);
+    msg.setContent(Common.setContentForContactUsMail(name, senderEmailAddress, subject, message), "text/html")
+    val transport = session.getTransport(protocolName);
+    transport.connect(serverProtocol, mailServer, ConversionUtility.decodeMe(Play.current.configuration.getString(email_password).get))
+    transport.sendMessage(msg, msg.getAllRecipients)
+  }
+
+  /**
+   * Acknowledgement Mail
+   * @param jobSeeker is the mail receiver
+   * @param jobs are the jobs matching the seekers skills
+   */
+  def acknowledgementMail(name: String, senderEmailAddress: String): Unit = {
+    val props = new Properties
+    props.setProperty("mail.transport.protocol", protocolName)
+    props.setProperty("mail.smtp.starttls.enable", "true")
+    props.setProperty("mail.host", serverProtocol)
+    props.setProperty("mail.user", mailServer)
+    props.setProperty("mail.password", ConversionUtility.decodeMe(Play.current.configuration.getString(email_password).get))
+    val session = Session.getDefaultInstance(props, null);
+    val msg = new MimeMessage(session)
+    val recepientAddress = new InternetAddress(senderEmailAddress)
+    msg.setFrom(new InternetAddress(supportMailString, supportMailString))
+    msg.addRecipient(Message.RecipientType.TO, recepientAddress);
+    msg.setSubject("Thanks For Mailing Us ScalaJobz");
+    msg.setContent(Common.setContentForAcknowledgementMail(name), "text/html")
+    val transport = session.getTransport(protocolName);
+    transport.connect(serverProtocol, mailServer, ConversionUtility.decodeMe(Play.current.configuration.getString(email_password).get))
+    transport.sendMessage(msg, msg.getAllRecipients)
+  }
+
 }

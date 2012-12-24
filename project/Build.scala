@@ -16,7 +16,10 @@ object ApplicationBuild extends Build {
     "com.typesafe.akka" % "akka-remote" % "2.0.2",
     "commons-codec" % "commons-codec" % "1.6",
     "org.specs2" %% "specs2" % "1.12.3" % "test",
-    "org.scalatest" %% "scalatest" % "1.7.2")
+    "org.scalatest" %% "scalatest" % "1.7.2",
+    "org.twitter4j" % "twitter4j-core" % "2.2.1",
+    "com.restfb" % "restfb" % "1.6.9",
+    "org.scribe" % "scribe" % "1.3.2")
 
   val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings(
     testOptions in Test := Nil // Add your own project settings here      

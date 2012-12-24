@@ -40,7 +40,9 @@ case class UserEntity(@Key("_id") id: ObjectId,
   emailId: String,
   password: String,
   skills: List[String],
-  jobSeeker: Boolean)
+  jobSeeker: Boolean,
+  socialNetworkChannel: Option[String],
+  socailNetworkId: Option[String])
 
 /** Factory for [[models.UserEntity]] instances. */
 object User {
@@ -61,7 +63,7 @@ object User {
    * @param password is password of user to be updated
    */
   def updateUser(employer: UserEntity, password: String): Unit = {
-    UserDAO.update(MongoDBObject("_id" -> employer.id), new UserEntity(employer.id, employer.emailId, password, employer.skills, employer.jobSeeker), false, false, new WriteConcern)
+    UserDAO.update(MongoDBObject("_id" -> employer.id), new UserEntity(employer.id, employer.emailId, password, employer.skills, employer.jobSeeker, employer.socialNetworkChannel, employer.socailNetworkId), false, false, new WriteConcern)
   }
   /**
    * Finding the job seekers
@@ -114,6 +116,64 @@ object User {
         true
     }
 
+  }
+
+  /**
+   *  Find User Via Social Networks
+   *  @param emailId is the emailId of user to be searched
+   *  @param socialMediumChannel is the network channel
+   *  @param socialMediumId is the network channel Id
+   */
+
+  def findUserViaSocialNetwork(emailId: String, socialNetworkChannel: String, socailNetworkId: String): List[UserEntity] = {
+    UserDAO.find(MongoDBObject("emailId" -> emailId, "socialNetworkChannel" -> Option(socialNetworkChannel), "socailNetworkId" -> Option(socailNetworkId))).toList
+  }
+
+  /**
+   * Subscribe Through Social Network
+   * @param userName is the name of the user to be subscribed through Social Networks
+   */
+
+  def getOrCreateUserBySocialNetwork(userName: String, socialNetworkChannel: String, socailNetworkId: String): String = {
+    val userList = User.findUserViaSocialNetwork(userName, socialNetworkChannel, socailNetworkId)
+    if (userList.isEmpty) {
+      val newUser = UserEntity(new ObjectId, userName, "", List(), false, Option(socialNetworkChannel), Option(socailNetworkId))
+      createUser(newUser).get.toString
+    } else {
+      userList(0).id.toString
+    }
+
+  }
+
+  /**
+   * Check For Existing Job Seeker
+   * @param emailId is the emailId of jobseeker
+   * @param skills is user searching token
+   */
+
+  def jobSeekerExist(emailId: String, skills: List[String]): Boolean = {
+    val jobSeekers = UserDAO.find(MongoDBObject("emailId" -> emailId, "skills" -> skills)).toList
+    jobSeekers.isEmpty match {
+      case true => false
+      case false => true
+    }
+
+  }
+
+  /**
+   * To Give the permission to the scala jobz user to edit their profile
+   * @param userId is the userId Of User
+   */
+
+  def isUserLoginViaScalaJobz(userId: String): Boolean = {
+    User.findUserById(userId) match {
+      case None => false
+      case Some(user: UserEntity) =>
+        if (user.socialNetworkChannel == None)
+          true
+        else
+          false
+    }
   }
 
 }

@@ -21,6 +21,7 @@ import org.specs2.mutable.BeforeAfter
 import models.JobDAO
 import models.UserDAO
 import com.mongodb.casbah.commons.MongoDBObject
+import models.JobBy
 
 @RunWith(classOf[JUnitRunner])
 class TemplateTest extends Specification with BeforeAfter {
@@ -31,7 +32,7 @@ class TemplateTest extends Specification with BeforeAfter {
   }
 
   "index template" in {
-    val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false)
+    val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false, None, None)
     User.createUser(employer)
     val employers = User.findUserByEmail("neelkanth@knoldus.com")
     val html = views.html.index(new Alert("Welcome", "Welcome in scalajobz"), employers.head.id.toString, List(), false)
@@ -45,9 +46,9 @@ class TemplateTest extends Specification with BeforeAfter {
   }
 
   "edit job template" in {
-    val job = JobEntity(new ObjectId, new ObjectId, "Consultant", "HCL", " Noida", "Contract", "narender@gmail.com", List(), "Description", new Date)
+    val job = JobEntity(new ObjectId, Option(new ObjectId), "Consultant", "HCL", " Noida", "Contract", "narender@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"))
     Job.addJob(job)
-    val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false)
+    val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false, None, None)
     User.createUser(employer)
     val employers = User.findUserByEmail("neelkanth@knoldus.com")
     val html = views.html.editJob(job, JobController.postAJobForm, employers.head.id.toString)
@@ -55,7 +56,7 @@ class TemplateTest extends Specification with BeforeAfter {
   }
 
   "edit user profile  template" in {
-    val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false)
+    val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false, None, None)
     User.createUser(employer)
     val employers = User.findUserByEmail("neelkanth@knoldus.com")
     val html = views.html.editUserProfile(new Alert("Welcome", "Welcome in scalajobz"), employers.head,
@@ -77,9 +78,9 @@ class TemplateTest extends Specification with BeforeAfter {
   }
 
   "job detail template" in {
-    val job = JobEntity(new ObjectId, new ObjectId, "Consultant", "HCL", " Noida", "Contract", "narender@gmail.com", List(), "Description", new Date)
+    val job = JobEntity(new ObjectId, Option(new ObjectId), "Consultant", "HCL", " Noida", "Contract", "narender@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"))
     Job.addJob(job)
-    val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false)
+    val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false, None, None)
     User.createUser(employer)
     val employers = User.findUserByEmail("neelkanth@knoldus.com")
     val html = views.html.jobDetail(job, employers.head.id.toString)
@@ -87,7 +88,7 @@ class TemplateTest extends Specification with BeforeAfter {
   }
 
   "login template" in {
-    val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false)
+    val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false, None, None)
     User.createUser(employer)
     val employers = User.findUserByEmail("neelkanth@knoldus.com")
     val html = views.html.login(new Alert("Success", "Login SuccessFull"), Application.logInForm, employers.head.id.toString, "login")
@@ -96,7 +97,7 @@ class TemplateTest extends Specification with BeforeAfter {
   }
 
   "post a job template" in {
-    val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false)
+    val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false, None, None)
     User.createUser(employer)
     val employers = User.findUserByEmail("neelkanth@knoldus.com")
     val html = views.html.postajob(JobController.postAJobForm, employers.head.id.toString)
@@ -104,7 +105,7 @@ class TemplateTest extends Specification with BeforeAfter {
   }
 
   "sign up template" in {
-    val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false)
+    val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false, None, None)
     User.createUser(employer)
     val employers = User.findUserByEmail("neelkanth@knoldus.com")
     val html = views.html.signup(new Alert("Success", "Login SuccessFull"), Application.signUpForm, employers.head.id.toString, "login")

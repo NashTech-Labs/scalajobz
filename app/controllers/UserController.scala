@@ -20,7 +20,7 @@ import play.api.data.Forms
 
 object UserController extends Controller {
   val activeUserId = "userId"
-  val errorString="error"
+  val errorString = "error"
 
   val editUserProfileForm = Form(
     Forms.mapping(
@@ -63,13 +63,14 @@ object UserController extends Controller {
           User.updateUser(userProfile, encryptedPassword)
           Ok(views.html.editUserProfile(new Alert("success", "Profile Updated"),
             userProfile, UserController.editUserProfileForm, request.session.get(activeUserId).getOrElse("")))
-        } else if(currentEncryptedPassword.equals(encryptedPassword)){
+        } else if (currentEncryptedPassword.equals(encryptedPassword)) {
           Ok(views.html.editUserProfile(new Alert(errorString, "Current Password & New Password are same"),
             userProfile, UserController.editUserProfileForm, request.session.get(activeUserId).getOrElse("")))
-        } else{
+        } else {
           Ok(views.html.editUserProfile(new Alert(errorString, "Invalid Current Password"),
             userProfile, UserController.editUserProfileForm, request.session.get(activeUserId).getOrElse("")))
-      }})
+        }
+      })
   }
 
   /**
@@ -98,9 +99,14 @@ object UserController extends Controller {
    * Register Job seeker for getting Job alert
    */
   def registerJobSeeker(emailId: String, skillsToken: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
-    val newJobSeeker = UserEntity(new ObjectId, emailId, "", skillsToken.split(" ").toList.filter(x => !(x == "")), true)
-    val userId = User.createUser(newJobSeeker)
-    Ok
+    val jobSeekerExist = User.jobSeekerExist(emailId, skillsToken.toLowerCase.split(" ").toList.filter(x => !(x == "")))
+    if (jobSeekerExist) {
+      Ok(false.toString)
+    } else {
+      val newJobSeeker = UserEntity(new ObjectId, emailId, "", skillsToken.toLowerCase.split(" ").toList.filter(x => !(x == "")), true, None, None)
+      val userId = User.createUser(newJobSeeker)
+      Ok(true.toString)
+    }
   }
 
   /**
@@ -110,7 +116,7 @@ object UserController extends Controller {
   def unSubscribeJobSeeker(userId: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
     User.unSubscribeJobSeeker(userId) match {
       case true => Ok(views.html.index(new Alert("success", "Unsubscribed From ScalaJobz"),
-          request.session.get(activeUserId).getOrElse(""), Job.findAllJobs, false))
+        request.session.get(activeUserId).getOrElse(""), Job.findAllJobs, false))
       case false => Ok(views.html.errorPage("There Is Some Error :User Not Subscribed With ScalaJobz"))
     }
   }

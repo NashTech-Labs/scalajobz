@@ -16,6 +16,9 @@ import models.Alert
 import models.Common
 import play.api.mvc.Action
 import play.api.mvc.Results
+import models.JobBy
+import utils.TwitterTweet
+import utils.FacebookFeed
 
 object JobController extends Controller {
 
@@ -34,11 +37,12 @@ object JobController extends Controller {
    */
 
   def postAJob: Action[play.api.mvc.AnyContent] = Action { implicit request =>
-    if(request.session.get("userId") == None){
+    if (request.session.get("userId") == None) {
       Ok(views.html.login(new Alert("", ""), Application.logInForm, request.session.get("userId").getOrElse(""), "jobPost"))
-    } else{
+    } else {
       Ok(views.html.postajob(postAJobForm, request.session.get("userId").getOrElse("")))
-  }}
+    }
+  }
 
   /**
    * Post A Job on scalajobz.com
@@ -56,12 +60,21 @@ object JobController extends Controller {
             Ok(views.html.login(new Alert("", ""),
               Application.logInForm, request.session.get("userId").getOrElse(""), "jobPost"))
           } else {
-            val job = JobEntity(new ObjectId, new ObjectId(request.session.get("userId").get),
+            val job = JobEntity(new ObjectId, Option(new ObjectId(request.session.get("userId").get)),
               postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType,
-              postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList, postAJobForm.description, new Date)
-            Job.addJob(job)
-            Common.setAlert(new Alert("success", "Job Posted Successfully"))
-            Results.Redirect("/findJobPostByUserId")
+              postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList,
+              postAJobForm.description, new Date, JobBy.withName("ScalaJobz"))
+            Job.addJob(job) match {
+              case None =>
+                Common.setAlert(new Alert("error", "Job Already Exist!"))
+                Results.Redirect("/findJobPostByUserId")
+              case _ =>
+                TwitterTweet.tweetANewJobPost(job)
+                //FacebookFeed.publishMessage(job)
+                Common.setAlert(new Alert("success", "Job Posted Successfully!"))
+                Results.Redirect("/findJobPostByUserId")
+            }
+
           }
         }
       })
@@ -73,11 +86,12 @@ object JobController extends Controller {
 
   def findAJob(searchString: String, editFlag: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
     val searchJobList = Job.searchTheJob(searchString)
-    if(editFlag.equals("true")){
+    if (editFlag.equals("true")) {
       Ok(views.html.ajax_result(searchJobList, true))
-    } else{
+    } else {
       Ok(views.html.ajax_result(searchJobList, false))
-  }}
+    }
+  }
 
   /**
    * Find Job Detail By JobId
@@ -106,11 +120,10 @@ object JobController extends Controller {
         postAJobForm.bindFromRequest.fold(
           errors => BadRequest(views.html.editJob(job, postAJobForm, request.session.get("userId").getOrElse(""))),
           postAJobForm => {
-            val editJob = JobEntity(job.id, job.userId, postAJobForm.position, postAJobForm.company
-                ,postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList,
-                postAJobForm.description, new Date)
+            val editJob = JobEntity(job.id, job.userId, postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList,
+              postAJobForm.description, new Date, job.jobBy)
             Job.updateJob(editJob)
-            Common.setAlert(new Alert("success", "Job Posted Successfully"))
+            Common.setAlert(new Alert("success", "Job Updated"))
             Results.Redirect("/findJobPostByUserId")
           })
     }
@@ -120,13 +133,10 @@ object JobController extends Controller {
    * Delete Job by JobId
    */
 
-  def deleteJob(jobId: String, editFlag: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
+  def deleteJob(jobId: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
+    Common.setAlert(new Alert("success", "Job Deleted"))
     Job.deleteJobByJobId(new ObjectId(jobId))
-    val jobPostByUserList = Job.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
-    if(editFlag.equals("true")){
-      Ok(views.html.ajax_result(jobPostByUserList, true))
-    } else{
-      Ok(views.html.ajax_result(jobPostByUserList, false))
-  }}
+    Ok
+  }
 
 }

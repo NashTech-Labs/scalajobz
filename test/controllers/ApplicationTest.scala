@@ -45,7 +45,6 @@ class ApplicationTest extends Specification {
 
   "logOutFromScalaJobz" in {
     val result = controllers.Application.logOutFromScalaJobz(FakeRequest())
-    status(result) must equalTo(OK)
-    contentType(result) must beSome("text/html")
+    status(result) must equalTo(303)
   }
 }

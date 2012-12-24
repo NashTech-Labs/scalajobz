@@ -16,7 +16,7 @@
 
 				<div class="box">
 					<div class="bordered">
-						<h2>Login Here</h2>
+						<h2>Sign In Here</h2>
 						<form id="login-form" action="/login/@flag" method="post">
 							<div class="control-group">
 								<label class="control-label" for="EmailId">Email</label>
@@ -33,11 +33,34 @@
 
 							<div class="control-group">
 								<div class="controls">
-									<input type="submit" value="LogIn" class="btn btn-primary"/>
+									<input type="submit" value="Sign In" class="btn btn-primary"/>
 								</div>
 							</div>
+							<span class="or-label">OR</span>
+							<table style="height: 50px;">
+							<tr>
+							<td>
+							<a onclick ="open_win_login('/google/login',800,400)" href="javascript:void(0);">
+								<img class="signInImage" src="@routes.Assets.at("images/google_signin.png")" 
+								alt="Google" title="SignIn With Google"/>
+							</a>
+							<a onclick ="open_win_login('/facebook/login',700,500)" href="javascript:void(0);">
+								<img class="signInImage" src="@routes.Assets.at("images/facebook_signin.png")" 
+								alt="Facebook" title="SignIn With Facebook"/>
+							</a>
+							<a onclick ="open_win_login('/linkedin/login',600,400)" href="javascript:void(0);">
+								<img class="signInImage" src="@routes.Assets.at("images/linkedin_signin.png")" 
+								alt="LinkedIn" title="SignIn With LinkedIn"/>
+							</a>
+						    <a onclick ="open_win_login('/twitter/twitterLogin',600,400)" href="javascript:void(0);">
+						    	<img class="signInImage" src="@routes.Assets.at("images/twitter_bg_signin.png")" 
+						    	alt="Twitter" title="SignIn With Twitter"/>
+						    </a>
+						</td>
+						</tr>
+						</table>
 						<div class="separator-line"></div>
-						<a href="/forgetPassword"><h2>Forget Password?</h2> 	</a>
+						<a href="/forgetPassword"><h2>Forgot Password?</h2></a>
 						</form>
 					</div>
 				</div>

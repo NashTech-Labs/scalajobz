@@ -17,14 +17,14 @@ class UserTest extends FunSuite with BeforeAndAfter {
   }
 
   test("create a user & find a user (Job seeker/employer)") {
-    val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false)
+    val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false, None, None)
     val employerId = User.createUser(employer)
     val employers = User.findUserByEmail("neelkanth@knoldus.com")
     assert(employers.size === 1)
   }
 
   test("Update Employer") {
-    val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false)
+    val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false, None, None)
     User.createUser(employer)
     val employers = User.findUserByEmail("neelkanth@knoldus.com")
     assert(employers.head.jobSeeker === false)
@@ -33,7 +33,7 @@ class UserTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Find User(Employer) Via Email Id & Password") {
-    val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false)
+    val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false, None, None)
     User.createUser(employer)
     val employers = User.findUserByEmail("neelkanth@knoldus.com")
     assert(employers.head.password === "ABCD")
@@ -41,10 +41,29 @@ class UserTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Find Job Seeker") {
-    val jobSeeker = UserEntity(new ObjectId, "neelkanth@knoldus.com", "", List("Scala"), true)
+    val jobSeeker = UserEntity(new ObjectId, "neelkanth@knoldus.com", "", List("Scala"), true, None, None)
     User.createUser(jobSeeker)
     val jobseekers = User.findUserById(jobSeeker.id.toString)
     assert(jobseekers.head.jobSeeker === true)
+  }
+
+  test("test for Job Seeker Exist") {
+    val jobSeeker = UserEntity(new ObjectId, "neelkanth@knoldus.com", "", List("Scala"), true, None, None)
+    User.createUser(jobSeeker)
+    val jobSeekerExist = User.jobSeekerExist("neelkanth@knoldus.com", List("Scala"))
+    assert(jobSeekerExist === true)
+  }
+
+  test("Test For User Create Via Social Network") {
+    val userId = User.getOrCreateUserBySocialNetwork("neelkanth@knoldus.com", "facebook", "73473957")
+    val user: Option[UserEntity] = User.findUserById(userId)
+    assert(user.get.emailId === "neelkanth@knoldus.com")
+  }
+
+  test("find user register via social network") {
+    val userId = User.getOrCreateUserBySocialNetwork("neelkanth@knoldus.com", "facebook", "73473957")
+    val users = User.findUserViaSocialNetwork("neelkanth@knoldus.com", "facebook", "73473957")
+    assert(users.size === 1)
   }
 
   after {

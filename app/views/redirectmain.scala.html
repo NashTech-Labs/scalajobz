@@ -1,0 +1,19 @@
+@(userId:String ,status:String) 
+@import models.Alert 
+@main("Welcome to Scalajobz.com",userId,Alert("","")) {
+
+<body onload="redirect('@status');"></body>
+
+<script type="text/javascript">
+	function redirect(status) {
+		if (status == "success")
+			{
+			close_win('http://www.scalajobz.com/findAllJobs');
+			}
+		else
+			{
+			close_win('http://www.scalajobz.com/loginFailure');
+			}
+	}
+</script>
+}
