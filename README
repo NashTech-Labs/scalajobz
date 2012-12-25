@@ -8,6 +8,55 @@ Scalajobz is a community driven job portal for Scala jobs.  It is specifically f
 External systems can fetch all job details and search for specific jobs using the REST Api.
 
 ------------------------------------------------
+Functionality Of Scalajobz:-
+------------------------------------------------
+
+Scalajobz is a community driven job portal for Scala jobs.  It is specifically focussed on the Scala ecosystem.
+
+Scalajobz Aggregate from various Job Portals like Indeed, Simply Hired ,Career Builder and so on to get the collection of relevant Scala jobs.
+
+Roles on Scala Jobz
+
+1)Recruiter
+2)Job Seeker
+3)Publishers
+
+1) Recruiter:-
+
+To Post a job, Recruiter have to login In Scalajobz through easy registration process on Scalajobz Or
+
+login through various Social Networks like Google,Face book,Twitter & Linked in.
+
+Recruiter have the right to post job(s) by mentioning following details:-
+
+Position
+Company Name
+Location
+Skills Required
+Job type(Contract/Permanent)
+Email Address/Link to apply for job
+Description(Job details with required experience)
+
+Recruiter can edit and delete the job as well
+
+Recruiters can edit their profile also.They have the right to change their password any time and can get the forget password mail on request.
+
+2) Job Seeker:-
+
+
+Job Seeker can search jobs on Scalajobz by using any searching criteria like(Scala Jobs,India).
+Job Seeker can get daily job mail alert from Scalajobz by en-roll themselves.
+Job Seeker can apply for the desired job by sending mail to the recruiter mentioned in job details or by using the link mentioned.
+
+3) Publisher:-
+
+
+External systems can fetch all jobs List  as json response and search for specific jobs using the REST API  posted in last 24 hrs.
+The details of REST API is mentioned on the site footer.
+
+
+
+------------------------------------------------
 Why it does it this way, benefits and drawbacks:-
 ------------------------------------------------
 
