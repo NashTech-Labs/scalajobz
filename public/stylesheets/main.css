@@ -4811,10 +4811,11 @@ img.shadow-right {
 	border-bottom: 1px solid #bbbbbb;
 }
 
-#logos img {
+#logos .social-link img {
 	float: right;
 	margin: 10px 0 0 0;
 }
+
 
 #logos p {
 	font-family: arial;
