@@ -62,7 +62,7 @@ object Common {
 
     val removeJobAlertLink = "http://" + getContextUrl + "/unSubscribeJobSeeker/" + jobSeeker.id
     var message = "<b>Job Alert from scalajobz.com</b>" +
-      break + break + "<b>Your Job Details</b>" + break + break
+      break + break + "Your Job Details For <b>" + jobSeeker.skills.mkString(" ") + " </b>" + break + break
     for (job <- jobs) {
       val redirectToJobLink = "http://" + getContextUrl + "/jobDetail/" + job.id
       message += "<b><u><a href= " + redirectToJobLink + ">" + job.position + "</a></u></b>" + break

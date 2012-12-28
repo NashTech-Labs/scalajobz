@@ -26,7 +26,7 @@ object MailUtility {
    * @param jobSeeker is the mail receiver
    * @param jobs are the jobs matching the seekers skills
    */
-  def sendEmail(jobSeeker: UserEntity, jobs: List[JobEntity]): Unit = {
+  def sendDailyJobAlertMail(jobSeeker: UserEntity, jobs: List[JobEntity]): Unit = {
     val props = new Properties
     props.setProperty("mail.transport.protocol", protocolName)
     props.setProperty("mail.smtp.starttls.enable", "true")
@@ -68,7 +68,7 @@ object MailUtility {
 
     msg.setContent(
 
-      "Hi <b>ScalaJobz</b> User." + break + break +
+      "Hi <b>ScalaJobz</b> User," + break + break +
         "Here is your account details " + break + break +
         "Email-Id: " + emailId + break +
         "Password: " + password + break +

@@ -1,6 +1,7 @@
 @(job:JobEntity,userId:String)
 @import java.text.SimpleDateFormat
 @import models.Alert
+@import utils.BitlyUtil
 
 @format_date(date: java.util.Date) = @{
 	new SimpleDateFormat("MMM dd yyyy").format(date)
@@ -26,8 +27,11 @@
 					
 					@if(job.userId == None){
 					
-						<Strong>Link To Apply:</Strong>
-						<a href="@job.emailAddress"><h5><u>@job.emailAddress</u></h5></a>
+						<Strong>Click To Apply:</Strong>
+						<a onclick=open_win('@job.emailAddress') href="javascript:void(0);" >
+						<h5><u>@BitlyUtil.generateTinyUrl(job.emailAddress)</u>
+						</h5>
+						</a>
 					
 					}else{
 				

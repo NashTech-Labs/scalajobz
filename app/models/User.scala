@@ -88,6 +88,15 @@ object User {
   def findUserByEmail(emailId: String): List[UserEntity] = {
     UserDAO.find(MongoDBObject("emailId" -> emailId, "jobSeeker" -> false)).toList
   }
+  
+  /**
+   *  Find Users By Email Registered Through ScalaJobz
+   *  @param emailId is the emailId of jobseeker to be searched
+   */
+
+  def findUserRegisteredWithScalaJobzViaEmailId(emailId: String): List[UserEntity] = {
+    UserDAO.find(MongoDBObject("emailId" -> emailId, "jobSeeker" -> false ,"socialNetworkChannel" -> None)).toList
+  }
 
   /**
    * Find User By User Id

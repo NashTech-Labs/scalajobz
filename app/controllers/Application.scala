@@ -87,7 +87,7 @@ object Application extends Controller {
       errors => BadRequest(views.html.index(new Alert(errorString, "There Was Some Errors During The SignUp"),
         request.session.get(currentUserId).getOrElse(""), Job.findAllJobs, false)),
       signUpForm => {
-        if (!User.findUserByEmail(signUpForm.emailId).isEmpty) {
+        if (!User.findUserRegisteredWithScalaJobzViaEmailId(signUpForm.emailId).isEmpty) {
           Ok(views.html.signup(new Alert(errorString, "This Email Is Already registered With ScalaJobz"),
             Application.signUpForm, request.session.get(currentUserId).getOrElse(""), flag))
         } else {

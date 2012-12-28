@@ -85,11 +85,11 @@ object UserController extends Controller {
    */
 
   def sendForgetPassword(emailId: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
-    if (User.findUserByEmail(emailId).isEmpty) {
+    val users = User.findUserRegisteredWithScalaJobzViaEmailId(emailId)
+    if (users.isEmpty) {
       Ok(false.toString)
     } else {
-      val userList = User.findUserByEmail(emailId)
-      val user = Option(userList.toList(0)).get
+      val user = Option(users.toList(0)).get
       MailUtility.sendPassword(user.emailId, (new PasswordHashing).decryptThePassword(user.password))
       Ok(true.toString)
     }

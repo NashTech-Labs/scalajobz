@@ -12,6 +12,7 @@ import com.mongodb.casbah.Imports.WriteConcern
 import com.mongodb.casbah.MongoConnection
 import utils.DailyJobAlert
 import utils.TwitterTweet
+import java.text.SimpleDateFormat
 
 /**
  * Class for Post A Job Form
@@ -47,6 +48,15 @@ case class JobEntity(@Key("_id") id: ObjectId,
   datePosted: Date,
   jobBy: JobBy.Value)
 
+/**
+ * JobMailAlertEntity
+ * @param userId the jobSeeker's id
+ * @param mailSentTime is the time when mail sent to Jobseeker
+ */
+case class JobMailAlertEntity(@Key("_id") id: ObjectId,
+  userId: ObjectId,
+  mailSentTime: Date)
+
 /** Factory for [[models.JobEntity]] instances. */
 object Job {
 
@@ -55,7 +65,11 @@ object Job {
    * To be displayed in drop down list on UI
    */
   def jobType: Seq[(String, String)] = {
-    Seq("Contract" -> "Contract", "Permanent" -> "Permanent")
+    Seq("Contract" -> "Contract",
+      "Permanent" -> "Permanent",
+      "Project" -> "Project",
+      "Telecommute" -> "Telecommute",
+      "Other" -> "Other")
   }
 
   /**
@@ -111,6 +125,7 @@ object Job {
     val searchStringTokenList = stringTobeSearched.split(" ").toList.filter(x => !(x == ""))
     val allJobs = findAllJobs
     searchJobs(searchStringTokenList, allJobs)
+
   }
 
   /**
@@ -133,8 +148,8 @@ object Job {
     allJobs filter (job =>
       patternToFindJob.matcher(job.position + "," + job.company
         + "," + job.location + "," + job.jobType
-        + "," + job.skillsRequired + "," + job.datePosted
-        + "," + job.description + "," + job.jobBy).find)
+        + "," + job.skillsRequired + "," + new SimpleDateFormat("MMM dd yyyy").format(job.datePosted)
+        + "," + job.jobBy).find)
   }
 
   /**
@@ -192,6 +207,34 @@ object Job {
     val jobs = JobDAO.find(MongoDBObject()).sort(orderBy = MongoDBObject("datePosted" -> -1)).skip((pageNumber) * jobsPerPage).limit(jobsPerPage).toList
     jobs
   }
+
+  def findJobseekerForJobMailAlert(userId: ObjectId): Option[JobMailAlertEntity] = {
+    val users = JobMailAlertDAO.find(MongoDBObject("userId" -> userId)).toList
+    (users.isEmpty) match {
+      case true => None
+      case false => Option(users.toList(0))
+    }
+  }
+
+  def isJobAlertMailSent(userId: ObjectId): Boolean = {
+    findJobseekerForJobMailAlert(userId) match {
+      case None =>
+        val jobMailAlertEntity = JobMailAlertEntity(new ObjectId, userId, new Date)
+        JobMailAlertDAO.insert(jobMailAlertEntity)
+        false
+      case Some(jobMailAlertEntity) =>
+        (((new Date).getTime - jobMailAlertEntity.mailSentTime.getTime) / (1000 * 60 * 60) <= 24) match {
+          case true => true
+          case false =>
+            val updateJobMailAlertEntity = JobMailAlertEntity(jobMailAlertEntity.id, jobMailAlertEntity.userId, new Date)
+            JobMailAlertDAO.update(MongoDBObject("_id" -> jobMailAlertEntity.id), updateJobMailAlertEntity, false, false, new WriteConcern)
+            false
+        }
+    }
+
+  }
 }
 
 object JobDAO extends SalatDAO[JobEntity, ObjectId](collection = MongoHQConfig.mongoDB("job"))
+
+object JobMailAlertDAO extends SalatDAO[JobMailAlertEntity, ObjectId](collection = MongoHQConfig.mongoDB("jobMailAlert"))

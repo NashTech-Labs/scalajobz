@@ -6,7 +6,7 @@
 }
 		<div id="logos">
 			<div style="height: 100px;">
-				<form action="" class="form-search" style="margin-top: 10px;">
+				<form class="form-search" style="margin-top: 10px;" onsubmit="return searchJobs();" action="">
 					<div class="input-append">
 						<input id="searchString" type="text" class="input-xxlarge" style="height:50px;font-size: 40px;color:#2884dd;" onKeyUp="changeVal()"
 						onmouseover="popover" data-content="Please Insert your search criteria here for daily job alerts(You can cancel email alerts at any time)." data-original-title="Get Job Alert">
@@ -114,20 +114,33 @@
 			<tbody data-provides="rowlink">
 				@jobs.map { job =>
 				<tr>
-					<td><a href="/jobDetail/@job.id"><b>@job.position</b></a>
-					@if(job.jobBy.toString != "ScalaJobz" && job.jobBy.toString != "SimplyHired"){
-					<div style="text-align: right;">
-					<a href="http://www.indeed.com."><img src="@routes.Assets.at("images/" + job.jobBy.toString + ".gif")" alt="Job By @job.jobBy.toString" title="Job By @job.jobBy.toString"/></a>
-					</div>
+					<td>
+					<a href="/jobDetail/@job.id"><b>@job.position</b></a>
+					@if(job.jobBy.toString != "ScalaJobz" && job.jobBy.toString == "Indeed"){
+						<div style="text-align: right;">
+							<a onclick=open_win('http://www.indeed.com/') href="javascript:void(0);">
+								<img src="@routes.Assets.at("images/" + job.jobBy.toString + ".gif")" alt="Job By @job.jobBy.toString" title="Job By @job.jobBy.toString"/>
+							</a>
+						</div>
 					}
-					@if(job.jobBy.toString == "SimplyHired"){
-					<div style="text-align: right;">
-					<a STYLE="text-decoration:none" href="http://www.simplyhired.com/">
-					<span style="color: rgb(0, 0, 0); font-size: 12px;">Jobs</span>
-					</a> <span style="font-size: 12px;">by </span>
-					<a STYLE="text-decoration:none" href="http://www.simplyhired.com/">
-					<span style="color: rgb(0, 159, 223); font-weight: bold;  font-size: 12px;">Simply</span>
-					<span style="color: rgb(163, 204, 64); font-weight: bold; font-size: 12px;">Hired</span></a></div>
+					@if(job.jobBy.toString != "ScalaJobz" && job.jobBy.toString == "CareerBuilder"){
+						<div style="text-align: right;">
+							<a onclick=open_win('http://www.careerbuilder.com/') href="javascript:void(0);">
+								<img src="@routes.Assets.at("images/" + job.jobBy.toString + ".gif")" alt="Job By @job.jobBy.toString" title="Job By @job.jobBy.toString"/>
+							</a>
+						</div>
+					}
+					@if(job.jobBy.toString != "ScalaJobz" && job.jobBy.toString == "SimplyHired"){
+						<div style="text-align: right;">
+							<a STYLE="text-decoration:none"  onclick=open_win('http://www.simplyhired.com/') href="javascript:void(0);">
+								<span style="color: rgb(0, 0, 0); font-size: 12px;">Jobs</span>
+							</a> 
+								<span style="font-size: 12px;">by </span>
+							<a STYLE="text-decoration:none" onclick=open_win('http://www.simplyhired.com/') href="javascript:void(0);">
+								<span style="color: rgb(0, 159, 223); font-weight: bold;  font-size: 12px;">Simply</span>
+								<span style="color: rgb(163, 204, 64); font-weight: bold; font-size: 12px;">Hired</span>
+							</a>
+						</div>
 					}
 					</td>
 					<td>@job.company</td>
@@ -161,10 +174,20 @@
 		 jobPagination();
 		}, false); 
 	 $("#searchString").popover({placement:'bottom'}); 
-	
+	 showSearchJobs();
 	});
  
+ function showSearchJobs()
+ {
+	 if($("#searchString").val().length > 0)
+		 {
+		 	searchJobs();
+		 }
+ }
+ 
  function jobPagination() {
+	 if($("#searchString").val().length == 0)
+	 {
 	 var editflag=@editFlag+""
 	    $.ajax({
 	        type : 'GET',
@@ -173,7 +196,8 @@
 	        	 $('#search-result').html(data);
 	        }
 	    });
-	    return false;
+	 }
+	 return false;
 	}
  
  $('#myPager').pagination(@jobs.size,{callback:function(page,component){
@@ -197,7 +221,7 @@ function showRecords(from, to) {
 	}
    }  
  
- $('#search').click(function(e) {
+ function searchJobs() {
 	 var editflag=@editFlag+""
 	    var idToGet = $("#searchString").val();
 	    $.ajax({
@@ -208,7 +232,7 @@ function showRecords(from, to) {
 	        }
 	    });
 	    return false;
-	});
+	}
  
  $('#job-alert').click(function(e) {
 	 $("#myModal").modal("show");
@@ -287,5 +311,4 @@ function changeVal() {
 } 
 	
  </script>   
-    
 }

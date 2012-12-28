@@ -27,14 +27,17 @@ class JobAlertActor extends Actor {
     if (!JobPostedInLastNHours.isEmpty) {
       for (jobSeeker <- jobSeekers) {
         val filteredJobList = Job.searchJobs(jobSeeker.skills, JobPostedInLastNHours)
-        if (!filteredJobList.isEmpty) { MailUtility.sendEmail(jobSeeker, filteredJobList) }
+        if (!filteredJobList.isEmpty) {
+          if (Job.isJobAlertMailSent(jobSeeker.id) == false)
+            MailUtility.sendDailyJobAlertMail(jobSeeker, filteredJobList)
+        }
       }
     }
   }
 }
 
 /**
- * Initiate Job Alert Actor after 5 minutes of Application Started 
+ * Initiate Job Alert Actor after 5 minutes of Application Started
  */
 
 class JobAlertActorInitiator extends Actor {
