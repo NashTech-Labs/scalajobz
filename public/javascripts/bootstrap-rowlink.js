@@ -32,7 +32,7 @@
       var href = link.attr('href')
 
       $(this).find('td').not('.nolink').click(function() {
-        window.location = href;
+    	  window.open(href);
       })
 
       $(this).addClass('rowlink')

@@ -91,7 +91,7 @@ object Application extends Controller {
           Ok(views.html.signup(new Alert(errorString, "This Email Is Already registered With ScalaJobz"),
             Application.signUpForm, request.session.get(currentUserId).getOrElse(""), flag))
         } else {
-          val encryptedPassword = (new PasswordHashing).encryptThePassword(signUpForm.password)
+          val encryptedPassword = PasswordHashing.encryptPassword(signUpForm.password)
           val newUser = UserEntity(new ObjectId, signUpForm.emailId, encryptedPassword, List(), false, None, None)
           val userId = User.createUser(newUser)
           val userSession = request.session + (currentUserId -> userId.get.toString)
@@ -113,7 +113,7 @@ object Application extends Controller {
     logInForm.bindFromRequest.fold(
       errors => BadRequest(views.html.index(new Alert(errorString, "There Was Some Errors During The Login"), "", Job.findAllJobs, false)),
       logInForm => {
-        val encryptedPassword = (new PasswordHashing).encryptThePassword(logInForm.password)
+        val encryptedPassword = PasswordHashing.encryptPassword(logInForm.password)
         val users = User.findUser(logInForm.emailId, encryptedPassword)
         if (!users.isEmpty) {
           val userSession = request.session + (currentUserId -> users(0).id.toString)

@@ -71,10 +71,11 @@ object MailUtility {
       "Hi <b>ScalaJobz</b> User," + break + break +
         "Here is your account details " + break + break +
         "Email-Id: " + emailId + break +
-        "Password: " + password + break +
+        "Password: <b>" + password + "</b>" + break + break +
+        "This is system generated password, please change your password from profile settings." +
         break + break + break +
-        "Cheers," + break +
-        "ScalaJobz" + break, "text/html")
+        "Thanks & Regards" + break +
+        "ScalaJobz Support Team" + break, "text/html")
 
     val transport = session.getTransport(protocolName)
     transport.connect(serverProtocol, mailServer, ConversionUtility.decodeMe(Play.current.configuration.getString(email_password).get))

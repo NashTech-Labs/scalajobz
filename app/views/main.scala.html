@@ -23,6 +23,8 @@
 <script src="@routes.Assets.at("javascripts/bootstrap-tooltip.js")" type="text/javascript"></script>
 <script src="@routes.Assets.at("javascripts/bootstrap-popover.js")" type="text/javascript"></script>
 <script src="@routes.Assets.at("javascripts/jquery.tablesorter.js")" type="text/javascript"></script>
+<script src="@routes.Assets.at("javascripts/google-analytics-tracking.js")" type="text/javascript"></script>
+
 
 <script type="text/javascript">
 window.setTimeout(function() { $(".alert").alert('close'); }, 5000);
@@ -71,8 +73,10 @@ function close_win(redirectUrl)
 						
 							<li class="dropdown">  
           						<a class="menulink" data-toggle="dropdown" href="#">Edit<b class="caret"></b></a>  
-          						<ul class="dropdown-menu">  
-            						<li><a href="/editUserProfile" onclick="return @User.isUserLoginViaScalaJobz(userId)">Edit Your Profile</a></li>  
+          						<ul class="dropdown-menu">
+          						@if(User.isUserLoginViaScalaJobz(userId)) {  
+            						<li><a href="/editUserProfile">Edit Your Profile</a></li>  
+            					}
             						<li style="margin-top: -10px;"><a href="/findJobPostByUserId">Edit Your Jobs</a></li>  
          					 	</ul>  
         					</li>

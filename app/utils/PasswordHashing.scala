@@ -1,47 +1,41 @@
 package utils
-import java.security.Key
-import javax.crypto.Cipher
-import javax.crypto.spec.SecretKeySpec
-import sun.misc.BASE64Decoder
-import sun.misc.BASE64Encoder
-import play.api.Play
 
-class PasswordHashing {
+import org.apache.commons.lang.RandomStringUtils
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
-  val ALGO = Play.current.configuration.getString("algo").get
-  val keyValue: Array[Byte] = Play.current.configuration.getString("encryptionKey").get.toCharArray.map(_.toByte)
+object PasswordHashing {
+
   /**
-   * Creates The Unique Key For The Purpose Of Encryption & Decryption
+   * Generate Random Alphanumeric String of Length 10 For Password
    */
-  def generateKey: SecretKeySpec = {
-    val key = new SecretKeySpec(keyValue, ALGO)
-    key
+  def generateRandomPassword: String = {
+    RandomStringUtils.randomAlphanumeric(10)
   }
 
   /**
-   * Encryption Of Password By AES
-   * @param password to be encrypted
+   * Password Hashing Using Message Digest Algo
    */
-  def encryptThePassword(password: String): String = {
-    val key = generateKey
-    val cipher = Cipher.getInstance(ALGO)
-    cipher.init(Cipher.ENCRYPT_MODE, key)
-    val encVal = cipher.doFinal(password.getBytes())
-    val encryptedPassword = new BASE64Encoder().encode(encVal)
-    encryptedPassword
+  def encryptPassword(password: String): String = {
+    val algorithm: MessageDigest = MessageDigest.getInstance("SHA-256")
+    val defaultBytes: Array[Byte] = password.getBytes
+    algorithm.reset
+    algorithm.update(defaultBytes)
+    val messageDigest: Array[Byte] = algorithm.digest
+    getHexString(messageDigest)
   }
+
   /**
-   * Decryption Of Password By AES
-   * @param encryptedPassword to be decrypted
+   * Generate HexString For Password Encryption
    */
-  def decryptThePassword(encryptedPassword: String): String = {
-    val key = generateKey
-    val cipher = Cipher.getInstance(ALGO)
-    cipher.init(Cipher.DECRYPT_MODE, key)
-    val decordedValue = new BASE64Decoder().decodeBuffer(encryptedPassword)
-    val decValue = cipher.doFinal(decordedValue)
-    val decryptedpassword = new String(decValue)
-    decryptedpassword
+  def getHexString(messageDigest: Array[Byte]): String = {
+    val hexString: StringBuffer = new StringBuffer
+    messageDigest foreach { digest =>
+      val hex = Integer.toHexString(0xFF & digest)
+      if (hex.length == 1) hexString.append('0')
+      else hexString.append(hex)
+    }
+    hexString.toString
   }
 
 }
