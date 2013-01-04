@@ -1,0 +1,11 @@
+/tmp
+/modules
+/lib
+/test-result
+/logs
+/project/project/target
+/project/target
+/target
+/.idea
+/.idea_modules
+
