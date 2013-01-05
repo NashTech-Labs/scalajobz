@@ -1,7 +1,12 @@
 @(alert: Alert,loginForm: Form[LogInForm],userId:String,flag:String)
 @import helper._ 
 @main("Welcome to Scalajobz.com",userId,alert) {
-
+@if(alert.alertType != ""){
+   		<div class="alert alert-@alert.alertType">  
+  			<a class="close" data-dismiss="alert">×</a>  
+  			<strong style="text-transform: capitalize;">@alert.alertType ! </strong>@alert.message  
+		</div> 
+		}
 <div id="homewhite">
 	<div class="page">
 			<div class="border-center">

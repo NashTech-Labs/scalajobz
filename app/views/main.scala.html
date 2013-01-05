@@ -99,14 +99,8 @@ function close_win(redirectUrl)
 
 
 		<div id="main" class="container">
-		@if(alert.alertType != ""){
-   		<div class="alert alert-@alert.alertType">  
-  			<a class="close" data-dismiss="alert">×</a>  
-  			<strong style="text-transform: capitalize;">@alert.alertType ! </strong>@alert.message  
-		</div> 
-		}
-		
-		@content</div>
+			@content
+		</div>
 
 		<div id="footer">
 			<div id="logos">

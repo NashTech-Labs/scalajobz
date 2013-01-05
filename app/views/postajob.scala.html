@@ -88,10 +88,14 @@
 									<div class="control-group">
 										<label class="control-label" for="Description">Job
 											Description</label>
-										<div class="controls">
-											<textarea id="Description" name="Description" rows="6"  style="resize: none;"
-												placeholder="Description" class="input-tlarge"></textarea>
-										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="control-group">
+											<textarea id="Description" name="Description" rows="10"
+												 class="input-tlarge"></textarea>
 									</div>
 								</td>
 							</tr>
@@ -116,4 +120,9 @@
 		</div>
 	</div>
 </div>
+<script src="@routes.Assets.at("ckeditor/ckeditor.js")" type="text/javascript"></script>
+<link rel="stylesheet" href="@routes.Assets.at("ckeditor/samples/sample.css")" />
+<script type="text/javascript">
+	CKEDITOR.replace('Description');
+</script>
 }

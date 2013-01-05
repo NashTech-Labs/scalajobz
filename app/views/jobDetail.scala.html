@@ -40,9 +40,12 @@
 					}
 				
 			<div class="separator-line"></div>
-			<p>	@job.description</p>
-				
-		
+			@if(job.description == ""){
+				<h3>No Description Available.</h3>
+			 }else{
+			 	 @Html(job.description) 
+			 }
+			
 	</div>
 </div>
     

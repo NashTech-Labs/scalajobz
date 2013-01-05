@@ -1,6 +1,7 @@
 package controllers
 import play.api.mvc.Controller
 import play.api.data.Forms.nonEmptyText
+import play.api.data.Forms.text
 import play.api.data.Form
 import play.api.mvc.Controller
 import play.api.mvc
@@ -30,7 +31,7 @@ object JobController extends Controller {
       "JobType" -> nonEmptyText,
       "Email_Addrss_To_Apply_To" -> nonEmptyText,
       "Skills" -> nonEmptyText,
-      "Description" -> nonEmptyText)(PostAJobForm.apply)(PostAJobForm.unapply))
+      "Description" -> text)(PostAJobForm.apply)(PostAJobForm.unapply))
 
   /**
    * Load  Job  Page on scalajobz.com
@@ -52,30 +53,25 @@ object JobController extends Controller {
       errors => BadRequest(views.html.index(new Alert("error", "There Was Some Errors During Job Posting"),
         request.session.get("userId").getOrElse(""), Job.findAllJobs, false)),
       postAJobForm => {
-        if (postAJobForm.position == "" || postAJobForm.company == "" || postAJobForm.location == ""
-          || postAJobForm.jobType == "" || postAJobForm.jobType.equals("-- Select Job Type --") ||
-          postAJobForm.emailAddress == "") { Ok("Please Fill The Mendatory Fields") }
-        else {
-          if (request.session.get("userId") == None) {
-            Ok(views.html.login(new Alert("", ""),
-              Application.logInForm, request.session.get("userId").getOrElse(""), "jobPost"))
-          } else {
-            val job = JobEntity(new ObjectId, Option(new ObjectId(request.session.get("userId").get)),
-              postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType,
-              postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList,
-              postAJobForm.description, new Date, JobBy.withName("ScalaJobz"))
-            Job.addJob(job) match {
-              case None =>
-                Common.setAlert(new Alert("error", "Job Already Exist!"))
-                Results.Redirect("/findJobPostByUserId")
-              case _ =>
-                TwitterTweet.tweetANewJobPost(job)
-                //FacebookFeed.publishMessage(job)
-                Common.setAlert(new Alert("success", "Job Posted Successfully!"))
-                Results.Redirect("/findJobPostByUserId")
-            }
-
+        if (request.session.get("userId") == None) {
+          Ok(views.html.login(new Alert("", ""),
+            Application.logInForm, request.session.get("userId").getOrElse(""), "jobPost"))
+        } else {
+          val job = JobEntity(new ObjectId, Option(new ObjectId(request.session.get("userId").get)),
+            postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType,
+            postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList,
+            postAJobForm.description, new Date, JobBy.withName("ScalaJobz"))
+          Job.addJob(job) match {
+            case None =>
+              Common.setAlert(new Alert("error", "Job Already Exist!"))
+              Results.Redirect("/findJobPostByUserId")
+            case _ =>
+              TwitterTweet.tweetANewJobPost(job)
+              //FacebookFeed.publishMessage(job)
+              Common.setAlert(new Alert("success", "Job Posted Successfully!"))
+              Results.Redirect("/findJobPostByUserId")
           }
+
         }
       })
   }

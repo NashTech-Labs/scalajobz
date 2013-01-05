@@ -4,26 +4,28 @@
 @format_date(date: java.util.Date) = @{
 	new SimpleDateFormat("MMM dd yyyy").format(date)
 }
-		<div id="logos">
-			<div style="height: 100px;">
-				<form class="form-search" style="margin-top: 10px;" onsubmit="return searchJobs();" action="">
+		
+
+@main("Welcome to Scalajobz.com",userId,alert) {
+   <div id="searchDiv">
+				<form class="form-search"  onsubmit="return searchJobs();" action="">
 					<div class="input-append">
 						<input id="searchString" type="text" class="input-xxlarge" style="height:50px;font-size: 40px;color:#2884dd;" onKeyUp="changeVal()"
 						onmouseover="popover" data-content="Please Insert your search criteria here for daily job alerts(You can cancel email alerts at any time)." data-original-title="Get Job Alert">
-						<input id="search" type="submit" value="Search" class="btn btn-primary" style="margin-top: 15px;"/>
+						<input id="search" type="submit" value="Search" class="btn btn-large btn-primary" style="margin-top: 15px;"/>
 					</div>
 				</form>
-			</div>
 		</div>
-
-
-
-@main("Welcome to Scalajobz.com",userId,alert) {
-   
+		@if(alert.alertType != ""){
+   		<div class="alert alert-@alert.alertType">  
+  			<a class="close" data-dismiss="alert">×</a>  
+  			<strong style="text-transform: capitalize;">@alert.alertType ! </strong>@alert.message  
+		</div> 
+		}
     <div id="homewhite">
 	<div class="page">
 	<div id="alertHold"></div>
-	<div id="alert-button" style="padding-bottom: 12px;">
+	<div id="alert-button" style="padding-bottom: 10px;padding-top: 10px;">
 		<button id="job-alert" class="btn btn-primary btn-large" disabled="disabled"  data-toggle="modal" title="Enter Search Criteria For Job Alert">
 			Get Job Alert
 		</button>
