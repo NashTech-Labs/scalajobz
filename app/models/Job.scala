@@ -199,14 +199,21 @@ object Job {
     JobDAO.count()
   }
 
-  /**
+ /**
    * Get Job By Pagination
+   * @param pageNumber is the current page number
+   * @param jobsPerPage is the number of job per page
    */
 
   def getJobByPagination(pageNumber: Int, jobsPerPage: Int): List[JobEntity] = {
     val jobs = JobDAO.find(MongoDBObject()).sort(orderBy = MongoDBObject("datePosted" -> -1)).skip((pageNumber) * jobsPerPage).limit(jobsPerPage).toList
     jobs
   }
+  
+  /**
+   * Find Job Seeker Via UserId to Send Job Alert Mail
+   * @param userId is the Job Seeker Id
+   */
 
   def findJobseekerForJobMailAlert(userId: ObjectId): Option[JobMailAlertEntity] = {
     val users = JobMailAlertDAO.find(MongoDBObject("userId" -> userId)).toList
@@ -215,6 +222,11 @@ object Job {
       case false => Option(users.toList(0))
     }
   }
+  
+  /**
+   * Check For Job Alert Mail Sent to Job Seeker in Last 24 hours 
+   * @param userId is the Job Seeker Id
+   */
 
   def isJobAlertMailSent(userId: ObjectId): Boolean = {
     findJobseekerForJobMailAlert(userId) match {
