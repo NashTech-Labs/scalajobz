@@ -18,9 +18,9 @@ class JobTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Create A Job") {
-    val job1 = JobEntity(new ObjectId, Option(new ObjectId), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"))
-    val job2 = JobEntity(new ObjectId, Option(new ObjectId), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"))
-    val job3 = JobEntity(new ObjectId, Option(new ObjectId), "Consultant", "HCL", " Noida", "Contract", "narender@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"))
+    val job1 = JobEntity(new ObjectId, Option(new ObjectId), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
+    val job2 = JobEntity(new ObjectId, Option(new ObjectId), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
+    val job3 = JobEntity(new ObjectId, Option(new ObjectId), "Consultant", "HCL", " Noida", "Contract", "narender@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
     Job.addJob(job1)
     Job.addJob(job2)
     Job.addJob(job3)
@@ -28,9 +28,9 @@ class JobTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Find All Jobs") {
-    val job1 = JobEntity(new ObjectId, Option(new ObjectId), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"))
-    val job2 = JobEntity(new ObjectId, Option(new ObjectId), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"))
-    val job3 = JobEntity(new ObjectId, Option(new ObjectId), "Consultant", "HCL", " Noida", "Contract", "narender@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"))
+    val job1 = JobEntity(new ObjectId, Option(new ObjectId), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
+    val job2 = JobEntity(new ObjectId, Option(new ObjectId), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
+    val job3 = JobEntity(new ObjectId, Option(new ObjectId), "Consultant", "HCL", " Noida", "Contract", "narender@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
     Job.addJob(job1)
     Job.addJob(job2)
     Job.addJob(job3)
@@ -38,9 +38,9 @@ class JobTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Find All Jobs Of Last N hours") {
-    val job1 = JobEntity(new ObjectId, Option(new ObjectId), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List(), "Description", new Date(), JobBy.withName("ScalaJobz"))
-    val job2 = JobEntity(new ObjectId, Option(new ObjectId), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"))
-    val job3 = JobEntity(new ObjectId, Option(new ObjectId), "Consultant", "HCL", " Noida", "Contract", "narender@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"))
+    val job1 = JobEntity(new ObjectId, Option(new ObjectId), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List(), "Description", new Date(), JobBy.withName("ScalaJobz"),Option("email"))
+    val job2 = JobEntity(new ObjectId, Option(new ObjectId), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
+    val job3 = JobEntity(new ObjectId, Option(new ObjectId), "Consultant", "HCL", " Noida", "Contract", "narender@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
     Job.addJob(job1)
     Job.addJob(job2)
     Job.addJob(job3)
@@ -48,9 +48,9 @@ class JobTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Search the Job") {
-    val job1 = JobEntity(new ObjectId, Option(new ObjectId), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"))
-    val job2 = JobEntity(new ObjectId, Option(new ObjectId), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"))
-    val job3 = JobEntity(new ObjectId, Option(new ObjectId), "Consultant", "HCL", " Noida", "Contract", "narender@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"))
+    val job1 = JobEntity(new ObjectId, Option(new ObjectId), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
+    val job2 = JobEntity(new ObjectId, Option(new ObjectId), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
+    val job3 = JobEntity(new ObjectId, Option(new ObjectId), "Consultant", "HCL", " Noida", "Contract", "narender@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
     Job.addJob(job1)
     Job.addJob(job2)
     Job.addJob(job3)
@@ -61,8 +61,8 @@ class JobTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Find Job Details") {
-    val job1 = JobEntity(new ObjectId, Option(new ObjectId), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"))
-    val job2 = JobEntity(new ObjectId, Option(new ObjectId), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"))
+    val job1 = JobEntity(new ObjectId, Option(new ObjectId), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
+    val job2 = JobEntity(new ObjectId, Option(new ObjectId), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
     Job.addJob(job1)
     Job.addJob(job2)
     assert(Job.findJobDetail(job1.id).get.emailAddress === "neel@gmail.com")
@@ -71,10 +71,10 @@ class JobTest extends FunSuite with BeforeAndAfter {
   test("Find Jobs Posted By A Particular User") {
     val employer = new UserEntity(new ObjectId, "neelkanth@gmail.com", "12345", List(), true, None, None)
     val employerId = User.createUser(employer)
-    val job1 = JobEntity(new ObjectId, Option(employerId.get), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java", "Scala"), "Description", new Date, JobBy.withName("ScalaJobz"))
-    val job2 = JobEntity(new ObjectId, Option(employerId.get), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala", "MongoDB"), "Description", new Date, JobBy.withName("ScalaJobz"))
-    val job3 = JobEntity(new ObjectId, Option(new ObjectId), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java", "Scala"), "Description", new Date, JobBy.withName("ScalaJobz"))
-    val job4 = JobEntity(new ObjectId, Option(new ObjectId), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala", "MongoDB"), "Description", new Date, JobBy.withName("ScalaJobz"))
+    val job1 = JobEntity(new ObjectId, Option(employerId.get), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java", "Scala"), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
+    val job2 = JobEntity(new ObjectId, Option(employerId.get), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala", "MongoDB"), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
+    val job3 = JobEntity(new ObjectId, Option(new ObjectId), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java", "Scala"), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
+    val job4 = JobEntity(new ObjectId, Option(new ObjectId), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala", "MongoDB"), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
     Job.addJob(job1)
     Job.addJob(job2)
     Job.addJob(job3)
@@ -84,10 +84,10 @@ class JobTest extends FunSuite with BeforeAndAfter {
   test("Searching the Job by Search Token") {
     val employer = new UserEntity(new ObjectId, "neelkanth@gmail.com", "12345", List(), true, None, None)
     val employerId = User.createUser(employer)
-    val job1 = JobEntity(new ObjectId, Option(employerId.get), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java", "Scala"), "Description", new Date, JobBy.withName("ScalaJobz"))
-    val job2 = JobEntity(new ObjectId, Option(employerId.get), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala", "MongoDB"), "Description", new Date, JobBy.withName("ScalaJobz"))
-    val job3 = JobEntity(new ObjectId, Option(new ObjectId), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java", "Scala"), "Description", new Date, JobBy.withName("ScalaJobz"))
-    val job4 = JobEntity(new ObjectId, Option(new ObjectId), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Python", "MongoDB"), "Description", new Date, JobBy.withName("ScalaJobz"))
+    val job1 = JobEntity(new ObjectId, Option(employerId.get), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java", "Scala"), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
+    val job2 = JobEntity(new ObjectId, Option(employerId.get), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala", "MongoDB"), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
+    val job3 = JobEntity(new ObjectId, Option(new ObjectId), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java", "Scala"), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
+    val job4 = JobEntity(new ObjectId, Option(new ObjectId), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Python", "MongoDB"), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
     Job.addJob(job1)
     Job.addJob(job2)
     Job.addJob(job3)
@@ -97,12 +97,12 @@ class JobTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Update Job") {
-    val job1 = JobEntity(new ObjectId, Option(new ObjectId), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala", "MongoDB"), "Description", new Date, JobBy.withName("ScalaJobz"))
+    val job1 = JobEntity(new ObjectId, Option(new ObjectId), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala", "MongoDB"), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
     Job.addJob(job1)
     assert(Job.findJobDetail(job1.id).head.position === "Software Programmer")
     val jobFound = Job.findJobDetail(job1.id)
     val updatedJob = JobEntity(jobFound.get.id, jobFound.get.userId, "Software Developer", jobFound.get.company, jobFound.get.location, jobFound.get.jobType,
-      jobFound.get.emailAddress, jobFound.get.skillsRequired, jobFound.get.description, jobFound.get.datePosted, jobFound.get.jobBy)
+      jobFound.get.emailAddress, jobFound.get.skillsRequired, jobFound.get.description, jobFound.get.datePosted, jobFound.get.jobBy,jobFound.get.applyType)
     Job.updateJob(updatedJob)
     val updatedJobFound = Job.findJobDetail(job1.id)
     assert(Job.findJobDetail(updatedJobFound.get.id).head.position === "Software Developer")
@@ -110,7 +110,7 @@ class JobTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Delete Job") {
-    val job1 = JobEntity(new ObjectId, Option(new ObjectId), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala", "MongoDB"), "Description", new Date, JobBy.withName("ScalaJobz"))
+    val job1 = JobEntity(new ObjectId, Option(new ObjectId), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala", "MongoDB"), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
     Job.addJob(job1)
     assert(Job.findJobDetail(job1.id).head.position === "Software Programmer")
     val jobFound = Job.findJobDetail(job1.id)
@@ -121,8 +121,8 @@ class JobTest extends FunSuite with BeforeAndAfter {
   test("Find Job Post In Last N Hours") {
     val employer = new UserEntity(new ObjectId, "neelkanth@gmail.com", "12345", List(), true, None, None)
     val employerId = User.createUser(employer)
-    val job1 = JobEntity(new ObjectId, Option(employerId.get), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java", "Scala"), "Description", new Date, JobBy.withName("ScalaJobz"))
-    val job2 = JobEntity(new ObjectId, Option(employerId.get), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala", "MongoDB"), "Description", new Date, JobBy.withName("ScalaJobz"))
+    val job1 = JobEntity(new ObjectId, Option(employerId.get), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java", "Scala"), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
+    val job2 = JobEntity(new ObjectId, Option(employerId.get), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala", "MongoDB"), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
     Job.addJob(job1)
     Job.addJob(job2)
     assert(Job.findJobsOfLastNHours.size === 2)
@@ -131,8 +131,8 @@ class JobTest extends FunSuite with BeforeAndAfter {
   test("count number of jobs") {
     val employer = new UserEntity(new ObjectId, "neelkanth@gmail.com", "12345", List(), true, None, None)
     val employerId = User.createUser(employer)
-    val job1 = JobEntity(new ObjectId, Option(employerId.get), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java", "Scala"), "Description", new Date, JobBy.withName("ScalaJobz"))
-    val job2 = JobEntity(new ObjectId, Option(employerId.get), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala", "MongoDB"), "Description", new Date, JobBy.withName("ScalaJobz"))
+    val job1 = JobEntity(new ObjectId, Option(employerId.get), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java", "Scala"), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
+    val job2 = JobEntity(new ObjectId, Option(employerId.get), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala", "MongoDB"), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
     Job.addJob(job1)
     Job.addJob(job2)
     assert(Job.countTotalJobs === 2)

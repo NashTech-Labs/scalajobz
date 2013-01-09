@@ -46,7 +46,7 @@ class TemplateTest extends Specification with BeforeAfter {
   }
 
   "edit job template" in {
-    val job = JobEntity(new ObjectId, Option(new ObjectId), "Consultant", "HCL", " Noida", "Contract", "narender@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"))
+    val job = JobEntity(new ObjectId, Option(new ObjectId), "Consultant", "HCL", " Noida", "Contract", "narender@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
     Job.addJob(job)
     val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false, None, None)
     User.createUser(employer)
@@ -78,7 +78,7 @@ class TemplateTest extends Specification with BeforeAfter {
   }
 
   "job detail template" in {
-    val job = JobEntity(new ObjectId, Option(new ObjectId), "Consultant", "HCL", " Noida", "Contract", "narender@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"))
+    val job = JobEntity(new ObjectId, Option(new ObjectId), "Consultant", "HCL", " Noida", "Contract", "narender@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
     Job.addJob(job)
     val employer = UserEntity(new ObjectId, "neelkanth@knoldus.com", "ABCD", List(), false, None, None)
     User.createUser(employer)
