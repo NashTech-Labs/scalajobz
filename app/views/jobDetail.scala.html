@@ -25,7 +25,7 @@
 				
 					<h3>@format_date(job.datePosted)</h3>
 					
-					@if(job.userId == None){
+					@if((job.userId == None) || (job.applyType != None && job.applyType.get == "link")){
 					
 						<Strong>Click To Apply:</Strong>
 						<a onclick=open_win('@job.emailAddress') href="javascript:void(0);" >

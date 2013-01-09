@@ -113,8 +113,8 @@ object Application extends Controller {
     logInForm.bindFromRequest.fold(
       errors => BadRequest(views.html.index(new Alert(errorString, "There Was Some Errors During The Login"), "", Job.findAllJobs, false)),
       logInForm => {
-        val encryptedPassword = PasswordHashing.encryptPassword(logInForm.password)
-        val users = User.findUser(logInForm.emailId, encryptedPassword)
+        val encryptedPassword = PasswordHashing.encryptPassword(logInForm.password.trim)
+        val users = User.findUser(logInForm.emailId.trim, encryptedPassword)
         if (!users.isEmpty) {
           val userSession = request.session + (currentUserId -> users(0).id.toString)
           if (flag.equals(loginFlag)) {

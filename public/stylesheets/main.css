@@ -1010,9 +1010,7 @@ input[type="radio"][disabled],input[type="checkbox"][disabled],input[type="radio
 
 .control-group.warning .input-prepend .add-on,.control-group.warning .input-append .add-on
 	{
-	color: #c09853;
-	background-color: #fcf8e3;
-	border-color: #c09853;
+	color: #c09853;form-search
 }
 
 .control-group.error>label,.control-group.error .help-block,.control-group.error .help-inline
@@ -4377,7 +4375,6 @@ body {
 .page .btn-group .btn {
 	font-weight: bold;
 	color: #385671;
-	min-width: 186px;
 }
 
 .page .btn-group .btn-primary {
@@ -4785,10 +4782,33 @@ img.shadow-right {
 	height: 290px;
 	float: left;
 }
+#searchDiv {
+	height: 100px;
+	width:auto;
+	background-color: #e4e4e4;
+	background-image: -moz-linear-gradient(top, #eeeeee, #d5d5d5);
+	background-image: -ms-linear-gradient(top, #eeeeee, #d5d5d5);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#eeeeee),
+		to(#d5d5d5) );
+	background-image: -webkit-linear-gradient(top, #eeeeee, #d5d5d5);
+	background-image: -o-linear-gradient(top, #eeeeee, #d5d5d5);
+	background-image: linear-gradient(top, #eeeeee, #d5d5d5);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee',
+		endColorstr='#d5d5d5', GradientType=0 );
+	-webkit-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+	-webkit-background-clip: padding-box;
+	-moz-background-clip: padding-box;
+	background-clip: padding-box;
+	border: 1px solid #d5d5d5;
+	border-bottom: 1px solid #bbbbbb;
+}
 
 #logos {
 	margin: 0px auto 0 auto;
-	width: 960px;
+	width: auto;
 	min-height: 60px;
 	background-color: #e4e4e4;
 	background-image: -moz-linear-gradient(top, #eeeeee, #d5d5d5);
@@ -5035,4 +5055,32 @@ table.tablesorter thead tr .headerSortDown {
 	padding: 5px 0px 50px 5px;
 	color: #385671;
 	font-weight: bold;
+}
+.page .btn-group .radio-btn {
+	width:auto;
+	color: #FFFFFF;
+	font-weight:bold;
+	background-color: #2884DD;
+    background-image: -moz-linear-gradient(center top , #2896DD, #2869DD);
+    background-repeat: repeat-x;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+.page .btn-group .radio-btn.active {
+	background-color: #5bb75b;
+	background-image: -moz-linear-gradient(top, #62c462, #51a351);
+	background-image: -ms-linear-gradient(top, #62c462, #51a351);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#62c462),
+		to(#51a351) );
+	background-image: -webkit-linear-gradient(top, #62c462, #51a351);
+	background-image: -o-linear-gradient(top, #62c462, #51a351);
+	background-image: linear-gradient(top, #62c462, #51a351);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#62c462',
+		endColorstr='#51a351', GradientType=0 );
+	border-color: #51a351 #51a351 #387038;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	*background-color: #51a351;
+	/* Darken IE7 buttons by default so they stand out more given they won't have borders */
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=       false
+		);
 }

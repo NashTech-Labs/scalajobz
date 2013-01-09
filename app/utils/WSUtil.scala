@@ -44,7 +44,7 @@ object WSUtil {
       val description = (indeed \ "snippet").text.trim
       val datePosted = new Date()
       val job = new JobEntity(new ObjectId, None, position, company, location,
-        jobType, emailAdress, skillsRequired, description, datePosted, JobBy.withName("Indeed"))
+        jobType, emailAdress, skillsRequired, description, datePosted, JobBy.withName("Indeed"),Option("link"))
       val jobExist = Job.jobExist(position, company, location, "Indeed")
       if (!jobExist) {
         Job.addJob(job)
@@ -91,7 +91,7 @@ object WSUtil {
       val description = (simplyHired \ "e").text.trim
       val datePosted = new Date()
       val job = new JobEntity(new ObjectId, None, position, company, location,
-        jobType, emailAdress, skillsRequired, description, datePosted, JobBy.withName("SimplyHired"))
+        jobType, emailAdress, skillsRequired, description, datePosted, JobBy.withName("SimplyHired"),Option("link"))
       val jobExist = Job.jobExist(position, company, location, JobBy.withName("SimplyHired").toString)
       if (!jobExist) {
         Job.addJob(job)
@@ -136,7 +136,7 @@ object WSUtil {
       val description = (careerBuilder \ "DescriptionTeaser").text.trim
       val datePosted = new Date()
       val job = new JobEntity(new ObjectId, None, position, company, location,
-        jobType, emailAdress, skillsRequired, description, datePosted, JobBy.withName("CareerBuilder"))
+        jobType, emailAdress, skillsRequired, description, datePosted, JobBy.withName("CareerBuilder"),Option("link"))
       val jobExist = Job.jobExist(position, company, location, JobBy.withName("CareerBuilder").toString)
       if (!jobExist) {
         Job.addJob(job)

@@ -115,6 +115,10 @@ $(document).ready(
 								required : true,
 								email : true
 							},
+							Link_To_Apply_To : {
+								required : true,
+								url : true
+							},
 							Description : {
 								minlength : 2,
 								required : true

@@ -35,6 +35,8 @@ case class SignUpForm(emailId: String,
  * @param password the user's emailId
  * @param skills the user's skills
  * @param jobSeeker the user's jobSeeker
+ * @param socialNetworkChannel the social network channel through which user registered
+ * @param socailNetworkId is the unique id provided by the network channel to identify user
  */
 case class UserEntity(@Key("_id") id: ObjectId,
   emailId: String,
@@ -88,22 +90,22 @@ object User {
   def findUserByEmail(emailId: String): List[UserEntity] = {
     UserDAO.find(MongoDBObject("emailId" -> emailId, "jobSeeker" -> false)).toList
   }
-  
+
   /**
    *  Find Users By Email Registered Through ScalaJobz
    *  @param emailId is the emailId of jobseeker to be searched
    */
 
   def findUserRegisteredWithScalaJobzViaEmailId(emailId: String): List[UserEntity] = {
-    UserDAO.find(MongoDBObject("emailId" -> emailId, "jobSeeker" -> false ,"socialNetworkChannel" -> None)).toList
+    UserDAO.find(MongoDBObject("emailId" -> emailId, "jobSeeker" -> false, "socialNetworkChannel" -> None)).toList
   }
-  
+
   /**
    *  Find Users Registered Through ScalaJobz
    */
 
   def findUsersRegisteredWithScalaJobz: List[UserEntity] = {
-    UserDAO.find(MongoDBObject("jobSeeker" -> false ,"socialNetworkChannel" -> None)).toList
+    UserDAO.find(MongoDBObject("jobSeeker" -> false, "socialNetworkChannel" -> None)).toList
   }
 
   /**

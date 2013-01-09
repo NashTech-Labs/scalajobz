@@ -21,8 +21,10 @@ case class PostAJobForm(position: String,
   company: String,
   location: String,
   jobType: String,
-  emailAddress: String,
+  emailAddress: Option[String],
+  linkAddress: Option[String],
   skillsRequired: String,
+  applyType: String,
   description: String)
 
 /**
@@ -35,6 +37,8 @@ case class PostAJobForm(position: String,
  * @param skillsRequired the skills required for the Job
  * @param description the job's description
  * @param datePosted the date on which job has been posted
+ * @param jobBy the publisher name
+ * @param applyType the way to apply for a job
  */
 case class JobEntity(@Key("_id") id: ObjectId,
   userId: Option[ObjectId],
@@ -46,7 +50,8 @@ case class JobEntity(@Key("_id") id: ObjectId,
   skillsRequired: List[String],
   description: String,
   datePosted: Date,
-  jobBy: JobBy.Value)
+  jobBy: JobBy.Value,
+  applyType: Option[String])
 
 /**
  * JobMailAlertEntity
@@ -70,6 +75,34 @@ object Job {
       "Project" -> "Project",
       "Telecommute" -> "Telecommute",
       "Other" -> "Other")
+  }
+
+  /**
+   * Find Job Apply Address
+   * @param emailaddress is the option of email address
+   * @param linkAddress is the option of link apply
+   */
+
+  def findJobApplyAdress(emailAddress: Option[String], linkAddress: Option[String]): String = {
+    emailAddress match {
+      case None => linkAddress match {
+        case None => ""
+        case Some(link: String) => link
+      }
+      case Some(email: String) => email
+    }
+  }
+  
+  /**
+   * Find Job Apply Type
+   * @param applyType is the option of apply type
+   */
+
+  def findApplyType(applyType: Option[String]): String = {
+    applyType match {
+      case None => "email"
+      case Some(value: String) => value
+    }
   }
 
   /**
@@ -199,7 +232,7 @@ object Job {
     JobDAO.count()
   }
 
- /**
+  /**
    * Get Job By Pagination
    * @param pageNumber is the current page number
    * @param jobsPerPage is the number of job per page
@@ -209,7 +242,7 @@ object Job {
     val jobs = JobDAO.find(MongoDBObject()).sort(orderBy = MongoDBObject("datePosted" -> -1)).skip((pageNumber) * jobsPerPage).limit(jobsPerPage).toList
     jobs
   }
-  
+
   /**
    * Find Job Seeker Via UserId to Send Job Alert Mail
    * @param userId is the Job Seeker Id
@@ -222,9 +255,9 @@ object Job {
       case false => Option(users.toList(0))
     }
   }
-  
+
   /**
-   * Check For Job Alert Mail Sent to Job Seeker in Last 24 hours 
+   * Check For Job Alert Mail Sent to Job Seeker in Last 24 hours
    * @param userId is the Job Seeker Id
    */
 

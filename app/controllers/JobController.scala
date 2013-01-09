@@ -2,6 +2,7 @@ package controllers
 import play.api.mvc.Controller
 import play.api.data.Forms.nonEmptyText
 import play.api.data.Forms.text
+import play.api.data.Forms.optional
 import play.api.data.Form
 import play.api.mvc.Controller
 import play.api.mvc
@@ -29,8 +30,10 @@ object JobController extends Controller {
       "Company" -> nonEmptyText,
       "Location" -> nonEmptyText,
       "JobType" -> nonEmptyText,
-      "Email_Addrss_To_Apply_To" -> nonEmptyText,
+      "Email_Addrss_To_Apply_To" -> optional(text),
+      "Link_To_Apply_To" -> optional(text),
       "Skills" -> nonEmptyText,
+      "Apply_Type" -> text,
       "Description" -> text)(PostAJobForm.apply)(PostAJobForm.unapply))
 
   /**
@@ -57,10 +60,11 @@ object JobController extends Controller {
           Ok(views.html.login(new Alert("", ""),
             Application.logInForm, request.session.get("userId").getOrElse(""), "jobPost"))
         } else {
+          val emailaddress = Job.findJobApplyAdress(postAJobForm.emailAddress, postAJobForm.linkAddress)
           val job = JobEntity(new ObjectId, Option(new ObjectId(request.session.get("userId").get)),
             postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType,
-            postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList,
-            postAJobForm.description, new Date, JobBy.withName("ScalaJobz"))
+            emailaddress, postAJobForm.skillsRequired.split(",").toList,
+            postAJobForm.description, new Date, JobBy.withName("ScalaJobz"), Option(postAJobForm.applyType))
           Job.addJob(job) match {
             case None =>
               Common.setAlert(new Alert("error", "Job Already Exist!"))
@@ -116,8 +120,11 @@ object JobController extends Controller {
         postAJobForm.bindFromRequest.fold(
           errors => BadRequest(views.html.editJob(job, postAJobForm, request.session.get("userId").getOrElse(""))),
           postAJobForm => {
-            val editJob = JobEntity(job.id, job.userId, postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType, postAJobForm.emailAddress, postAJobForm.skillsRequired.split(",").toList,
-              postAJobForm.description, new Date, job.jobBy)
+            val emailaddress = Job.findJobApplyAdress(postAJobForm.emailAddress, postAJobForm.linkAddress)
+            val editJob = JobEntity(job.id, job.userId, postAJobForm.position,
+              postAJobForm.company, postAJobForm.location, postAJobForm.jobType,
+              emailaddress, postAJobForm.skillsRequired.split(",").toList,
+              postAJobForm.description, new Date, job.jobBy, Option(postAJobForm.applyType))
             Job.updateJob(editJob)
             Common.setAlert(new Alert("success", "Job Updated"))
             Results.Redirect("/findJobPostByUserId")

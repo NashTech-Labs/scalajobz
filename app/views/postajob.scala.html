@@ -62,9 +62,15 @@
 							<tr>
 								<td>
 									<div class="control-group">
-										<label class="control-label" for="Email_Addrss_To_Apply_To">Email
-											Address</label>
+										<label class="control-label" for="Email_Addrss_To_Apply_To">
+											Email/Link To Apply
+										</label>
 										<div class="controls">
+											<div class="btn-group" data-toggle="buttons-radio">
+    											<button type="button" class="radio-btn active" onClick="changePlaceHolderValue('email')">Email</button>
+   										    	<button type="button" class="radio-btn" onClick="changePlaceHolderValue('link')">Link</button>
+											</div>
+											<input name="Apply_Type" id="Apply_Type" type="hidden" value="email">
 											<input id="Email_Addrss_To_Apply_To" name="Email_Addrss_To_Apply_To" type="text"
 												placeholder="Email Address To Apply To" class="input-large"/>
 										</div>
@@ -112,17 +118,25 @@
 						</table>
 					</form>
 				</div>
-
-
 			</div>
-
-
 		</div>
 	</div>
 </div>
 <script src="@routes.Assets.at("ckeditor/ckeditor.js")" type="text/javascript"></script>
 <link rel="stylesheet" href="@routes.Assets.at("ckeditor/samples/sample.css")" />
 <script type="text/javascript">
+  
+  function changePlaceHolderValue(Apply_Type){
+	document.getElementById('Apply_Type').value = Apply_Type
+	if(Apply_Type == 'email'){
+		$('#Email_Addrss_To_Apply_To').prop('placeholder', "Email Address To Apply To");
+		document.getElementById('Email_Addrss_To_Apply_To').name="Email_Addrss_To_Apply_To"
+	}
+	if(Apply_Type == 'link'){
+		$('#Email_Addrss_To_Apply_To').prop('placeholder', "Link To Apply To");
+		document.getElementById('Email_Addrss_To_Apply_To').name="Link_To_Apply_To"
+	}
+  }
 	CKEDITOR.replace('Description');
 </script>
 }
