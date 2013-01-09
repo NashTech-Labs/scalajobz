@@ -19,10 +19,12 @@ object ApplicationBuild extends Build {
     "org.scalatest" %% "scalatest" % "1.7.2",
     "org.twitter4j" % "twitter4j-core" % "2.2.1",
     "com.restfb" % "restfb" % "1.6.9",
-    "org.scribe" % "scribe" % "1.3.2")
+    "org.scribe" % "scribe" % "1.3.2",
+    "org.jsoup" % "jsoup" % "1.7.1")
 
   val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings(
     testOptions in Test := Nil // Add your own project settings here      
     )
 
 }
+

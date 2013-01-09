@@ -15,6 +15,7 @@ import net.liftweb.json.Serializer
 import net.liftweb.json.JsonAST.JInt
 import net.liftweb.json.TypeInfo
 import play.api.Play
+import org.jsoup.Jsoup
 
 /**
  * class to show alert
@@ -67,10 +68,12 @@ object Common {
       val redirectToJobLink = "http://" + getContextUrl + "/jobDetail/" + job.id
       message += "<b><u><a href= " + redirectToJobLink + ">" + job.position + "</a></u></b>" + break
       message += job.company + " - " + job.location + break
-      if (job.description.length > 150) {
-        message += job.description.substring(0, 150) + " ..." + break
+      //remove html tags from the job description
+      val jobDescription=Jsoup.parse(job.description).text()
+      if (jobDescription.length > 150) {
+        message += jobDescription.substring(0, 150) + " ..." + break
       } else {
-        message += job.description + break
+        message += jobDescription + break
       }
 
     }
@@ -145,3 +148,4 @@ object JobBy extends Enumeration {
   val SimplyHired = Value(2, "SimplyHired")
   val CareerBuilder = Value(3, "CareerBuilder")
 }
+
