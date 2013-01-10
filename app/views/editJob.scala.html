@@ -139,9 +139,11 @@ $(document).ready(function() {
 	document.getElementById('Apply_Type').value = apply_type;
 	if(apply_type == 'email'){
 		$(".btn-group").children(":first").addClass("active");
+		document.getElementById('Email_Addrss_To_Apply_To').name="Email_Addrss_To_Apply_To"
 	}
 	else{
 		$(".btn-group").children(":last").addClass("active");
+		document.getElementById('Email_Addrss_To_Apply_To').name="Link_To_Apply_To"
 		}
 });
 function changePlaceHolderValue(Apply_Type){
