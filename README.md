@@ -1,5 +1,7 @@
 ##Project Description 
 
+[![Build Status](https://travis-ci.org/ruchijindal/scalajobz.png?branch=master)](https://travis-ci.org/ruchijindal/scalajobz) for Travis CI passing
+
 -----------------------------------------------
 ###What the project does, the problem it solves :-
 -----------------------------------------------
@@ -71,6 +73,7 @@ Scalajobz Aggregate from various Job Portals like Indeed, Simply Hired ,Career B
 ------------------------------------------------
 
 Scalajobz uses a lot of inherent Play 2.0 functionality to drive the job flow. Actors are used to send out daily alerts when matching jobs are found for all enrolled job seekers.
+
 
 ------------------------------------
 ###High-level design and architecture :-
