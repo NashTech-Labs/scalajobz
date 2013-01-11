@@ -1,26 +1,26 @@
-#Project Description 
+##Project Description 
 
 -----------------------------------------------
-What the project does, the problem it solves :-
+###What the project does, the problem it solves :-
 -----------------------------------------------
 
 Scalajobz is a community driven job portal for Scala jobs.  It is specifically focussed on the Scala ecosystem. It allows employment opportunities to be listed on the site with details so that Job seekers can search and apply for the relevant jobs. It also allows job seekers to enroll for email alerts which would allow them to get a daily email for new jobs which match their search criteria. 
 External systems can fetch all job details and search for specific jobs using the REST Api.
 
 ------------------------------------------------
-Functionality Of Scalajobz:-
+###Functionality Of Scalajobz:-
 ------------------------------------------------
 
 Scalajobz is a community driven job portal for Scala jobs.  It is specifically focussed on the Scala ecosystem.
 
 Roles on Scala Jobz
 
-1)Recruiter
-2)Job Seeker
-3)Publishers
-4)Aggregator
+1. Recruiter
+2. Job Seeker
+3. Publishers
+4. Aggregator
 
-1) Recruiter:-
+####1. Recruiter:-
 _______________
 
 
@@ -44,7 +44,7 @@ Recruiter can edit and delete the job as well
 
 Recruiters can edit their profile also.They have the right to change their password any time and can get the forget password mail on request.
 
-2) Job Seeker:-
+####2. Job Seeker:-
 _______________
 
 
@@ -52,7 +52,7 @@ Job Seeker can search jobs on Scalajobz by using any searching criteria like(Sca
 Job Seeker can get daily job mail alert from Scalajobz by en-roll themselves.
 Job Seeker can apply for the desired job by sending mail to the recruiter mentioned in job details or by using the link mentioned.
 
-3) Publisher:-
+####3. Publisher:-
 _______________
 
 
@@ -60,20 +60,20 @@ External systems can fetch all jobs List  as json response and search for specif
 The details of REST API is mentioned on the site footer.
 
  
-4) Aggregator:-
+####4. Aggregator:-
 __________________
 
 Scalajobz Aggregate from various Job Portals like Indeed, Simply Hired ,Career Builder and so on to get the collection of relevant Scala jobs.
 
 
 ------------------------------------------------
-Why it does it this way, benefits and drawbacks:-
+###Why it does it this way, benefits and drawbacks:-
 ------------------------------------------------
 
 Scalajobz uses a lot of inherent Play 2.0 functionality to drive the job flow. Actors are used to send out daily alerts when matching jobs are found for all enrolled job seekers.
 
 ------------------------------------
-High-level design and architecture :-
+###High-level design and architecture :-
 ------------------------------------
 
 Scalajobz is using the latest Typesafe 2.0.2 stack which includes
@@ -93,7 +93,7 @@ HttpRequest -> Router -> Controller -> Model -> Database, the rendering of HttpR
 Actor is used to asynchronously process new jobs and match search criteria for enrolled job seekers
 
 -----------------------------------------------------------------------
-Instructions that detail how the project is compiled, deployed and used :-
+###Instructions that detail how the project is compiled, deployed and used :-
 -----------------------------------------------------------------------
 
 The live application is currently hosted at :  http://www.scalajobz.com
