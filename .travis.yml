@@ -4,6 +4,7 @@ scala:
   
 jdk:
     - openjdk7
+    - oraclejdk7
 
 services:
   - mongodb
