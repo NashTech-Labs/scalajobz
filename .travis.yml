@@ -15,7 +15,7 @@ before_script:
   - wget http://download.playframework.org/releases/play-${PLAY_VERSION}.zip
   - unzip -q play-${PLAY_VERSION}.zip
 script:
-  -  sbt "test-only controllers.ApplicationTest"
+  -  sbt test
  
 notifications: 
   email: false
