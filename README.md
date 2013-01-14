@@ -1,6 +1,6 @@
-##Project Description 
+##Project Description [www.scalajobz.com](http://www.scalajobz.com)
 
-[![Build Status](https://travis-ci.org/ruchijindal/scalajobz.png?branch=master)](https://travis-ci.org/ruchijindal/scalajobz) for Travis CI passing
+[![Build Status](https://travis-ci.org/knoldus/scalajobz.png?branch=master)](https://travis-ci.org/knoldus/scalajobz) for Travis CI passing
 
 -----------------------------------------------
 ###What the project does, the problem it solves :-

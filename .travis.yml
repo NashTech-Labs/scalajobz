@@ -3,7 +3,8 @@ scala:
   - 2.9.2
   
 jdk:
-    - openjdk7
+   
+    - oraclejdk7
 
 services:
   - mongodb
@@ -11,11 +12,12 @@ services:
 
 env:
   - PLAY_VERSION=2.0.2
+  
 before_script:
   - wget http://download.playframework.org/releases/play-${PLAY_VERSION}.zip
   - unzip -q play-${PLAY_VERSION}.zip
 script:
-  -  sbt "test-only controllers.ApplicationTest"
+  -  sbt test
  
 notifications: 
   email: false
