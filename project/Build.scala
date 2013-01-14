@@ -27,4 +27,3 @@ object ApplicationBuild extends Build {
     )
 
 }
-

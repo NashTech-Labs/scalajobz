@@ -92,7 +92,7 @@ object Application extends Controller {
             Application.signUpForm, request.session.get(currentUserId).getOrElse(""), flag))
         } else {
           val encryptedPassword = PasswordHashing.encryptPassword(signUpForm.password)
-          val newUser = UserEntity(new ObjectId, signUpForm.emailId, encryptedPassword, List(), false, None, None)
+          val newUser = UserEntity(new ObjectId, signUpForm.emailId, encryptedPassword, List(), false, None, None, None)
           val userId = User.createUser(newUser)
           val userSession = request.session + (currentUserId -> userId.get.toString)
           if (flag.equals(loginFlag)) {

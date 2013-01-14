@@ -38,4 +38,5 @@ object Global extends GlobalSettings {
     InternalServerError(
       views.html.errorPage("Page Not Found - " + request.path + " Error " + error))
   }
+  
 }

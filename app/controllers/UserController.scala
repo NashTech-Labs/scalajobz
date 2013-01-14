@@ -17,6 +17,8 @@ import utils.MailUtility
 import models.Common
 import play.api.mvc.Action
 import play.api.data.Forms
+import utils.JobSeekerVerification
+import models.UserEntity
 
 object UserController extends Controller {
   val activeUserId = "userId"
@@ -106,8 +108,9 @@ object UserController extends Controller {
     if (jobSeekerExist) {
       Ok(false.toString)
     } else {
-      val newJobSeeker = UserEntity(new ObjectId, emailId, "", skillsToken.toLowerCase.split(" ").toList.filter(x => !(x == "")), true, None, None)
+      val newJobSeeker = UserEntity(new ObjectId, emailId, "", skillsToken.toLowerCase.split(" ").toList.filter(x => !(x == "")), true, None, None, Option(false))
       val userId = User.createUser(newJobSeeker)
+      JobSeekerVerification.sendVerifyMailForJobSeeker(newJobSeeker)
       Ok(true.toString)
     }
   }
@@ -121,6 +124,31 @@ object UserController extends Controller {
       case true => Ok(views.html.index(new Alert("success", "Unsubscribed From ScalaJobz"),
         request.session.get(activeUserId).getOrElse(""), Job.findAllJobs, false))
       case false => Ok(views.html.errorPage("There Is Some Error :User Not Subscribed With ScalaJobz"))
+    }
+  }
+
+  /**
+   * Activate Job Seeker Via Id To Send Job Alert Mail
+   */
+
+  def activateJobAlert(userId: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
+    val jobSeeker = User.findUserById(userId)
+    jobSeeker match {
+      case None => Ok(views.html.errorPage("There Is Some Error :Request Not Exist"))
+      case Some(jobSeeker: UserEntity) =>
+        jobSeeker.jobSeekerActivate match {
+          case None => Ok(views.html.errorPage("There Is Some Error :Request Not Exist"))
+          case Some(isActivate: Boolean) =>
+            if (isActivate) {
+              Ok(views.html.index(new Alert("info", "You are already enrolled with Scalajobz for Job Alert"),
+                request.session.get(activeUserId).getOrElse(""), Job.findAllJobs, false))
+            } else {
+              User.activateJobSeeker(jobSeeker)
+              Ok(views.html.index(new Alert("success", "You are successfully enrolled with Scalajobz for Job Alert"),
+                request.session.get(activeUserId).getOrElse(""), Job.findAllJobs, false))
+            }
+        }
+
     }
   }
 }

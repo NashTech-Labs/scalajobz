@@ -69,7 +69,7 @@ object Common {
       message += "<b><u><a href= " + redirectToJobLink + ">" + job.position + "</a></u></b>" + break
       message += job.company + " - " + job.location + break
       //remove html tags from the job description
-      val jobDescription=Jsoup.parse(job.description).text()
+      val jobDescription = Jsoup.parse(job.description).text()
       if (jobDescription.length > 150) {
         message += jobDescription.substring(0, 150) + " ..." + break
       } else {
@@ -114,6 +114,25 @@ object Common {
   }
 
   /**
+   * Set Content For Job Seeker Verification Mail
+   * @param jobSeeker contains the job seeker details
+   */
+
+  def setContentForJobSeekerVerificationMail(jobSeeker: UserEntity): String = {
+    val scalaJobzSiteLink = "http://" + getContextUrl
+    val activateJobAlertLink = "http://" + getContextUrl + "/activateJobAlert/" + jobSeeker.id
+    var message = "Thank you for sent request to enroll with <b> Scalajobz </b> for Job Alert Mail : <b>" + jobSeeker.skills.mkString(" ") + " </b>" + break 
+    message += "<h1><b><u><a href= " + activateJobAlertLink + ">" + "Click here to activate your job alert " + "</a></u></b></h1>" + break + break
+    message += "and start receiving your daily job alert mail." + break + break
+    message += "Or copy and paste the following into your browser:" + break + break
+    message += activateJobAlertLink + break + break
+    message += "Thanks & Regards !" + break
+    message += "<b> ScalaJobz Support Team </b>" + break
+    message += scalaJobzSiteLink
+    message
+  }
+
+  /**
    * To get The root context from application.config
    */
   def getContextUrl: String = {
@@ -148,4 +167,3 @@ object JobBy extends Enumeration {
   val SimplyHired = Value(2, "SimplyHired")
   val CareerBuilder = Value(3, "CareerBuilder")
 }
-

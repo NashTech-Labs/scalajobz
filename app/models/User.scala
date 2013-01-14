@@ -37,6 +37,7 @@ case class SignUpForm(emailId: String,
  * @param jobSeeker the user's jobSeeker
  * @param socialNetworkChannel the social network channel through which user registered
  * @param socailNetworkId is the unique id provided by the network channel to identify user
+ * @param jobSeekerActivate is the flag to identify whether jobSeeker is active or not
  */
 case class UserEntity(@Key("_id") id: ObjectId,
   emailId: String,
@@ -44,7 +45,8 @@ case class UserEntity(@Key("_id") id: ObjectId,
   skills: List[String],
   jobSeeker: Boolean,
   socialNetworkChannel: Option[String],
-  socailNetworkId: Option[String])
+  socailNetworkId: Option[String],
+  jobSeekerActivate: Option[Boolean])
 
 /** Factory for [[models.UserEntity]] instances. */
 object User {
@@ -65,13 +67,13 @@ object User {
    * @param password is password of user to be updated
    */
   def updateUser(employer: UserEntity, password: String): Unit = {
-    UserDAO.update(MongoDBObject("_id" -> employer.id), new UserEntity(employer.id, employer.emailId, password, employer.skills, employer.jobSeeker, employer.socialNetworkChannel, employer.socailNetworkId), false, false, new WriteConcern)
+    UserDAO.update(MongoDBObject("_id" -> employer.id), new UserEntity(employer.id, employer.emailId, password, employer.skills, employer.jobSeeker, employer.socialNetworkChannel, employer.socailNetworkId, None), false, false, new WriteConcern)
   }
   /**
    * Finding the job seekers
    */
   def findJobSeekers: List[UserEntity] = {
-    UserDAO.find(MongoDBObject("jobSeeker" -> true)).toList
+    UserDAO.find(MongoDBObject("jobSeeker" -> true, "jobSeekerActivate" -> Option(true))).toList
   }
 
   /**
@@ -156,7 +158,7 @@ object User {
   def getOrCreateUserBySocialNetwork(userName: String, socialNetworkChannel: String, socailNetworkId: String): String = {
     val userList = User.findUserViaSocialNetwork(userName, socialNetworkChannel, socailNetworkId)
     if (userList.isEmpty) {
-      val newUser = UserEntity(new ObjectId, userName, "", List(), false, Option(socialNetworkChannel), Option(socailNetworkId))
+      val newUser = UserEntity(new ObjectId, userName, "", List(), false, Option(socialNetworkChannel), Option(socailNetworkId), None)
       createUser(newUser).get.toString
     } else {
       userList(0).id.toString
@@ -193,6 +195,14 @@ object User {
         else
           false
     }
+  }
+
+  /**
+   * Activate Job Seeker For Job Alert Mail
+   * @param jobSeeker is jobSeeker object to be updated
+   */
+  def activateJobSeeker(jobSeeker: UserEntity): Unit = {
+    UserDAO.update(MongoDBObject("_id" -> jobSeeker.id), new UserEntity(jobSeeker.id, jobSeeker.emailId, "", jobSeeker.skills, jobSeeker.jobSeeker, None, None, Option(true)), false, false, new WriteConcern)
   }
 
 }

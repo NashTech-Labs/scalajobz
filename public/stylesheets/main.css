@@ -221,11 +221,6 @@ a:hover {
 	margin-left: 20px;
 }
 
-.container,.navbar-fixed-top .container,.navbar-fixed-bottom .container
-	{
-	width: 940px;
-}
-
 .span12 {
 	width: 940px;
 }
@@ -2760,6 +2755,7 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini {
 }
 
 .navbar-inner {
+	width:auto;
 	min-height: 50px;
 	height: 70px;
 	padding-left: 20px;
@@ -2784,10 +2780,6 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini {
 		rgba(0, 0, 0, .1);
 	box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0
 		rgba(0, 0, 0, .1);
-}
-
-.navbar .container {
-	width: auto;
 }
 
 .nav-collapse.collapse {
@@ -2943,7 +2935,7 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini {
 }
 
 .navbar-fixed-top .container,.navbar-fixed-bottom .container {
-	width: 940px;
+	width: 960px;
 }
 
 .navbar-fixed-top {
@@ -4256,10 +4248,6 @@ body {
 	position: absolute;
 }
 
-.navbar-inner .container {
-	width: 960px;
-	padding: 15px 0;
-}
 
 .navbar ul li {
 	display: block;

@@ -43,6 +43,7 @@ POST /registerJobSeeker/:emailId/:skillsToken			controllers.UserController.regis
 
 GET  /unSubscribeJobSeeker/:userId		                controllers.UserController.unSubscribeJobSeeker(userId:String)			
 
+GET  /activateJobAlert/:userId		                    controllers.UserController.activateJobAlert(userId:String)
 #Forget Password
 
 GET /forgetPassword 					            controllers.UserController.forgetPassword

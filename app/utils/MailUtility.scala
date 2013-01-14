@@ -11,6 +11,8 @@ import play.api.Play
 import models.JobEntity
 import models.Common
 import models.UserEntity
+import models.UserEntity
+import models.UserEntity
 
 object MailUtility {
 
@@ -127,6 +129,29 @@ object MailUtility {
     msg.addRecipient(Message.RecipientType.TO, recepientAddress);
     msg.setSubject("Thanks For Mailing Us ScalaJobz");
     msg.setContent(Common.setContentForAcknowledgementMail(name), "text/html")
+    val transport = session.getTransport(protocolName);
+    transport.connect(serverProtocol, mailServer, ConversionUtility.decodeMe(Play.current.configuration.getString(email_password).get))
+    transport.sendMessage(msg, msg.getAllRecipients)
+  }
+
+  /**
+   * Send Email Id Verification Mail To Job Seeker To Verify Email Id Or Activate Job Alert Mail
+   * @param jobSeeker is the mail receiver
+   */
+  def verificationMailToJobSeeker(jobSeeker: UserEntity): Unit = {
+    val props = new Properties
+    props.setProperty("mail.transport.protocol", protocolName)
+    props.setProperty("mail.smtp.starttls.enable", "true")
+    props.setProperty("mail.host", serverProtocol)
+    props.setProperty("mail.user", mailServer)
+    props.setProperty("mail.password", ConversionUtility.decodeMe(Play.current.configuration.getString(email_password).get))
+    val session = Session.getDefaultInstance(props, null);
+    val msg = new MimeMessage(session)
+    val recepientAddress = new InternetAddress(jobSeeker.emailId)
+    msg.setFrom(new InternetAddress(supportMailString, supportMailString))
+    msg.addRecipient(Message.RecipientType.TO, recepientAddress);
+    msg.setSubject(" Activate your job alert : Scalajobz");
+    msg.setContent(Common.setContentForJobSeekerVerificationMail(jobSeeker), "text/html")
     val transport = session.getTransport(protocolName);
     transport.connect(serverProtocol, mailServer, ConversionUtility.decodeMe(Play.current.configuration.getString(email_password).get))
     transport.sendMessage(msg, msg.getAllRecipients)

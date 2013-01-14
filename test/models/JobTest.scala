@@ -69,7 +69,7 @@ class JobTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Find Jobs Posted By A Particular User") {
-    val employer = new UserEntity(new ObjectId, "neelkanth@gmail.com", "12345", List(), true, None, None)
+    val employer = new UserEntity(new ObjectId, "neelkanth@gmail.com", "12345", List(), true, None, None, None)
     val employerId = User.createUser(employer)
     val job1 = JobEntity(new ObjectId, Option(employerId.get), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java", "Scala"), "Description", new Date, JobBy.withName("ScalaJobz"), Option("email"))
     val job2 = JobEntity(new ObjectId, Option(employerId.get), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala", "MongoDB"), "Description", new Date, JobBy.withName("ScalaJobz"), Option("email"))
@@ -82,7 +82,7 @@ class JobTest extends FunSuite with BeforeAndAfter {
     assert(Job.findJobsPostByUserId(employerId.get).size === 2)
   }
   test("Searching the Job by Search Token") {
-    val employer = new UserEntity(new ObjectId, "neelkanth@gmail.com", "12345", List(), true, None, None)
+    val employer = new UserEntity(new ObjectId, "neelkanth@gmail.com", "12345", List(), true, None, None, None)
     val employerId = User.createUser(employer)
     val job1 = JobEntity(new ObjectId, Option(employerId.get), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java", "Scala"), "Description", new Date, JobBy.withName("ScalaJobz"), Option("email"))
     val job2 = JobEntity(new ObjectId, Option(employerId.get), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala", "MongoDB"), "Description", new Date, JobBy.withName("ScalaJobz"), Option("email"))
@@ -119,7 +119,7 @@ class JobTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Find Job Post In Last N Hours") {
-    val employer = new UserEntity(new ObjectId, "neelkanth@gmail.com", "12345", List(), true, None, None)
+    val employer = new UserEntity(new ObjectId, "neelkanth@gmail.com", "12345", List(), true, None, None, None)
     val employerId = User.createUser(employer)
     val job1 = JobEntity(new ObjectId, Option(employerId.get), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java", "Scala"), "Description", new Date, JobBy.withName("ScalaJobz"), Option("email"))
     val job2 = JobEntity(new ObjectId, Option(employerId.get), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala", "MongoDB"), "Description", new Date, JobBy.withName("ScalaJobz"), Option("email"))
@@ -129,7 +129,7 @@ class JobTest extends FunSuite with BeforeAndAfter {
   }
 
   test("count number of jobs") {
-    val employer = new UserEntity(new ObjectId, "neelkanth@gmail.com", "12345", List(), true, None, None)
+    val employer = new UserEntity(new ObjectId, "neelkanth@gmail.com", "12345", List(), true, None, None, None)
     val employerId = User.createUser(employer)
     val job1 = JobEntity(new ObjectId, Option(employerId.get), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java", "Scala"), "Description", new Date, JobBy.withName("ScalaJobz"), Option("email"))
     val job2 = JobEntity(new ObjectId, Option(employerId.get), "Software Programmer", "Knoldus", " New Delhi", "Permanent", "neels@gmail.com", List("Scala", "MongoDB"), "Description", new Date, JobBy.withName("ScalaJobz"), Option("email"))
@@ -140,7 +140,7 @@ class JobTest extends FunSuite with BeforeAndAfter {
   }
 
   test("find job apply address") {
-    val employer = new UserEntity(new ObjectId, "neelkanth@gmail.com", "12345", List(), true, None, None)
+    val employer = new UserEntity(new ObjectId, "neelkanth@gmail.com", "12345", List(), true, None, None, None)
     val employerId = User.createUser(employer)
     val job1 = JobEntity(new ObjectId, Option(employerId.get), "Software Developer", "Sify", " New Delhi", "Contract", "neel@gmail.com", List("Java", "Scala"), "Description", new Date, JobBy.withName("ScalaJobz"), Option("email"))
     Job.addJob(job1)
