@@ -7,7 +7,6 @@ import play.api.mvc.SimpleResult
 import play.api.mvc.Result
 import utils.WSUtil
 import utils.JobPortalReader
-import org.omg.CosNaming.NamingContextPackage.NotFound
 
 object Global extends GlobalSettings {
 
