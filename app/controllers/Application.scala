@@ -181,4 +181,12 @@ object Application extends Controller {
     Ok(views.html.login(new Alert(errorString, "SignIn Failure"), Application.logInForm, "", loginFlag))
   }
 
+  /**
+   * Scalajobz Private Policy
+   */
+
+  def privacyPolicy: Action[play.api.mvc.AnyContent] = Action { implicit request =>
+    Ok(views.html.privacyPolicy(request.session.get(currentUserId).getOrElse("")))
+  }
+
 }

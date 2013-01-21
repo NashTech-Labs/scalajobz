@@ -18,12 +18,16 @@ audio
 
 
 
+
+
 :not
 
 
 
 
+
  
+
 
 
 
@@ -36,7 +40,9 @@ controls
 
 
 
+
  
+
 
 
 
@@ -52,7 +58,10 @@ display
 
 
 
+
+
 :
+
 
 
 
@@ -62,7 +71,10 @@ display
 
 
 
+
 none
+
+
 
 
 
@@ -1005,7 +1017,8 @@ input[type="radio"][disabled],input[type="checkbox"][disabled],input[type="radio
 
 .control-group.warning .input-prepend .add-on,.control-group.warning .input-append .add-on
 	{
-	color: #c09853;form-search
+	color: #c09853;
+	form-search
 }
 
 .control-group.error>label,.control-group.error .help-block,.control-group.error .help-inline
@@ -1605,7 +1618,7 @@ table .span24 {
 	border-left: 4px solid transparent;
 	content: "";
 	opacity: 0.3;
-	filter: alpha(opacity =           30);
+	filter: alpha(opacity =             30);
 }
 
 .dropdown .caret {
@@ -1615,7 +1628,7 @@ table .span24 {
 
 .dropdown:hover .caret,.open .caret {
 	opacity: 1;
-	filter: alpha(opacity =           100);
+	filter: alpha(opacity =             100);
 }
 
 .dropdown-menu {
@@ -1779,7 +1792,7 @@ table .span24 {
 	color: #000000;
 	text-shadow: 0 1px 0 #ffffff;
 	opacity: 0.2;
-	filter: alpha(opacity =           20);
+	filter: alpha(opacity =             20);
 }
 
 .close:hover {
@@ -1787,7 +1800,7 @@ table .span24 {
 	text-decoration: none;
 	cursor: pointer;
 	opacity: 0.4;
-	filter: alpha(opacity =           40);
+	filter: alpha(opacity =             40);
 }
 
 button.close {
@@ -1828,7 +1841,7 @@ button.close {
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	*background-color: #e6e6e6;
 	/* Darken IE7 buttons by default so they stand out more given they won't have borders */
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=       false
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=        false
 		);
 	border: 1px solid #cccccc;
 	*border: 0;
@@ -1896,7 +1909,7 @@ button.close {
 	background-color: #e6e6e6;
 	background-image: none;
 	opacity: 0.65;
-	filter: alpha(opacity =           65);
+	filter: alpha(opacity =             65);
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
 	box-shadow: none;
@@ -1963,7 +1976,7 @@ button.close {
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	*background-color: #2869dd;
 	/* Darken IE7 buttons by default so they stand out more given they won't have borders */
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=       false
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=        false
 		);
 }
 
@@ -1993,7 +2006,7 @@ button.close {
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	*background-color: #f89406;
 	/* Darken IE7 buttons by default so they stand out more given they won't have borders */
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=       false
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=        false
 		);
 }
 
@@ -2023,7 +2036,7 @@ button.close {
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	*background-color: #bd362f;
 	/* Darken IE7 buttons by default so they stand out more given they won't have borders */
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=       false
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=        false
 		);
 }
 
@@ -2053,7 +2066,7 @@ button.close {
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	*background-color: #51a351;
 	/* Darken IE7 buttons by default so they stand out more given they won't have borders */
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=       false
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=        false
 		);
 }
 
@@ -2083,7 +2096,7 @@ button.close {
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	*background-color: #2f96b4;
 	/* Darken IE7 buttons by default so they stand out more given they won't have borders */
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=       false
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=        false
 		);
 }
 
@@ -2113,7 +2126,7 @@ button.close {
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	*background-color: #222222;
 	/* Darken IE7 buttons by default so they stand out more given they won't have borders */
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=       false
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=        false
 		);
 }
 
@@ -2317,7 +2330,7 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini {
 
 .btn:hover .caret,.open.btn-group .caret {
 	opacity: 1;
-	filter: alpha(opacity =           100);
+	filter: alpha(opacity =             100);
 }
 
 .btn-mini .caret {
@@ -2345,7 +2358,7 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini {
 	border-top-color: #ffffff;
 	border-bottom-color: #ffffff;
 	opacity: 0.75;
-	filter: alpha(opacity =           75);
+	filter: alpha(opacity =             75);
 }
 
 .alert {
@@ -2633,7 +2646,7 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini {
 	border-top-color: #ffffff;
 	border-bottom-color: #ffffff;
 	opacity: 1;
-	filter: alpha(opacity =           100);
+	filter: alpha(opacity =             100);
 }
 
 .tabs-stacked .open>a:hover {
@@ -2755,7 +2768,7 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini {
 }
 
 .navbar-inner {
-	width:auto;
+	width: auto;
 	min-height: 50px;
 	height: 70px;
 	padding-left: 20px;
@@ -3031,7 +3044,7 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini {
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	*background-color: #385671;
 	/* Darken IE7 buttons by default so they stand out more given they won't have borders */
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=       false
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=        false
 		);
 	-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 1px 0
 		rgba(255, 255, 255, .075);
@@ -3114,7 +3127,7 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini {
 
 .navbar .nav li.dropdown.active .caret {
 	opacity: 1;
-	filter: alpha(opacity =           100);
+	filter: alpha(opacity =             100);
 }
 
 .navbar .nav li.dropdown.open>.dropdown-toggle,.navbar .nav li.dropdown.active>.dropdown-toggle,.navbar .nav li.dropdown.open.active>.dropdown-toggle
@@ -3336,7 +3349,7 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini {
 
 .modal-backdrop,.modal-backdrop.fade.in {
 	opacity: 0.8;
-	filter: alpha(opacity =           80);
+	filter: alpha(opacity =             80);
 }
 
 .modal {
@@ -3436,12 +3449,12 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini {
 	padding: 5px;
 	font-size: 11px;
 	opacity: 0;
-	filter: alpha(opacity =           0);
+	filter: alpha(opacity =             0);
 }
 
 .tooltip.in {
 	opacity: 0.8;
-	filter: alpha(opacity =           80);
+	filter: alpha(opacity =             80);
 }
 
 .tooltip.top {
@@ -4154,7 +4167,7 @@ to {
 	-moz-border-radius: 23px;
 	border-radius: 23px;
 	opacity: 0.5;
-	filter: alpha(opacity =           50);
+	filter: alpha(opacity =             50);
 }
 
 .carousel-control.right {
@@ -4166,7 +4179,7 @@ to {
 	color: #ffffff;
 	text-decoration: none;
 	opacity: 0.9;
-	filter: alpha(opacity =           90);
+	filter: alpha(opacity =             90);
 }
 
 .carousel-caption {
@@ -4247,7 +4260,6 @@ body {
 .navbar-fixed-top {
 	position: absolute;
 }
-
 
 .navbar ul li {
 	display: block;
@@ -4382,7 +4394,7 @@ body {
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	*background-color: #0088cc;
 	/* Darken IE7 buttons by default so they stand out more given they won't have borders */
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=       false
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=        false
 		);
 }
 
@@ -4770,9 +4782,10 @@ img.shadow-right {
 	height: 290px;
 	float: left;
 }
+
 #searchDiv {
 	height: 100px;
-	width:auto;
+	width: auto;
 	background-color: #e4e4e4;
 	background-image: -moz-linear-gradient(top, #eeeeee, #d5d5d5);
 	background-image: -ms-linear-gradient(top, #eeeeee, #d5d5d5);
@@ -4823,7 +4836,6 @@ img.shadow-right {
 	float: right;
 	margin: 10px 0 0 0;
 }
-
 
 #logos p {
 	font-family: arial;
@@ -5028,14 +5040,14 @@ table.tablesorter thead tr .headerSortDown {
 .signInImage {
 	margin-left: 0px;
 	margin-right: 10px;
-	display: inline-block; 
+	display: inline-block;
 }
 
-.signInImage:focus ,.signInImage:hover{
+.signInImage:focus,.signInImage:hover {
 	position: relative;
-	height:40px;
+	height: 40px;
 	color: #385671;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 	outline: 0;
 }
 
@@ -5044,15 +5056,17 @@ table.tablesorter thead tr .headerSortDown {
 	color: #385671;
 	font-weight: bold;
 }
+
 .page .btn-group .radio-btn {
-	width:auto;
+	width: auto;
 	color: #FFFFFF;
-	font-weight:bold;
+	font-weight: bold;
 	background-color: #2884DD;
-    background-image: -moz-linear-gradient(center top , #2896DD, #2869DD);
-    background-repeat: repeat-x;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	background-image: -moz-linear-gradient(center top, #2896DD, #2869DD);
+	background-repeat: repeat-x;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
+
 .page .btn-group .radio-btn.active {
 	background-color: #5bb75b;
 	background-image: -moz-linear-gradient(top, #62c462, #51a351);
@@ -5069,6 +5083,18 @@ table.tablesorter thead tr .headerSortDown {
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	*background-color: #51a351;
 	/* Darken IE7 buttons by default so they stand out more given they won't have borders */
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=       false
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=        false
 		);
+}
+
+.showBullet ul {
+	list-style-type: none;
+	padding: 0px;
+	margin-bottom: 10px;
+}
+
+.showBullet ul li {
+	background: url("../images/bullet.jpeg") no-repeat;
+	background-position: 0px 10px;
+	padding-left: 14px;
 }

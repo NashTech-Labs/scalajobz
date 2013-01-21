@@ -1,6 +1,6 @@
-@(userId:String) 
-@import models.Alert 
-@import models.Common
+@(userId:String)
+ @import models.Alert 
+ @import models.Common
 
 @main("Welcome to Scalajobz.com",userId,Alert("","")) {
 
@@ -28,34 +28,35 @@
 				</tr>
 				<tr>
 					<td>Request Example</td>
-					<td>
-						<a onclick=open_win('http://@Common.getContextUrl/getAllJobs') href="javascript:void(0);">
-						<u>http://@Common.getContextUrl/getAllJobs</u>
-						</a>
-					</td>
+					<td><a onclick=open_win(
+						'http://@Common.getContextUrl/getAllJobs') href="javascript:void(0);">
+							<u>http://@Common.getContextUrl/getAllJobs</u>
+					</a></td>
 				</tr>
 				<tr>
 					<td>Response Example</td>
 					<td>[{<br /> "id":{"id":"50b2403884ae8fe92ed4474a"},<br />
-						"userId":{"id":"50b23fd984ae8fe92ed44748"},<br /> "position":"Java
-						Developer",<br /> "company":"Knoldus Software",<br />
+						"userId":{"id":"50b23fd984ae8fe92ed44748"},<br />
+						"position":"Java Developer",<br /> "company":"Knoldus Software",<br />
 						"location":"New Delhi",<br /> "jobType":"Permanent",<br />
 						"emailAddress":"hr[at]knoldus.com",<br />
 						"skillsRequired":["Scala","Java"],<br /> "description":"Need Of
-						Java Developer",<br /> "datePosted":"2012-11-25T15:58:48Z"<br />
-						},{<br /> "id":{"id":"50b2401084ae8fe92ed44749"},<br />
+						Java Developer",<br /> "datePosted":"2012-11-25T15:58:48Z",<br />
+						"jobBy":{"name":"ScalaJobz"},<br /> "applyType":"link"<br /> },<br/>{<br/>
+						"id":{"id":"50b2401084ae8fe92ed44749"},<br />
 						"userId":{"id":"50b23fd984ae8fe92ed44748"},<br />
 						"position":"Scala Developer",<br /> "company":"Knoldus Software",<br />
 						"location":"New Delhi",<br /> "jobType":"Contract",<br />
 						"emailAddress":"hr[at]knoldus.com",<br />
-						"skillsRequired":["Scala","Akka"],<br /> "description":"Need Scala
-						Developer",<br /> "datePosted":"2012-11-25T15:58:08Z"<br /> }]
+						"skillsRequired":["Scala","Akka"],<br /> "description":"Need
+						Scala Developer",<br /> "datePosted":"2012-11-25T15:58:08Z",<br />
+						"jobBy":{"name":"ScalaJobz"},<br /> "applyType":"link"<br /> }]<br />
 					</td>
 				</tr>
 				<tr>
 					<td>Error Response</td>
-					<td>{<br /> "alertType":"No Result Found",<br /> "message":"No
-						Job Exist"<br /> }
+					<td>{<br /> "alertType":"No Result Found",<br />
+						"message":"No Job Exist"<br /> }
 					</td>
 				</tr>
 				<tr>
@@ -77,11 +78,10 @@
 				</tr>
 				<tr>
 					<td>Request Example</td>
-					<td>
-					<a onclick=open_win('http://@Common.getContextUrl/getJobsForACriteria/scala+knoldus') href="javascript:void(0);">
-					<u>http://@Common.getContextUrl/getJobsForACriteria/scala+knoldus</u>
-					</a>
-					</td>
+					<td><a onclick=open_win(
+						'http://@Common.getContextUrl/getJobsForACriteria/scala+knoldus') href="javascript:void(0);">
+							<u>http://@Common.getContextUrl/getJobsForACriteria/scala+knoldus</u>
+					</a></td>
 				</tr>
 				<tr>
 					<td>Response Example</td>
@@ -91,15 +91,17 @@
 						"location":"New Delhi",<br /> "jobType":"Contract",<br />
 						"emailAddress":"hr[at]knoldus.com",<br />
 						"skillsRequired":["Scala","Akka"],<br /> "description":"Need For
-						Scala Developer",<br /> "datePosted":"2012-11-25T16:49:38Z"<br />
-						},{<br /> "id":{"id":"50b24c4484ae6aa539512c61"},<br />
-						"userId":{"id":"50b23fd984ae8fe92ed44748"},<br /> "position":"Java
-						Developer",<br /> "company":"Knoldus Software",<br />
+						Scala Developer",<br /> "datePosted":"2012-11-25T16:49:38Z", 
+						<br />"jobBy":{"name":"ScalaJobz"},<br />
+						"applyType":"link"<br /> },<br/>{<br />
+						"id":{"id":"50b24c4484ae6aa539512c61"},<br />
+						"userId":{"id":"50b23fd984ae8fe92ed44748"},<br />
+						"position":"Java Developer",<br /> "company":"Knoldus Software",<br />
 						"location":"New Delhi",<br /> "jobType":"Contract",<br />
 						"emailAddress":"hr[at]knoldus.com",<br />
 						"skillsRequired":["Java","JPA"],<br /> "description":"Need For
-						Java Developer",<br /> "datePosted":"2012-11-25T16:50:12Z"<br />
-						}]
+						Java Developer",<br /> "datePosted":"2012-11-25T16:50:12Z",<br />"jobBy":{"name":"ScalaJobz"},<br />
+						"applyType":"link"<br /> }]
 					</td>
 				</tr>
 				<tr>

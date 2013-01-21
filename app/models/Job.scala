@@ -92,7 +92,7 @@ object Job {
       case Some(email: String) => email
     }
   }
-  
+
   /**
    * Find Job Apply Type
    * @param applyType is the option of apply type
@@ -167,7 +167,7 @@ object Job {
    */
   def searchTheJobForRestAPI(stringTobeSearched: String): List[JobEntity] = {
     val searchStringTokenList = stringTobeSearched.split(" ").toList.filter(x => !(x == ""))
-    searchJobs(searchStringTokenList, findJobsOfLastNHours)
+    searchJobs(searchStringTokenList, findAllJobs)
   }
 
   /**

@@ -24,7 +24,7 @@ object RESTServiceController extends Controller {
    * REST API To get all Jobs
    */
   def processGetAllJobsList: Action[play.api.mvc.AnyContent] = Action {
-    val results = Job.findJobsOfLastNHours
+    val results = Job.findAllJobs
     if (results.isEmpty) {
       Ok(write(new Alert("No Result Found", "No Job Exist"))).as("application/json")
     } else {
