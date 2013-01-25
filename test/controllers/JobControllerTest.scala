@@ -43,7 +43,7 @@ class JobControllerTest extends Specification with BeforeAfter {
   }
 
   "findJobDetail" in {
-    val job1 = JobEntity(new ObjectId, Option(new ObjectId), "Consultant", "HCL", " Noida", "Contract", "narender@gmail.com", List(), "Description", new Date,JobBy.withName("ScalaJobz"),Option("email"))
+    val job1 = JobEntity(new ObjectId, Option(new ObjectId), "Consultant", "HCL", " Noida", "Contract", "narender@gmail.com", List(), "Description", new Date,JobBy.withName("ScalaJobz"),Option("email"),None)
     Job.addJob(job1)
     val result = controllers.JobController.findJobDetail((job1.id).toString)(FakeRequest())
     status(result) must equalTo(OK)

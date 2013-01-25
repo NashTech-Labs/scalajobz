@@ -21,6 +21,7 @@ import play.api.mvc.Results
 import models.JobBy
 import utils.TwitterTweet
 import utils.FacebookFeed
+import utils.BitlyUtil
 
 object JobController extends Controller {
 
@@ -64,7 +65,7 @@ object JobController extends Controller {
           val job = JobEntity(new ObjectId, Option(new ObjectId(request.session.get("userId").get)),
             postAJobForm.position, postAJobForm.company, postAJobForm.location, postAJobForm.jobType,
             emailaddress, postAJobForm.skillsRequired.split(",").toList,
-            postAJobForm.description, new Date, JobBy.withName("ScalaJobz"), Option(postAJobForm.applyType))
+            postAJobForm.description, new Date, JobBy.withName("ScalaJobz"), Option(postAJobForm.applyType), BitlyUtil.createTinyUrl(Option(postAJobForm.applyType), emailaddress))
           Job.addJob(job) match {
             case None =>
               Common.setAlert(new Alert("error", "Job Already Exist!"))
@@ -124,7 +125,7 @@ object JobController extends Controller {
             val editJob = JobEntity(job.id, job.userId, postAJobForm.position,
               postAJobForm.company, postAJobForm.location, postAJobForm.jobType,
               emailaddress, postAJobForm.skillsRequired.split(",").toList,
-              postAJobForm.description, new Date, job.jobBy, Option(postAJobForm.applyType))
+              postAJobForm.description, new Date, job.jobBy, Option(postAJobForm.applyType), job.tinyUrl)
             Job.updateJob(editJob)
             Common.setAlert(new Alert("success", "Job Updated"))
             Results.Redirect("/findJobPostByUserId")

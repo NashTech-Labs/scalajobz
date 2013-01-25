@@ -59,8 +59,8 @@ object UserController extends Controller {
       errors => BadRequest(views.html.editUserProfile(new Alert(errorString, "There Was Some Errors During Profile Editing"),
         userProfile, editUserProfileForm, request.session.get(activeUserId).getOrElse(""))),
       editUserProfileForm => {
-        val currentEncryptedPassword = PasswordHashing.encryptPassword(editUserProfileForm.currentPassword)
-        val encryptedPassword = PasswordHashing.encryptPassword(editUserProfileForm.newPassword)
+        val currentEncryptedPassword = PasswordHashing.encryptPassword(editUserProfileForm.currentPassword.trim)
+        val encryptedPassword = PasswordHashing.encryptPassword(editUserProfileForm.newPassword.trim)
         if ((currentEncryptedPassword.equals(userProfile.password)) && (!currentEncryptedPassword.equals(encryptedPassword))) {
           User.updateUser(userProfile, encryptedPassword)
           Ok(views.html.editUserProfile(new Alert("success", "Profile Updated"),

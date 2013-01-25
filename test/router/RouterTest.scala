@@ -95,7 +95,7 @@ class RouterTest extends Specification with BeforeAfter {
   }
 
   "find a job via jobid Action" in {
-    val job = JobEntity(new ObjectId, Option(new ObjectId), "Consultant", "HCL", " Noida", "Contract", "narender@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"))
+    val job = JobEntity(new ObjectId, Option(new ObjectId), "Consultant", "HCL", " Noida", "Contract", "narender@gmail.com", List(), "Description", new Date, JobBy.withName("ScalaJobz"),Option("email"),None)
     Job.addJob(job)
     val Some(result) = routeAndCall(FakeRequest(GET, "/jobDetail/" + job.id))
     status(result) must equalTo(OK)

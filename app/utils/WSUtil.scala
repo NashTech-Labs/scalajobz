@@ -44,7 +44,7 @@ object WSUtil {
       val description = (indeed \ "snippet").text.trim
       val datePosted = new Date()
       val job = new JobEntity(new ObjectId, None, position, company, location,
-        jobType, emailAdress, skillsRequired, description, datePosted, JobBy.withName("Indeed"),Option("link"))
+        jobType, emailAdress, skillsRequired, description, datePosted, JobBy.withName("Indeed"), Option("link"), None)
       val jobExist = Job.jobExist(position, company, location, "Indeed")
       if (!jobExist) {
         Job.addJob(job)
@@ -59,12 +59,12 @@ object WSUtil {
    * Read Job From Simply Hired Job Portal
    */
   def simplyHiredJobsReader = {
-    val simplyHiredJobReaderUrl = "http://api.simplyhired.com.au/a/jobs-api/xml-v2/qo-scala+akka/ws-100/sb-dd"
+    val simplyHiredJobReaderUrl = "http://api.simplyhired.com.au/a/jobs-api/xml-v2/qo-scala+akka+Play2.0/ws-50/sb-dd"
     val simplyHiredWS = WS.url(simplyHiredJobReaderUrl)
-      .setQueryParameter("pshid", "PSHID")
+      .setQueryParameter("pshid", "PUBLISHER_ID")
       .setQueryParameter("ssty", "3")
       .setQueryParameter("cflg", "r")
-      .setQueryParameter("clip", "CLIP") //IP ADDRESS GIVEN BY SIMPLY HIRED
+      .setQueryParameter("clip", "122.162.46.216")
       .get
     val resultOfSimplyHiredJobReaderUrl = simplyHiredWS.get
     val simplyHiredJobsXmlBody = resultOfSimplyHiredJobReaderUrl.getBody
@@ -91,7 +91,8 @@ object WSUtil {
       val description = (simplyHired \ "e").text.trim
       val datePosted = new Date()
       val job = new JobEntity(new ObjectId, None, position, company, location,
-        jobType, emailAdress, skillsRequired, description, datePosted, JobBy.withName("SimplyHired"),Option("link"))
+        jobType, emailAdress, skillsRequired, description, datePosted, JobBy.withName("SimplyHired"), Option("link"),
+        None)
       val jobExist = Job.jobExist(position, company, location, JobBy.withName("SimplyHired").toString)
       if (!jobExist) {
         Job.addJob(job)
@@ -108,7 +109,7 @@ object WSUtil {
   def careerbuilderJobsReader = {
     val careerbuilderJobReaderUrl = "http://api.careerbuilder.com/v1/jobsearch"
     val careerbuilderWS = WS.url(careerbuilderJobReaderUrl)
-      .setQueryParameter("DeveloperKey", "DEVELOPER_KEY")
+      .setQueryParameter("DeveloperKey", "PUBLISHER_ID")
       .setQueryParameter("Keywords", "scala")
       .setQueryParameter("OrderBy", "date")
       .setQueryParameter("PerPage", "100")
@@ -136,7 +137,8 @@ object WSUtil {
       val description = (careerBuilder \ "DescriptionTeaser").text.trim
       val datePosted = new Date()
       val job = new JobEntity(new ObjectId, None, position, company, location,
-        jobType, emailAdress, skillsRequired, description, datePosted, JobBy.withName("CareerBuilder"),Option("link"))
+        jobType, emailAdress, skillsRequired, description, datePosted, JobBy.withName("CareerBuilder"), Option("link"),
+        None)
       val jobExist = Job.jobExist(position, company, location, JobBy.withName("CareerBuilder").toString)
       if (!jobExist) {
         Job.addJob(job)

@@ -61,9 +61,10 @@ POST /contactUsEmail							   controllers.Application.contactUsEmail
 
 #REST API
 
-GET     /restApi							        controllers.RESTServiceController.restApi
-GET 	/getAllJobs									controllers.RESTServiceController.processGetAllJobsList		
-GET		/getJobsForACriteria/:code 	                controllers.RESTServiceController.processGetJobListForSingleRequest(code: String)
+GET     /restApi							                              controllers.RESTServiceController.restApi
+GET 	/getAllJobs									             controllers.RESTServiceController.processGetAllJobsList		
+GET		/getJobsForACriteria/:code 	                 controllers.RESTServiceController.processGetJobListForQueryString(code: String)
+GET		/getJobDetail/:jobId	                                 controllers.RESTServiceController.getJobDetailViaJobId(jobId: String)
 
 #SocialProfileLogin
 

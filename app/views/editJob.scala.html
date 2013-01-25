@@ -135,7 +135,7 @@
 <link rel="stylesheet" href="@routes.Assets.at("ckeditor/samples/sample.css")" />
 <script type="text/javascript">
 $(document).ready(function() {
-	var apply_type='@Job.findApplyType(job.applyType)';
+	var apply_type='@Job.findJobApplyType(job.applyType)';
 	document.getElementById('Apply_Type').value = apply_type;
 	if(apply_type == 'email'){
 		$(".btn-group").children(":first").addClass("active");

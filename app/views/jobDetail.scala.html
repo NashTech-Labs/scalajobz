@@ -21,6 +21,10 @@
 				
 					<h3>@job.jobType</h3>
 					
+					<Strong>Skills Required:</Strong>
+				
+					<h3>@job.skillsRequired.mkString(",")</h3>
+					
 					<Strong>Date Posted:</Strong>
 				
 					<h3>@format_date(job.datePosted)</h3>
@@ -29,7 +33,7 @@
 					
 						<Strong>Click To Apply:</Strong>
 						<a onclick=open_win('@job.emailAddress') href="javascript:void(0);" >
-						<h5><u>@BitlyUtil.generateTinyUrl(job.emailAddress)</u>
+						<h5><u>@BitlyUtil.getOrCreateTinyUrl(job)</u>
 						</h5>
 						</a>
 					

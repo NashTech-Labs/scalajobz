@@ -51,7 +51,8 @@ case class JobEntity(@Key("_id") id: ObjectId,
   description: String,
   datePosted: Date,
   jobBy: JobBy.Value,
-  applyType: Option[String])
+  applyType: Option[String],
+  tinyUrl: Option[String])
 
 /**
  * JobMailAlertEntity
@@ -98,7 +99,7 @@ object Job {
    * @param applyType is the option of apply type
    */
 
-  def findApplyType(applyType: Option[String]): String = {
+  def findJobApplyType(applyType: Option[String]): String = {
     applyType match {
       case None => "email"
       case Some(value: String) => value
@@ -165,9 +166,9 @@ object Job {
    * Search The Job for last 24 hours for rest api
    * @param stringTobeSearched contains skills
    */
-  def searchTheJobForRestAPI(stringTobeSearched: String): List[JobEntity] = {
+  def searchTheJobForRestAPI(stringTobeSearched: String, jobList: List[JobEntity]): List[JobEntity] = {
     val searchStringTokenList = stringTobeSearched.split(" ").toList.filter(x => !(x == ""))
-    searchJobs(searchStringTokenList, findAllJobs)
+    searchJobs(searchStringTokenList, jobList)
   }
 
   /**
