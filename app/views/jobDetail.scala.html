@@ -1,7 +1,7 @@
 @(job:JobEntity,userId:String)
 @import java.text.SimpleDateFormat
 @import models.Alert
-@import utils.BitlyUtil
+@import utils.GoogleApisUtil
 
 @format_date(date: java.util.Date) = @{
 	new SimpleDateFormat("MMM dd yyyy").format(date)
@@ -33,7 +33,7 @@
 					
 						<Strong>Click To Apply:</Strong>
 						<a onclick=open_win('@job.emailAddress') href="javascript:void(0);" >
-						<h5><u>@BitlyUtil.getOrCreateTinyUrl(job)</u>
+						<h5><u>@GoogleApisUtil.getOrCreateTinyUrl(job)</u>
 						</h5>
 						</a>
 					

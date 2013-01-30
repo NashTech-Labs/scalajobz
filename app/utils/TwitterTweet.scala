@@ -21,7 +21,7 @@ object TwitterTweet {
 
   def tweetANewJobPost(job: JobEntity): Status = {
     val jobDetailUrl = "http://www.scalajobz.com/jobDetail/" + job.id
-    val tinyUrlForJobDetail = BitlyUtil.generateTinyUrl(jobDetailUrl)
+    val tinyUrlForJobDetail = GoogleApisUtil.generateTinyUrl(jobDetailUrl)
     val twitter = new TwitterFactory().getInstance()
 
     val consumer_key = Play.current.configuration.getString("consumer_key").get

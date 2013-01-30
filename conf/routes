@@ -65,6 +65,7 @@ GET     /restApi							                              controllers.RESTServiceCont
 GET 	/getAllJobs									             controllers.RESTServiceController.processGetAllJobsList		
 GET		/getJobsForACriteria/:code 	                 controllers.RESTServiceController.processGetJobListForQueryString(code: String)
 GET		/getJobDetail/:jobId	                                 controllers.RESTServiceController.getJobDetailViaJobId(jobId: String)
+GET     /sendJobDetailMail									 controllers.RESTServiceController.sendJobDetailMailForRestApi
 
 #SocialProfileLogin
 

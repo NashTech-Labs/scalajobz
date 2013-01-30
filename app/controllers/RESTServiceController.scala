@@ -11,11 +11,21 @@ import org.bson.types.ObjectId
 import models.JobEntity
 import models.RestApi
 import java.util.regex.Pattern
+import play.api.libs.json.Json
+import models.JobFormatter
+import utils.MailUtility
+import play.api.Logger
+
+/**
+ * To Send Detail With Rest Api Call
+ */
+case class ResponseDescription(query: String, totalResults: Int, pageNumber: Int, jobsPerPage: Int)
+/**
+ * Response Get When make call to rest Api for query string
+ */
+case class JsonResponseWithDescription(responseDescription: ResponseDescription, results: List[JobFormatter])
 
 object RESTServiceController extends Controller {
-
-  val defaultPage = 1
-  val defaultJobsPerPage = 50
 
   implicit val formats = new net.liftweb.json.DefaultFormats {
   } + new ObjectIdSerializer
@@ -31,29 +41,20 @@ object RESTServiceController extends Controller {
    * REST API To get all Jobs Post in last 30 days
    */
   def processGetAllJobsList: Action[play.api.mvc.AnyContent] = Action { implicit request =>
-    isQueryStringContainsRequestForPagination(request.queryString) match {
-      case false =>
-        val results = Job.findAllJobs
+
+    RestApi.isValidRequest(request.queryString) match {
+      case true =>
+        val queryStringValues = RestApi.readQueryString(request.queryString)
+        val page: Int = queryStringValues._1
+        val jobsPerPage = queryStringValues._2
+        val results = Job.getJobByPagination(page - 1, jobsPerPage)
         if (results.isEmpty) {
           Ok(write(new Alert("No Result Found", "No Job Exist"))).as("application/json")
         } else {
           Ok(write(RestApi.jobsListFormatterForRestApi(results))).as("application/json")
         }
-      case true =>
-        isValidRequest(request.queryString) match {
-          case true =>
-            val queryStringValues = readQueryString(request.queryString)
-            val page: Int = queryStringValues._1
-            val jobsPerPage = queryStringValues._2
-            val results = Job.getJobByPagination(page - 1, jobsPerPage)
-            if (results.isEmpty) {
-              Ok(write(new Alert("No Result Found", "No Job Exist"))).as("application/json")
-            } else {
-              Ok(write(RestApi.jobsListFormatterForRestApi(results))).as("application/json")
-            }
-          case false =>
-            Ok(write(new Alert("Invalid Request", "Invalid Parameters"))).as("application/json")
-        }
+      case false =>
+        Ok(write(new Alert("Invalid Request", "Invalid Parameters"))).as("application/json")
     }
 
   }
@@ -64,33 +65,24 @@ object RESTServiceController extends Controller {
 
   def processGetJobListForQueryString(code: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
 
-    isQueryStringContainsRequestForPagination(request.queryString) match {
-      case false =>
+    RestApi.isValidRequest(request.queryString) match {
+      case true =>
+        val queryStringValues = RestApi.readQueryString(request.queryString)
+        val page: Int = queryStringValues._1
+        val jobsPerPage = queryStringValues._2
+        val from = (page - 1) * jobsPerPage;
+        val to = from + jobsPerPage;
         val results = Job.searchTheJobForRestAPI(code, Job.findAllJobs)
-        if (results.isEmpty) {
+        val selectedRange = results.slice(from, to)
+        if (selectedRange.isEmpty) {
           Ok(write(new Alert("No Result Found", "No Job Exist"))).as("application/json")
         } else {
-          Ok(write(RestApi.jobsListFormatterForRestApi(results))).as("application/json")
+          val descriptionJson = ResponseDescription(code, results.size, page, selectedRange.size)
+          val jsonResponse = JsonResponseWithDescription(descriptionJson, RestApi.jobsListFormatterForRestApi(selectedRange))
+          Ok(write(jsonResponse)).as("application/json")
         }
-
-      case true =>
-        isValidRequest(request.queryString) match {
-          case true =>
-            val queryStringValues = readQueryString(request.queryString)
-            val page: Int = queryStringValues._1
-            val jobsPerPage = queryStringValues._2
-            val from = (page - 1) * jobsPerPage + 1;
-            val to = from + jobsPerPage - 1;
-            val results = Job.searchTheJobForRestAPI(code, Job.findAllJobs)
-            val selectedRange = results.slice(from, to)
-            if (selectedRange.isEmpty) {
-              Ok(write(new Alert("No Result Found", "No Job Exist"))).as("application/json")
-            } else {
-              Ok(write(RestApi.jobsListFormatterForRestApi(selectedRange))).as("application/json")
-            }
-          case false =>
-            Ok(write(new Alert("Invalid Request", "Invalid Parameters"))).as("application/json")
-        }
+      case false =>
+        Ok(write(new Alert("Invalid Request", "Invalid Parameters"))).as("application/json")
     }
 
   }
@@ -100,69 +92,34 @@ object RESTServiceController extends Controller {
    */
 
   def getJobDetailViaJobId(jobId: String): Action[play.api.mvc.AnyContent] = Action {
-    val jobDetailOpt = Job.findJobDetail(new ObjectId(jobId))
-    jobDetailOpt match {
-      case None =>
-        Ok(write(new Alert("No Result Found", "Invalid Job Id"))).as("application/json")
-      case Some(jobDetail: JobEntity) =>
-        Ok(write(RestApi.jobFormatterForRestApi(jobDetail))).as("application/json")
+    try {
+      val jobDetailOpt = Job.findJobDetail(new ObjectId(jobId))
+      jobDetailOpt match {
+        case None =>
+          Ok(write(new Alert("No Result Found", "Invalid Job Id"))).as("application/json")
+        case Some(jobDetail: JobEntity) =>
+          Ok(write(RestApi.jobFormatterForRestApi(jobDetail))).as("application/json")
+      }
+    } catch {
+      case ex =>
+        Logger.error("Error occurred When requesting REST API To Get Job Detail Via Job Id : ", ex)
+        Ok(write(new Alert("Error", "Invalid Job Id"))).as("application/json")
     }
   }
 
   /**
-   * Check For Rest Api Contains The Request For Pagination
+   * Sent Job Detail  Mail For Rest Api Call
    */
 
-  def isQueryStringContainsRequestForPagination(queryString: Map[String, Seq[String]]): Boolean = {
-    queryString.isEmpty match {
-      case true => false
-      case false => true
-    }
-  }
-
-  /**
-   * Check For Rest Api Contains The Valid  Request Parameters
-   */
-  def isValidRequest(queryString: Map[String, Seq[String]]): Boolean = {
-
-    val requestList = List("page", "jobsPerPage")
-    val filteredMap = queryString.filter { case (k, v) => !requestList.contains(k) }
-    filteredMap.isEmpty match {
-      case true => true
-      case false => false
-    }
-  }
-
-  /**
-   * Read Request Parameters For Page No and JobsPerPage
-   */
-
-  def readQueryString(queryString: Map[String, Seq[String]]): (Int, Int) = {
-    val pageSeq = queryString.get("page").getOrElse(Seq())
-    val jobsPerPageSeq = queryString.get("jobsPerPage").getOrElse(Seq())
-    val page = pageSeq.isEmpty match {
-      case true => defaultPage
-      case false =>
-        pageSeq.headOption match {
-          case None => defaultPage
-          case Some(value: String) =>
-            value.matches("^\\d*$") match {
-              case true => value.toInt
-              case false => defaultPage
-            }
+  def sendJobDetailMailForRestApi: Action[play.api.mvc.AnyContent] = Action { implicit request =>
+    RestApi.isValidQueryStringForSendMail(request.queryString) match {
+      case (None, None) => Ok(write(new Alert("Error", "Invalid Parameters"))).as("application/json")
+      case (Some(email: String), Some(jobId: String)) =>
+        MailUtility.sendMailForJobDetail(email, jobId) match {
+          case true => Ok(write(new Alert("Success", "Email Sent"))).as("application/json")
+          case false => Ok(write(new Alert("Error", "There is Some Error.Please Try Again Later"))).as("application/json")
         }
     }
-    val jobsPerPage = jobsPerPageSeq.isEmpty match {
-      case true => defaultJobsPerPage
-      case false =>
-        jobsPerPageSeq.headOption match {
-          case None => defaultJobsPerPage
-          case Some(value: String) => value.matches("^\\d*$") match {
-            case true => value.toInt
-            case false => defaultJobsPerPage
-          }
-        }
-    }
-    (page, jobsPerPage)
   }
+
 }

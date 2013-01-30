@@ -38,37 +38,38 @@
 						</a></b>
 					<h3>Response Example:</h3>
 					<p>
-					<pre>[
+					<pre>
+					[
 {
-"jobId":"5100f849e4b0fb5e4cbe8503",
-"position":"Rails Developer",
-"company":"Payette Group",
-"location":" CA,US",
+"jobId":"5108c7fae4b0e7b8838010ae",
+"position":"Front and Backend Web Developer",
+"company":"Transportation I.T.",
+"location":"Jersey City NJ,US",
 "jobType":"Permanent",
-"contactAddress":"http://www.indeed.com/viewjob?jk=fa7393bb64467a86&qd=QcBnEqZDXU8p864TOL3UZFhKkkyX46rImtTZhlwMt8hUKlA5_sqQdcuF9b4do1OOSrBEcndkbUgrY3o6j8AP4HkEqWfO2g1f8KrZbrwmsSiptQI94s5DsPOzRyYMc52A&indpubnum=6096237122531948&atk=17hlsjlpp0k2h7ag",
+"contactAddress":"http://www.scalajobz.com/jobDetail/5108c7fae4b0e7b8838010ae",
 "skillsRequired":[
 "scala"
 ],
-"description":"Mgt. (BPM, Rules / Constraints engine) Rails Ecosystem (Grails, Groovy, Scala, Erlang) Experience working and deploying on Linux systems (required) Familiarity...",
-"datePosted":"2013-01-24T09:00:57Z",
+"description":" Node.js, Backbone.js, JQuery Bonus: Erlang, CouchDB...",
+"datePosted":"2013-01-30T07:12:58Z",
 "contactType":"url"
 },
 {
-"jobId":"5100f849e4b0fb5e4cbe8502",
-"position":"Senior Rails Developer",
-"company":"Payette Group",
-"location":" CA,US",
+"jobId":"5108c7f8e4b0e7b8838010ad",
+"position":"Software Engineer - Dynamics Job",
+"company":"Microsoft",
+"location":"Bellevue WA,US",
 "jobType":"Permanent",
-"contactAddress":"http://www.indeed.com/viewjob?jk=7a6a2ae1b25e9fe2&qd=QcBnEqZDXU8p864TOL3UZFhKkkyX46rImtTZhlwMt8hUKlA5_sqQdcuF9b4do1OOSrBEcndkbUgrY3o6j8AP4HkEqWfO2g1f8KrZbrwmsSiptQI94s5DsPOzRyYMc52A&indpubnum=6096237122531948&atk=17hlsjlpp0k2h7ag",
+"contactAddress":"http://www.scalajobz.com/jobDetail/5108c7f8e4b0e7b8838010ad",
 "skillsRequired":[
 "scala"
 ],
-"description":"Mgt. (BPM, Rules / Constraints engine) Rails Ecosystem (Grails, Groovy, Scala, Erlang) Experience working and deploying on Linux systems (required) Familiarity...",
-"datePosted":"2013-01-24T09:00:57Z",
+"description":"Java. Knowledge of other modern programming languages ...",
+"datePosted":"2013-01-30T07:12:56Z",
 "contactType":"url"
 }
 ]
-						</pre>
+					</pre>
 					</p>
 					<h3>Error Response :</h3>
 					<p>
@@ -109,30 +110,44 @@
 						</a></b>
 					<h3>Response Example:</h3>
 					<p>
-					<pre>[
-{
-"jobId":"50eba94fe4b071ca46b51ad0",
-"position":"Senior Consultant",
-"company":"Knoldus Software LLP",
-"location":"New Delhi",
-"jobType":"Permanent",
-"contactAddress":"resume[at]knoldus.com",
-"skillsRequired":[
-"Scala",
-" Akka",
-" Play"
-],
-"description":"<p>As a Scala Consultant, your role will be to develop software systems that support high-order computational analysis of rich scientific / organizational data for analytics......</p>",
-"datePosted":"2013-01-08T05:06:23Z",
-"contactType":"email"
+					<pre>{
+
+    "responseDescription":{
+        "query":"knoldus",
+        "totalResults":1,
+        "pageNumber":1,
+        "jobsPerPage":1
+    },
+    "results":[
+        {
+            "jobId":"50eba94fe4b071ca46b51ad0",
+            "position":"Senior Consultant",
+            "company":"Knoldus Software LLP",
+            "location":"New Delhi",
+            "jobType":"Permanent",
+            "contactAddress":"http://www.scalajobz.com/jobDetail/50eba94fe4b071ca46b51ad0",
+            "skillsRequired":[
+                "Scala",
+                " Akka",
+                " Play"
+            ],
+            "description":"<p>As a Scala Consultant, your role will be to develop software systems that support high-order computational analysis of rich scientific / organizational data for analytics.</p>",
+            "datePosted":"2013-01-08T05:06:23Z",
+            "contactType":"email"
+        }
+    ]
+
 }
-]
 					</pre>
 					</p>
 					<h3>Error Response :</h3>
 					<p>
-						{<br /> "alertType":"No Result Found",<br /> "message":"Your
-						search did not match with any exist job."<br /> }
+					{
+<br/>
+    "alertType":"No Result Found",<br/>
+    "message":"No Job Exist"<br/>
+
+}
 					</p>
 					<h3>Authentication Required:</h3>
 					No
@@ -185,8 +200,7 @@
 
 					<h3>Error Response :</h3>
 					<p>
-						{<br /> "alertType":"No Result Found",<br /> "message":"No Job
-						Exist"<br /> }
+						{<br /> "alertType":"No Result Found",<br /> "message":"Invalid Job Id"<br /> }
 					</p>
 					<h3>Authentication Required:</h3>
 					No

@@ -16,6 +16,8 @@ import net.liftweb.json.JsonAST.JInt
 import net.liftweb.json.TypeInfo
 import play.api.Play
 import org.jsoup.Jsoup
+import java.text.SimpleDateFormat
+import utils.GoogleApisUtil
 
 /**
  * class to show alert
@@ -42,6 +44,9 @@ object Common {
   val break = "<br/>"
   var alert: Alert = new Alert("", "")
   def setAlert(alert: Alert): Unit = this.alert = alert
+  val style = """style="color: #2D81B6;
+    font-size: 14px;
+    font-weight: bold;""""
 
   /**
    * Getter Setter For Number of methods
@@ -121,11 +126,51 @@ object Common {
   def setContentForJobSeekerVerificationMail(jobSeeker: UserEntity): String = {
     val scalaJobzSiteLink = "http://" + getContextUrl
     val activateJobAlertLink = "http://" + getContextUrl + "/activateJobAlert/" + jobSeeker.id
-    var message = "Thank you for sent request to enroll with <b> Scalajobz </b> for Job Alert Mail : <b>" + jobSeeker.skills.mkString(" ") + " </b>" + break 
+    var message = "Thank you for sent request to enroll with <b> Scalajobz </b> for Job Alert Mail : <b>" + jobSeeker.skills.mkString(" ") + " </b>" + break
     message += "<h1><b><u><a href= " + activateJobAlertLink + ">" + "Click here to activate your job alert " + "</a></u></b></h1>" + break + break
     message += "and start receiving your daily job alert mail." + break + break
     message += "Or copy and paste the following into your browser:" + break + break
     message += activateJobAlertLink + break + break
+    message += "Thanks & Regards !" + break
+    message += "<b> ScalaJobz Support Team </b>" + break
+    message += scalaJobzSiteLink
+    message
+  }
+
+  /**
+   * Set Content For Job Detail Mail
+   * @param emailId is the receiver Id
+   * @param jobId is the Job Detail Id
+   */
+
+  def setContentForJobDetailMail(emailId: String, jobId: String): String = {
+    val scalaJobzSiteLink = "http://" + getContextUrl
+    val jobDetailLink = "http://" + getContextUrl + "/jobDetail/" + jobId
+
+    val job: JobEntity = Job.findJobDetail(new ObjectId(jobId)).get
+
+    var message = "Thank you for sent request to <b> Scalajobz </b> for Job Detail Mail " + break
+    message += "<h1><b><u><a href= " + jobDetailLink + ">" + job.position + " - " + job.location + "</a></u></b></h1>" + break
+    message += "<b>Company :</b>"
+    message += "<h3 " + style + ">" + job.company + "</h3>"
+    message += "<b>JobType :</b>"
+    message += "<h3 " + style + ">" + job.jobType + "</h3>"
+    message += "<b>Skills Required:</b>"
+    message += "<h3 " + style + ">" + job.skillsRequired.mkString(",") + "</h3>"
+    message += "<b>Date Posted:</b>"
+    message += "<h3 " + style + ">" + new SimpleDateFormat("MMM dd yyyy").format(job.datePosted) + "</h3>"
+
+    if ((job.userId == None) || (job.applyType != None && job.applyType.get == "link")) {
+      message += "<b>Click To Apply:</b>"
+      message += "<h3><b><u><a href= " + GoogleApisUtil.getOrCreateTinyUrl(job) + ">" + GoogleApisUtil.getOrCreateTinyUrl(job) + "</a></u></b></h3>"
+    } else {
+      message += "<b>Email Address To Apply:</b>"
+      message += "<h3><a href=" + "mailto:" + job.emailAddress + "><u>" + job.emailAddress + "</u></a></h3>"
+
+    }
+    message += "<b>Description:</b>"
+    message += "<p>" + job.description + "</p>" + break + break
+
     message += "Thanks & Regards !" + break
     message += "<b> ScalaJobz Support Team </b>" + break
     message += scalaJobzSiteLink

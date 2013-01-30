@@ -44,7 +44,8 @@ object WSUtil {
       val description = (indeed \ "snippet").text.trim
       val datePosted = new Date()
       val job = new JobEntity(new ObjectId, None, position, company, location,
-        jobType, emailAdress, skillsRequired, description, datePosted, JobBy.withName("Indeed"), Option("link"), None)
+        jobType, emailAdress, skillsRequired, description, datePosted, JobBy.withName("Indeed"), Option("link"),
+        GoogleApisUtil.createTinyUrl(Option("link"), emailAdress))
       val jobExist = Job.jobExist(position, company, location, "Indeed")
       if (!jobExist) {
         Job.addJob(job)
@@ -61,7 +62,7 @@ object WSUtil {
   def simplyHiredJobsReader = {
     val simplyHiredJobReaderUrl = "http://api.simplyhired.com.au/a/jobs-api/xml-v2/qo-scala+akka+Play2.0/ws-50/sb-dd"
     val simplyHiredWS = WS.url(simplyHiredJobReaderUrl)
-      .setQueryParameter("pshid", "PUBLISHER_ID")
+      .setQueryParameter("pshid", "PSHID")
       .setQueryParameter("ssty", "3")
       .setQueryParameter("cflg", "r")
       .setQueryParameter("clip", "122.162.46.216")
@@ -92,7 +93,7 @@ object WSUtil {
       val datePosted = new Date()
       val job = new JobEntity(new ObjectId, None, position, company, location,
         jobType, emailAdress, skillsRequired, description, datePosted, JobBy.withName("SimplyHired"), Option("link"),
-        None)
+        GoogleApisUtil.createTinyUrl(Option("link"), emailAdress))
       val jobExist = Job.jobExist(position, company, location, JobBy.withName("SimplyHired").toString)
       if (!jobExist) {
         Job.addJob(job)
@@ -109,7 +110,7 @@ object WSUtil {
   def careerbuilderJobsReader = {
     val careerbuilderJobReaderUrl = "http://api.careerbuilder.com/v1/jobsearch"
     val careerbuilderWS = WS.url(careerbuilderJobReaderUrl)
-      .setQueryParameter("DeveloperKey", "PUBLISHER_ID")
+      .setQueryParameter("DeveloperKey", "DEVELOPER_KEY")
       .setQueryParameter("Keywords", "scala")
       .setQueryParameter("OrderBy", "date")
       .setQueryParameter("PerPage", "100")
@@ -138,7 +139,7 @@ object WSUtil {
       val datePosted = new Date()
       val job = new JobEntity(new ObjectId, None, position, company, location,
         jobType, emailAdress, skillsRequired, description, datePosted, JobBy.withName("CareerBuilder"), Option("link"),
-        None)
+        GoogleApisUtil.createTinyUrl(Option("link"), emailAdress))
       val jobExist = Job.jobExist(position, company, location, JobBy.withName("CareerBuilder").toString)
       if (!jobExist) {
         Job.addJob(job)

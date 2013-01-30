@@ -13,6 +13,7 @@ import models.Common
 import models.UserEntity
 import models.UserEntity
 import models.UserEntity
+import play.api.Logger
 
 object MailUtility {
 
@@ -155,6 +156,37 @@ object MailUtility {
     val transport = session.getTransport(protocolName);
     transport.connect(serverProtocol, mailServer, ConversionUtility.decodeMe(Play.current.configuration.getString(email_password).get))
     transport.sendMessage(msg, msg.getAllRecipients)
+  }
+
+  /**
+   * Send Job Detail Email Via Job Id to the email Id provided by Rest Api Call
+   * @param emailId is the mail receiver
+   * @param jobId is the Job Id
+   */
+  def sendMailForJobDetail(emailId: String, jobId: String): Boolean = {
+    try {
+      val props = new Properties
+      props.setProperty("mail.transport.protocol", protocolName)
+      props.setProperty("mail.smtp.starttls.enable", "true")
+      props.setProperty("mail.host", serverProtocol)
+      props.setProperty("mail.user", mailServer)
+      props.setProperty("mail.password", ConversionUtility.decodeMe(Play.current.configuration.getString(email_password).get))
+      val session = Session.getDefaultInstance(props, null);
+      val msg = new MimeMessage(session)
+      val recepientAddress = new InternetAddress(emailId)
+      msg.setFrom(new InternetAddress(supportMailString, supportMailString))
+      msg.addRecipient(Message.RecipientType.TO, recepientAddress);
+      msg.setSubject(" Job Details : Scalajobz");
+      msg.setContent(Common.setContentForJobDetailMail(emailId, jobId), "text/html")
+      val transport = session.getTransport(protocolName);
+      transport.connect(serverProtocol, mailServer, ConversionUtility.decodeMe(Play.current.configuration.getString(email_password).get))
+      transport.sendMessage(msg, msg.getAllRecipients)
+      true
+    } catch {
+      case ex =>
+        Logger.error("Error occurred While Sending Mail For Rest Api Call : ", ex)
+        false
+    }
   }
 
 }
