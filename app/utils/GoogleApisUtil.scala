@@ -39,14 +39,14 @@ object GoogleApisUtil {
    * Generate Tiny Url By Using goo.gl
    */
   
-  def generateTinyUrl(tinyUrl: String): String = {
+  def generateTinyUrl(longUrl: String): String = {
     
     val apiKey = Play.current.configuration.getString("goo.gle_api_key").get
     
     val jpromise = WS.url("https://www.googleapis.com/urlshortener/v1/url")
       .setHeader("Content-Type", "application/json")
       .setQueryParameter("key", apiKey)
-      .post("""{"longUrl": """" + tinyUrl + """"}""");
+      .post("""{"longUrl": """" + longUrl + """"}""")
     val shortUrlJson = jpromise.get().asJson
     shortUrlJson.get("id").toString
   }
