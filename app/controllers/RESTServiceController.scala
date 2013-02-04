@@ -64,7 +64,6 @@ object RESTServiceController extends Controller {
    */
 
   def processGetJobListForQueryString(code: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
-
     RestApi.isValidRequest(request.queryString) match {
       case true =>
         val queryStringValues = RestApi.readQueryString(request.queryString)

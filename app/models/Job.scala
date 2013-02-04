@@ -150,6 +150,16 @@ object Job {
   def findJobsOfLastNHours: List[JobEntity] = {
     findAllJobs filter (job => ((new Date).getTime - job.datePosted.getTime) / (1000 * 60 * 60) <= 24)
   }
+  
+   /**
+   *Remove Special Characters From  A String
+   * @param stringTobeSearched is the searching String
+   */
+  def clearString(stringTobeSearched: String): String = {
+   val regex = """[`~!@#$%^&*()_+[\\]\\\\;\',./{}|:\"<>?]""".r
+   regex.replaceAllIn(stringTobeSearched, " ")
+ }
+ 
 
   /**
    * Search The Job
@@ -167,7 +177,7 @@ object Job {
    * @param stringTobeSearched contains skills
    */
   def searchTheJobForRestAPI(stringTobeSearched: String, jobList: List[JobEntity]): List[JobEntity] = {
-    val searchStringTokenList = stringTobeSearched.split(" ").toList.filter(x => !(x == ""))
+    val searchStringTokenList = clearString(stringTobeSearched).split(" ").toList.filter(x => !(x == ""))
     searchJobs(searchStringTokenList, jobList)
   }
 

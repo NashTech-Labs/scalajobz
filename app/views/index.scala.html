@@ -10,7 +10,7 @@
    <div id="searchDiv">
 				<form class="form-search"  onsubmit="return searchJobs();" action="">
 					<div class="input-append">
-						<input id="searchString" required="true" type="text" class="input-xxlarge" style="height:50px;font-size: 40px;color:#2884dd;" onKeyUp="changeVal()"
+						<input id="searchString" required="true"  type="text" class="input-xxlarge" style="height:50px;font-size: 40px;color:#2884dd;" onKeyUp="changeVal()"
 						onmouseover="popover" data-content="Please Insert your search criteria here for daily job alerts(You can cancel email alerts at any time)." data-original-title="Get Job Alert">
 						<input id="search" type="submit" value="Search" class="btn btn-large btn-primary" style="margin-top: 15px;"/>
 					</div>
@@ -176,16 +176,9 @@
 		 jobPagination();
 		}, false); 
 	 $("#searchString").popover({placement:'bottom'}); 
-	 showSearchJobs();
+	
 	});
  
- function showSearchJobs()
- {
-	 if($("#searchString").val().length > 0)
-		 {
-		 	searchJobs();
-		 }
- }
  
  function jobPagination() {
 	 if($("#searchString").val().length == 0)
@@ -226,11 +219,15 @@ function showRecords(from, to) {
  function searchJobs() {
 	 var editflag=@editFlag+""
 	    var idToGet = $("#searchString").val();
+	    var clearString= idToGet.replace(/[`~!#@@$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ' ')
+	    var removeWhiteSpaces=  clearString.replace(/\s{2,}/g, ' ');
 	    $.ajax({
 	        type : 'POST',
-	        url : '@routes.JobController.findAJob("' + idToGet + '","' + editflag + '")',
+	        url : '@routes.JobController.findAJob("' + removeWhiteSpaces + '","' + editflag + '")',
 	        success : function(data) {
 	        	 $('#search-result').html(data);
+	        	 var myHilitor = new Hilitor("#results");
+	             myHilitor.apply(removeWhiteSpaces);
 	        }
 	    });
 	    return false;
@@ -256,12 +253,14 @@ function showRecords(from, to) {
 	    }
 	    else{
 	    if(!skillsToken == "" && validateEmail(emailId)){
+	    	 var clearString= skillsToken.replace(/[`~!#@@$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ' ')
+	 	    var removeWhiteSpaces=  clearString.replace(/\s{2,}/g, ' ');
 	    $.ajax({
 	        type : 'POST',
-	        url : '@routes.UserController.registerJobSeeker("' + emailId + '","' + skillsToken + '")',
+	        url : '@routes.UserController.registerJobSeeker("' + emailId + '","' + removeWhiteSpaces + '")',
 	        success : function(data) {
 	        	if (data == "false") {
-	        	 		document.getElementById("errormsg").innerHTML = '<h3>You Are Already Enrolled With ScalaJobz for Job Alerts With Same Attributes ( '+skillsToken+' ) !</h3>';
+	        	 		document.getElementById("errormsg").innerHTML = '<h3>You Are Already Enrolled With ScalaJobz for Job Alerts With Same Attributes ( '+removeWhiteSpaces+' ) !</h3>';
 	        	 		$("#myModal").modal("hide");
 	        	 		$("#successModal").modal("show");
 	        	}
