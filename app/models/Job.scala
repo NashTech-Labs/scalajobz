@@ -13,6 +13,7 @@ import com.mongodb.casbah.MongoConnection
 import utils.DailyJobAlert
 import utils.TwitterTweet
 import java.text.SimpleDateFormat
+import java.util.Calendar
 
 /**
  * Class for Post A Job Form
@@ -140,26 +141,32 @@ object Job {
    * Find All Jobs Posted In Last 30 days
    */
   def findAllJobs: List[JobEntity] = {
-    val jobs = JobDAO.find(MongoDBObject()).sort(orderBy = MongoDBObject("datePosted" -> -1)).toList
-    jobs filter (job => ((new Date).getTime - job.datePosted.getTime) / (1000 * 60 * 60 * 24) <= 30)
+    val current_date: Calendar = Calendar.getInstance //Get Current date
+    val date_before = Calendar.getInstance
+    date_before.add(Calendar.DAY_OF_MONTH, -30) //Get Date Before 30 Days
+    JobDAO.find(ref = MongoDBObject("datePosted" -> MongoDBObject("$gte" -> date_before.getTime, "$lte" -> current_date.getTime)))
+      .sort(orderBy = MongoDBObject("datePosted" -> -1)).toList
   }
 
   /**
    * Find Job posted in last 24 hours
    */
   def findJobsOfLastNHours: List[JobEntity] = {
-    findAllJobs filter (job => ((new Date).getTime - job.datePosted.getTime) / (1000 * 60 * 60) <= 24)
+    val current_date: Calendar = Calendar.getInstance //Get Current date
+    val date_before = Calendar.getInstance
+    date_before.add(Calendar.DAY_OF_MONTH, -1) //Get Date Before 1 Day
+    JobDAO.find(ref = MongoDBObject("datePosted" -> MongoDBObject("$gte" -> date_before.getTime, "$lte" -> current_date.getTime)))
+      .sort(orderBy = MongoDBObject("datePosted" -> -1)).toList
   }
-  
-   /**
-   *Remove Special Characters From  A String
+
+  /**
+   * Remove Special Characters From  A String
    * @param stringTobeSearched is the searching String
    */
   def clearString(stringTobeSearched: String): String = {
-   val regex = """[`~!@#$%^&*()_+[\\]\\\\;\',./{}|:\"<>?]""".r
-   regex.replaceAllIn(stringTobeSearched, " ")
- }
- 
+    val regex = """[`~!@#$%^&*()_+[\\]\\\\;\',./{}|:\"<>?]""".r
+    regex.replaceAllIn(stringTobeSearched, " ")
+  }
 
   /**
    * Search The Job
@@ -279,7 +286,7 @@ object Job {
         JobMailAlertDAO.insert(jobMailAlertEntity)
         false
       case Some(jobMailAlertEntity) =>
-        (((new Date).getTime - jobMailAlertEntity.mailSentTime.getTime) / (1000 * 60 * 60) <= 24) match {
+        (((new Date).getTime - jobMailAlertEntity.mailSentTime.getTime) / (1000 * 60 * 60) < 24) match {
           case true => true
           case false =>
             val updateJobMailAlertEntity = JobMailAlertEntity(jobMailAlertEntity.id, jobMailAlertEntity.userId, new Date)
@@ -294,3 +301,4 @@ object Job {
 object JobDAO extends SalatDAO[JobEntity, ObjectId](collection = MongoHQConfig.mongoDB("job"))
 
 object JobMailAlertDAO extends SalatDAO[JobMailAlertEntity, ObjectId](collection = MongoHQConfig.mongoDB("jobMailAlert"))
+

@@ -200,6 +200,7 @@
 	 var from=((page + 1) - 1) * itemperpage + 1;
 	 var to=from + itemperpage - 1;
 	 showRecords(from,to);
+	 $('html, body').animate({ scrollTop: 0 }, 'fast');
 	 console.info(page);
 	}});
 	
