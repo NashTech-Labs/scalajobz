@@ -15,7 +15,7 @@ object WSUtil {
    */
   def indeedJobsReader = {
     val indeedJobReaderUrl = "http://api.indeed.com/ads/apisearch"
-    val indeedWS = WS.url(indeedJobReaderUrl).setQueryParameter("publisher", "PUBLISHER_ID")
+    val indeedWS = WS.url(indeedJobReaderUrl).setQueryParameter("publisher", "6096237122531948")
       .setQueryParameter("format", "xml")
       .setQueryParameter("q", "scala or akka")
       .setQueryParameter("v", "2")
@@ -60,9 +60,9 @@ object WSUtil {
    * Read Job From Simply Hired Job Portal
    */
   def simplyHiredJobsReader = {
-    val simplyHiredJobReaderUrl = "http://api.simplyhired.com.au/a/jobs-api/xml-v2/qo-scala+akka+Play2.0/ws-50/sb-dd"
+    val simplyHiredJobReaderUrl = "http://api.simplyhired.com.au/a/jobs-api/xml-v2/qo-scala+akka+Play2.0/ws-100/sb-dd"
     val simplyHiredWS = WS.url(simplyHiredJobReaderUrl)
-      .setQueryParameter("pshid", "PSHID")
+      .setQueryParameter("pshid", "47121")
       .setQueryParameter("ssty", "3")
       .setQueryParameter("cflg", "r")
       .setQueryParameter("clip", "122.162.46.216")
@@ -110,7 +110,7 @@ object WSUtil {
   def careerbuilderJobsReader = {
     val careerbuilderJobReaderUrl = "http://api.careerbuilder.com/v1/jobsearch"
     val careerbuilderWS = WS.url(careerbuilderJobReaderUrl)
-      .setQueryParameter("DeveloperKey", "DEVELOPER_KEY")
+      .setQueryParameter("DeveloperKey", "WDT92CH70QG1RF8DYG6L")
       .setQueryParameter("Keywords", "scala")
       .setQueryParameter("OrderBy", "date")
       .setQueryParameter("PerPage", "100")

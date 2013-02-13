@@ -149,7 +149,7 @@ object Common {
 
     val job: JobEntity = Job.findJobDetail(new ObjectId(jobId)).get
 
-    var message = "Thank you for sent request to <b> Scalajobz </b> for Job Detail Mail " + break
+    var message = "Thank you for sending a request to <b>  Scalajobz </b>. Here is the job detail" + break
     message += "<h1><b><u><a href= " + jobDetailLink + ">" + job.position + " - " + job.location + "</a></u></b></h1>" + break
     message += "<b>Company :</b>"
     message += "<h3 " + style + ">" + job.company + "</h3>"

@@ -4,6 +4,7 @@ import akka.util.duration._
 import akka.actor.ActorSystem
 import akka.actor.Props
 import models.UserEntity
+import akka.actor.PoisonPill
 
 case class VerifyJobSeekerRequest(jobSeeker: UserEntity)
 
@@ -30,6 +31,7 @@ class JobSeekerVerifyActor extends Actor {
   def receive: PartialFunction[Any, Unit] = {
     case VerifyJobSeekerRequest(jobSeeker) =>
       MailUtility.verificationMailToJobSeeker(jobSeeker)
+      self ! PoisonPill
   }
 
 }

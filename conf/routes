@@ -86,7 +86,9 @@ GET /loginFailure								    controllers.Application.loginFailureViaSocialNetwor
 
 #Pagination
 
-GET /jobPagination/:editFlag					    controllers.Application.jobPagination(editFlag:String)								
+GET /jobPagination/:editFlag					    controllers.Application.jobPagination(editFlag:String)					
+
+POST /paypalCallback                           controllers.JobController.paypalCallback     			
 
 #Private Policy
 

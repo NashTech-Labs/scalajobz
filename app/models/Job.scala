@@ -301,4 +301,3 @@ object Job {
 object JobDAO extends SalatDAO[JobEntity, ObjectId](collection = MongoHQConfig.mongoDB("job"))
 
 object JobMailAlertDAO extends SalatDAO[JobMailAlertEntity, ObjectId](collection = MongoHQConfig.mongoDB("jobMailAlert"))
-

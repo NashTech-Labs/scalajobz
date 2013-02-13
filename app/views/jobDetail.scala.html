@@ -11,6 +11,56 @@
    
     <div id="homewhite">
 	<div class="page">
+	<div id="email" style="padding-bottom: 10px;padding-top: 10px; float:right;">
+		<button id="send-mail"  class="btn btn-primary btn-large "  style="margin-right: 15px;" onmouseover="popover" data-content="You may have this job in your inbox by clicking on this button. "  data-original-title="Email This Job"  title="">
+		          Email This Job
+		</button>
+  </div>
+    <div id="myModal" class="modal hide fade" tabindex="-1">
+		
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">×</button>
+			<h3 id="myModalLabel">Enter your valid email address</h3>
+		</div>
+		
+		<div class="modal-body">
+			<div id="msgBody"></div>
+				<form id="alert-form">
+						<div class="control-group">
+							<label class="control-label" for="EmailId">Email:</label>
+							<div class="controls">
+								<input id="EmailId" name="EmailId" type="text"
+									placeholder="Email address" class="input-xlarge"
+									style="height: 30px;" />
+								<img id="ajaxImageCtrl" src="@routes.Assets.at("images/load.gif")" style="display: none;" />
+							
+							</div>
+						</div>
+				</form>
+		</div>
+		
+		<div class="modal-footer">
+		   <button id="mail" class="btn btn-primary" >Send Mail</button>
+		   <button  class="btn btn-primary" data-dismiss="modal">Close</button>
+			</div>
+	</div>
+	
+	<div id="successModal" class="modal hide fade">
+		
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">×</button>
+			<h3 id="myModalLabel">Success</h3>
+		</div>
+		
+		<div class="modal-body">
+		<div id="errormsg">
+		</div>		
+		</div>
+		
+		<div class="modal-footer">
+			<button id="Ok" class="btn btn-primary" data-dismiss="modal">OK</button>
+		</div>
+	</div>	
 	<div id="jobheading">@job.position - @job.location</div>
 				
 					<Strong>Company:</Strong>
@@ -52,6 +102,46 @@
 			
 	</div>
 </div>
-    
+<script  type="text/javascript">
+$(document).ready(function() {
+	$("#send-mail").popover({placement:'bottom'}); 
+	
+	});
+$('#send-mail').click(function(e) {
+	 $("#myModal").modal("show");
+	 document.getElementById("errormsg").innerHTML="";
+	 document.getElementById("alert-form").reset();
+});
+
+ 
+$('#mail').click(function(e) {
+	var emailId = $("#EmailId").val();
+	if(validateEmail(emailId)){
+	document.getElementById("ajaxImageCtrl").style.display = 'inline'
+	$.ajax({
+        type : 'GET',
+        url : '@routes.RESTServiceController.sendJobDetailMailForRestApi?emailId='+ emailId+'&jobId=@job.id',
+        success : function(data) {
+        	if (data.alertType == "Success") {
+        		document.getElementById("ajaxImageCtrl").style.display = 'none'
+        		document.getElementById("errormsg").innerHTML = '<h3>Please check your email - we have sent a email for job detail.</h3>';
+       	 		$("#myModal").modal("hide");
+       	 		$("#successModal").modal("show");
+	        	}
+        	else
+        		{
+        		    document.getElementById("ajaxImageCtrl").style.display = 'none'
+            	    document.getElementById("errormsg").innerHTML = '<h3>There is some error, Please try again later</h3>';
+	        	    $("#myModal").modal("hide");
+	        	 	$("#successModal").modal("show");
+        		}
+        }
+    });
+    return false;
+    }
+
+});
+
+</script>    
     
 }

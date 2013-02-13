@@ -134,9 +134,12 @@ object User {
       case None => false
       case Some(jobSeeker: UserEntity) =>
         UserDAO.remove(jobSeeker)
+        Job.findJobseekerForJobMailAlert(new ObjectId(userId)) match {
+          case None => //do nothing
+          case Some(jobMailAlertEntity: JobMailAlertEntity) => JobMailAlertDAO.remove(jobMailAlertEntity) //remove user from job mail alert to stop sending email
+        }
         true
     }
-
   }
 
   /**

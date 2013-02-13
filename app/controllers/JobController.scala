@@ -147,4 +147,9 @@ object JobController extends Controller {
     Ok
   }
 
+  def paypalCallback: Action[play.api.mvc.AnyContent] = Action { implicit request =>
+    println("request body----->" + request.body)
+    println("paypalCallback----> " + request.queryString)
+    Ok
+  }
 }

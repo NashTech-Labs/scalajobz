@@ -7,6 +7,7 @@
 		
 
 @main("Welcome to Scalajobz.com",userId,alert) {
+ @if(editFlag == false){
    <div id="searchDiv">
 				<form class="form-search"  onsubmit="return searchJobs();" action="">
 					<div class="input-append">
@@ -16,6 +17,7 @@
 					</div>
 				</form>
 		</div>
+}
 		@if(alert.alertType != ""){
    		<div class="alert alert-@alert.alertType">  
   			<a class="close" data-dismiss="alert">×</a>  
@@ -25,12 +27,13 @@
     <div id="homewhite">
 	<div class="page">
 	<div id="alertHold"></div>
+	@if(editFlag == false){
 	<div id="alert-button" style="padding-bottom: 10px;padding-top: 10px;">
 		<button id="job-alert" class="btn btn-primary btn-large" disabled="disabled"  data-toggle="modal" title="Enter Search Criteria For Job Alert">
 			Get Job Alert
 		</button>
 	</div>
-	
+}
 	<div id="myModal" class="modal hide fade" tabindex="-1">
 		
 		<div class="modal-header">

@@ -10,6 +10,7 @@ import models.SignUpForm
 import play.api.mvc.Controller
 import play.api.data.Form
 import play.api.data.Forms.nonEmptyText
+import play.api.data.Forms.email
 import play.mvc.Http.Request
 import play.libs
 import org.bson.types.ObjectId
@@ -30,14 +31,14 @@ object Application extends Controller {
   val loginFlag = "login"
   val signUpForm = Form(
     Forms.mapping(
-      "EmailId" -> nonEmptyText,
+      "EmailId" -> email,
       "Password" -> nonEmptyText,
       "ConfirmPassword" -> nonEmptyText)(SignUpForm.apply)(SignUpForm.unapply))
 
   val contactUsForm = Form(
     Forms.mapping(
       "Name" -> nonEmptyText,
-      "EmailAddress" -> nonEmptyText,
+      "EmailAddress" ->email,
       "Subject" -> nonEmptyText,
       "Message" -> nonEmptyText)(ContactUsForm.apply)(ContactUsForm.unapply))
 
@@ -47,7 +48,7 @@ object Application extends Controller {
 
   val logInForm = Form(
     Forms.mapping(
-      "EmailId" -> nonEmptyText,
+      "EmailId" -> email,
       "Password" -> nonEmptyText)(LogInForm.apply)(LogInForm.unapply))
 
   def index: Action[play.api.mvc.AnyContent] = Action { implicit request =>
@@ -130,7 +131,11 @@ object Application extends Controller {
    */
 
   def loginOnScalaJobz: Action[play.api.mvc.AnyContent] = Action { implicit request =>
-    Ok(views.html.login(new Alert("", ""), logInForm, request.session.get(currentUserId).getOrElse(""), loginFlag))
+    request.session.get(currentUserId) match {
+      case None => Ok(views.html.login(new Alert("", ""), logInForm, "", loginFlag))
+      case Some(userId: String) => Results.Redirect("/findAllJobs")
+    }
+
   }
 
   /**
