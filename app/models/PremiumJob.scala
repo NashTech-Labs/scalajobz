@@ -36,8 +36,8 @@ object PremiumJob {
   /**
    * Number Of Premium Jobs Per Page
    */
-  val premiumJobsPerPage = Play.current.configuration.getString("premiumJobsPerPage").get.toInt
-   val jobValidDays = Play.current.configuration.getString("jobValidDays").get.toInt
+  val premiumJobsPerPage = 2//Play.current.configuration.getString("premiumJobsPerPage").get.toInt
+   val jobValidDays = 10//Play.current.configuration.getString("jobValidDays").get.toInt
 
   /**
    * Get Set of Types Of Premium Job Available
