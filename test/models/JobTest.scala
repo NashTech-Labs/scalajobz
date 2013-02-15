@@ -54,9 +54,9 @@ class JobTest extends FunSuite with BeforeAndAfter {
     Job.addJob(job1)
     Job.addJob(job2)
     Job.addJob(job3)
-    val jobsFound = Job.searchTheJob("Programmer")
+    val jobsFound = Job.searchTheJob("Programmer", List(job1, job2, job3))
     assert(jobsFound.size === 1)
-    val jobsFoundAgain = Job.searchTheJob("Delhi")
+    val jobsFoundAgain = Job.searchTheJob("Delhi", List(job1, job2, job3))
     assert(jobsFoundAgain.size === 2)
   }
 

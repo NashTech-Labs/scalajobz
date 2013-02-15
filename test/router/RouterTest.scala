@@ -88,7 +88,7 @@ class RouterTest extends Specification with BeforeAfter {
   }
 
   "find a job with search token Action" in {
-    val Some(result) = routeAndCall(FakeRequest(POST, "/findAJob/scala/false"))
+    val Some(result) = routeAndCall(FakeRequest(POST, "/searchJobs/scala/false"))
     status(result) must equalTo(OK)
     contentType(result) must beSome("text/html")
     charset(result) must beSome("utf-8")
