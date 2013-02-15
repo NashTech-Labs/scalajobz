@@ -6,6 +6,7 @@ import akka.util.duration._
 import models.User
 import models.JobEntity
 import models.Job
+import models.PremiumJob
 
 /**
  * Running A Actor Periodically to send daily Job alert
@@ -23,7 +24,7 @@ class JobAlertActor extends Actor {
    */
   def sendJobAlert: Unit = {
     val jobSeekers = User.findJobSeekers
-    val JobPostedInLastNHours = Job.findJobsOfLastNHours
+    val JobPostedInLastNHours = PremiumJob.findPremiumJobs ++ Job.findJobsOfLastNHours
     if (!JobPostedInLastNHours.isEmpty) {
       for (jobSeeker <- jobSeekers) {
         val filteredJobList = Job.searchJobs(jobSeeker.skills, JobPostedInLastNHours)

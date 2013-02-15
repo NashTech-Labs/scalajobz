@@ -15,6 +15,7 @@ import play.api.libs.json.Json
 import models.JobFormatter
 import utils.MailUtility
 import play.api.Logger
+import models.PremiumJob
 
 /**
  * To Send Detail With Rest Api Call
@@ -47,7 +48,8 @@ object RESTServiceController extends Controller {
         val queryStringValues = RestApi.readQueryString(request.queryString)
         val page: Int = queryStringValues._1
         val jobsPerPage = queryStringValues._2
-        val results = Job.getJobByPagination(page - 1, jobsPerPage)
+        val premiumJobs = PremiumJob.findPremiumJobsForAPage(page)
+        val results = premiumJobs ++ Job.getJobByPagination(page - 1, jobsPerPage - premiumJobs.size)
         if (results.isEmpty) {
           Ok(write(new Alert("No Result Found", "No Job Exist"))).as("application/json")
         } else {
@@ -71,7 +73,7 @@ object RESTServiceController extends Controller {
         val jobsPerPage = queryStringValues._2
         val from = (page - 1) * jobsPerPage;
         val to = from + jobsPerPage;
-        val results = Job.searchTheJobForRestAPI(code, Job.findAllJobs)
+        val results = Job.searchTheJobForRestAPI(code, PremiumJob.findPremiumJobs ++ Job.findAllJobs)
         val selectedRange = results.slice(from, to)
         if (selectedRange.isEmpty) {
           Ok(write(new Alert("No Result Found", "No Job Exist"))).as("application/json")

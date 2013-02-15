@@ -144,7 +144,10 @@ object Job {
     val current_date: Calendar = Calendar.getInstance //Get Current date
     val date_before = Calendar.getInstance
     date_before.add(Calendar.DAY_OF_MONTH, -30) //Get Date Before 30 Days
-    JobDAO.find(ref = MongoDBObject("datePosted" -> MongoDBObject("$gte" -> date_before.getTime, "$lte" -> current_date.getTime)))
+    val premiumJobs = PremiumJob.getPremiumJobs
+    val listOfPremiumJobIds = PremiumJob.getListofPremiumJobIds(premiumJobs)
+    JobDAO.find(ref = MongoDBObject("datePosted" -> MongoDBObject("$gte" -> date_before.getTime, "$lte" -> current_date.getTime),
+      "_id" -> MongoDBObject("$nin" -> listOfPremiumJobIds)))
       .sort(orderBy = MongoDBObject("datePosted" -> -1)).toList
   }
 
@@ -155,7 +158,10 @@ object Job {
     val current_date: Calendar = Calendar.getInstance //Get Current date
     val date_before = Calendar.getInstance
     date_before.add(Calendar.DAY_OF_MONTH, -1) //Get Date Before 1 Day
-    JobDAO.find(ref = MongoDBObject("datePosted" -> MongoDBObject("$gte" -> date_before.getTime, "$lte" -> current_date.getTime)))
+    val premiumJobs = PremiumJob.getPremiumJobs
+    val listOfPremiumJobIds = PremiumJob.getListofPremiumJobIds(premiumJobs)
+    JobDAO.find(ref = MongoDBObject("datePosted" -> MongoDBObject("$gte" -> date_before.getTime, "$lte" -> current_date.getTime),
+      "_id" -> MongoDBObject("$nin" -> listOfPremiumJobIds)))
       .sort(orderBy = MongoDBObject("datePosted" -> -1)).toList
   }
 
@@ -172,20 +178,25 @@ object Job {
    * Search The Job
    * @param stringTobeSearched contains skills
    */
-  def searchTheJob(stringTobeSearched: String): List[JobEntity] = {
+  def searchTheJob(stringTobeSearched: String,jobList: List[JobEntity]): List[JobEntity] = {
     val searchStringTokenList = stringTobeSearched.split(" ").toList.filter(x => !(x == ""))
-    val allJobs = findAllJobs
-    searchJobs(searchStringTokenList, allJobs)
+    searchJobs(searchStringTokenList, jobList)
 
   }
 
   /**
-   * Search The Job for last 24 hours for rest api
+   * Search The Job for last 30 days for rest api
    * @param stringTobeSearched contains skills
+   * @param jobList is the list to be filter
    */
   def searchTheJobForRestAPI(stringTobeSearched: String, jobList: List[JobEntity]): List[JobEntity] = {
-    val searchStringTokenList = clearString(stringTobeSearched).split(" ").toList.filter(x => !(x == ""))
-    searchJobs(searchStringTokenList, jobList)
+    val stringRemoveSpecialCharacters = clearString(stringTobeSearched)
+    if (stringRemoveSpecialCharacters.equals(" ")) {
+      List()
+    } else {
+      val searchStringTokenList = stringRemoveSpecialCharacters.split(" ").toList.filter(x => !(x == ""))
+      searchJobs(searchStringTokenList, jobList)
+    }
   }
 
   /**
@@ -240,6 +251,10 @@ object Job {
   def deleteJobByJobId(jobId: ObjectId): Unit = {
     val jobToBeDelete = findJobDetail(jobId).get
     JobDAO.remove(jobToBeDelete)
+    PremiumJob.getPremiumJobByJobId(jobId.toString) match {
+      case None => //do nothing
+      case Some(premiumJobEntity: PremiumJobEntity) => PremiumJobDAO.remove(premiumJobEntity)
+    }
   }
 
   /**
@@ -257,7 +272,10 @@ object Job {
    */
 
   def getJobByPagination(pageNumber: Int, jobsPerPage: Int): List[JobEntity] = {
-    val jobs = JobDAO.find(MongoDBObject()).sort(orderBy = MongoDBObject("datePosted" -> -1)).skip((pageNumber) * jobsPerPage).limit(jobsPerPage).toList
+    val premiumJobs = PremiumJob.getPremiumJobsForApage(pageNumber + 1)
+    val listOfPremiumJobIds = PremiumJob.getListofPremiumJobIds(premiumJobs)
+    val jobs = JobDAO.find(MongoDBObject("_id" -> MongoDBObject("$nin" -> listOfPremiumJobIds)))
+      .sort(orderBy = MongoDBObject("datePosted" -> -1)).skip((pageNumber) * jobsPerPage).limit(jobsPerPage).toList
     jobs
   }
 

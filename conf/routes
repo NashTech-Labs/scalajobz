@@ -19,7 +19,7 @@ GET    /findAllJobs                   controllers.Application.index
 
 GET    /logout                        controllers.Application.logOutFromScalaJobz
 
-POST   /findAJob/:searchString/:editFlag   controllers.JobController.findAJob(searchString: String , editFlag: String)
+POST   /searchJobs/:searchString/:editFlag   controllers.JobController.searchJobs(searchString: String , editFlag: String)
 
 GET   /jobDetail/:jobId				controllers.JobController.findJobDetail(jobId:String)
 
@@ -88,10 +88,22 @@ GET /loginFailure								    controllers.Application.loginFailureViaSocialNetwor
 
 GET /jobPagination/:editFlag					    controllers.Application.jobPagination(editFlag:String)					
 
-POST /paypalCallback                           controllers.JobController.paypalCallback     			
+POST /paypalCallback                           controllers.PremiumJobController.paypalCallback     			
 
 #Private Policy
 
 GET /privacyPolicy   							   controllers.Application.privacyPolicy
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+#Premium Job
+
+GET   /premiumJobDetail                   							              controllers.PremiumJobController.premiumJobDetail
+GET   /premiumJobPost/:jobId			 							              controllers.PremiumJobController.premiumJobPost(jobId:String)
+GET   /denyForPremiumJob			 								              controllers.PremiumJobController.denyForPremiumJob
+GET   /callBackForPremiumJob			 							              controllers.PremiumJobController.callBackForPremiumJob
+GET   /setPageForPremiumJob/:page			                              controllers.PremiumJobController.setPageForPremiumJob(page: String)
+GET   /findPremiumJobs/:pageNum								             controllers.PremiumJobController.findPremiumJobs(pageNum:String)
+GET  /countPremiumJobsForAPage/:pageRequested           controllers.PremiumJobController.countPremiumJobsForAPage(pageRequested:String)
+GET /isPremiumJob/:jobId                                                          controllers.PremiumJobController.isPremiumJob(jobId: String)
+GET /findPremiumJobValidDateRange/:jobId                          controllers.PremiumJobController.findPremiumJobValidDateRange(jobId: String)

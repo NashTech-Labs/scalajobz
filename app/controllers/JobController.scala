@@ -22,6 +22,7 @@ import models.JobBy
 import utils.TwitterTweet
 import utils.FacebookFeed
 import utils.GoogleApisUtil
+import models.PremiumJob
 
 object JobController extends Controller {
 
@@ -72,9 +73,7 @@ object JobController extends Controller {
               Results.Redirect("/findJobPostByUserId")
             case _ =>
               TwitterTweet.tweetANewJobPost(job)
-              //FacebookFeed.publishMessage(job)
-              Common.setAlert(new Alert("success", "Job Posted Successfully!"))
-              Results.Redirect("/findJobPostByUserId")
+              Results.Redirect("/premiumJobPost/" + job.id.toString)
           }
 
         }
@@ -85,12 +84,19 @@ object JobController extends Controller {
    * Load  Job  Page on scalajobz.com
    */
 
-  def findAJob(searchString: String, editFlag: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
-    val searchJobList = Job.searchTheJob(searchString)
-    if (editFlag.equals("true")) {
-      Ok(views.html.ajax_result(searchJobList, true))
+  def searchJobs(searchString: String, editFlag: String): Action[play.api.mvc.AnyContent] = Action { implicit request =>
+    if (searchString.equals(" ")) {
+      Ok(views.html.ajax_result(List(), editFlag.toBoolean))
     } else {
-      Ok(views.html.ajax_result(searchJobList, false))
+      if (editFlag.toBoolean) {
+        val jobList = Job.findJobsPostByUserId(new ObjectId(request.session.get("userId").get))
+        val searchJobList = Job.searchTheJob(searchString, jobList)
+        Ok(views.html.ajax_result(searchJobList, editFlag.toBoolean))
+      } else {
+        val jobList = PremiumJob.findPremiumJobs ++ Job.findAllJobs
+        val searchJobList = Job.searchTheJob(searchString, jobList)
+        Ok(views.html.ajax_result(searchJobList, editFlag.toBoolean))
+      }
     }
   }
 
@@ -129,7 +135,7 @@ object JobController extends Controller {
             val editJob = JobEntity(job.id, job.userId, postAJobForm.position,
               postAJobForm.company, postAJobForm.location, postAJobForm.jobType,
               emailaddress, postAJobForm.skillsRequired.split(",").toList,
-              postAJobForm.description, new Date, job.jobBy, Option(postAJobForm.applyType), job.tinyUrl)
+              postAJobForm.description, job.datePosted, job.jobBy, Option(postAJobForm.applyType), job.tinyUrl)
             Job.updateJob(editJob)
             Common.setAlert(new Alert("success", "Job Updated"))
             Results.Redirect("/findJobPostByUserId")
@@ -147,9 +153,11 @@ object JobController extends Controller {
     Ok
   }
 
+
   def paypalCallback: Action[play.api.mvc.AnyContent] = Action { implicit request =>
     println("request body----->" + request.body)
     println("paypalCallback----> " + request.queryString)
     Ok
   }
+
 }

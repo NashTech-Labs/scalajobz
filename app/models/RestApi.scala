@@ -142,7 +142,6 @@ object RestApi {
   }
 
   def isValidQueryStringForSendMail(queryString: Map[String, Seq[String]]): (Option[String], Option[String]) = {
-    println(queryString)
     try {
       val emailId = queryString.get("emailId")
       val jobId = queryString.get("jobId")

@@ -70,6 +70,40 @@ function close_win(redirectUrl)
 	window.opener.focus();
 	window.close();
 }
+function isPremiumJob(jobId) {
+	$.ajax({
+		type : 'GET',
+		url : '@routes.PremiumJobController.findPremiumJobValidDateRange("' + jobId	+ '")',
+		success : function(data) {
+			if(data.from != "--" && data.to != "--")
+				{
+				document.getElementById("premiumJobMsg").innerHTML = '<h3>This is  a premium job and valid from !'+data.from+' to '+ data.to+'</h3>';	
+				$("#premiumJobModal").modal("show");
+				}
+			else{
+				window.location = "/premiumJobPost/"+jobId;
+			}
+				
+		}
+	});
+	return false;
+}
+
+function premiumJobResult(pageNum){	
+	 $.ajax({
+	        type : 'GET',
+	        url : '@routes.PremiumJobController.findPremiumJobs("' + pageNum + '")',
+	        success : function(data) {
+	        	$('#premiumJobResult').html(data);
+	        	//$('table > tbody > tr:first').before(data);
+	        	// document.getElementById("results").getElementsByTagName("tbody")[0].innerHTML=data;
+	        	// $('#results').trigger("create");
+	        	//$('tbody.rowlink').rowlink()
+	
+	        }
+	    });
+	 return false;
+}
 </script>
 
 

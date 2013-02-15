@@ -1,13 +1,18 @@
 @(alert: Alert,userId:String,jobs: List[JobEntity],editFlag:Boolean)
 @import java.text.SimpleDateFormat
-
+@import models.PremiumJob
 @format_date(date: java.util.Date) = @{
 	new SimpleDateFormat("MMM dd yyyy").format(date)
 }
-		
+@getImgageForPremiumJob(jobId:String) = @{
+   PremiumJob.isPremiumJob(jobId) match{
+   case None =>( "/assets/images/non-premium.png","Non Premium Job")
+   case Some(premiumJobEntity:PremiumJobEntity) =>( "/assets/images/premium.png","Premium Job")
+   }
+}		
 
 @main("Welcome to Scalajobz.com",userId,alert) {
- @if(editFlag == false){
+
    <div id="searchDiv">
 				<form class="form-search"  onsubmit="return searchJobs();" action="">
 					<div class="input-append">
@@ -17,7 +22,7 @@
 					</div>
 				</form>
 		</div>
-}
+
 		@if(alert.alertType != ""){
    		<div class="alert alert-@alert.alertType">  
   			<a class="close" data-dismiss="alert">×</a>  
@@ -27,13 +32,14 @@
     <div id="homewhite">
 	<div class="page">
 	<div id="alertHold"></div>
-	@if(editFlag == false){
+
 	<div id="alert-button" style="padding-bottom: 10px;padding-top: 10px;">
-		<button id="job-alert" class="btn btn-primary btn-large" disabled="disabled"  data-toggle="modal" title="Enter Search Criteria For Job Alert">
+		<button id="job-alert" class="btn btn-primary btn-small" disabled="disabled"  data-toggle="modal" title="Enter Search Criteria For Job Alert">
 			Get Job Alert
 		</button>
 	</div>
-}
+
+
 	<div id="myModal" class="modal hide fade" tabindex="-1">
 		
 		<div class="modal-header">
@@ -98,22 +104,42 @@
 		</div>
 	</div>
 	
+	<div id="premiumJobModal" class="modal hide fade">
+		
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">×</button>
+			<h3 id="myModalLabel">Already a Premium Job</h3>
+		</div>
+		
+		<div class="modal-body">
+		<div id="premiumJobMsg"></div>
+		</div>		
+		
+		<div class="modal-footer">
+			<button class="btn btn-primary" data-dismiss="modal">OK</button>
+		</div>
+	</div>
+	
 	
 	@if(userId != "" && jobs.isEmpty){
 	<h5>No Job Posted by you. Click <a class="menulink" href="/postAJob">Here</a> to post a job. </h5>
 	} else {
-	
+	@if(editFlag == false){
+	<div id="premiumJobResult" style="display: block;"></div>
+	<fieldset>
+    	<legend class="legend">All Jobs</legend>
+    	}
 	<div id="search-result">
 		<table id="results" class="table table-striped table-bordered table-condensed tablesorter">
 			<thead>
 				<tr>
-					<th>POSITION</th>
-					<th>COMPANY</th>
-					<th>LOCATION</th>
-					<th>TYPE</th>
-					<th>POSTED</th>
+					<th width="30%;">POSITION</th>
+					<th width="20%;">COMPANY</th>
+					<th width="20%;">LOCATION</th>
+					<th width="10%;">TYPE</th>
+					<th width="10%;">POSTED</th>
 					
-					@if(editFlag == true){<th>OPTION</th>}
+					@if(editFlag == true){<th width="10%;">OPTION</th>}
 				</tr>
 				</thead>
 			<tbody data-provides="rowlink">
@@ -154,7 +180,11 @@
 					<td>@format_date(job.datePosted)</td>
 					@if(editFlag == true){
 					<td class="nolink"><a href="/findJobPostForEdit/@job.id"><i class="icon-pencil" title="Edit"></i> </a>
-					&nbsp;<a href="#" onclick="confirmDeleteJob('@job.id');"><i class="icon-remove" title="Delete"></i> </a></td>}
+					&nbsp;<a href="#" onclick="confirmDeleteJob('@job.id');"><i class="icon-remove" title="Delete"></i> </a>
+					&nbsp;<a href="#" onclick="isPremiumJob('@job.id');">
+					<img src="@getImgageForPremiumJob(job.id.toString)._1" alt="@getImgageForPremiumJob(job.id.toString)._2" 
+					title="@getImgageForPremiumJob(job.id.toString)._2"/> 
+					</a></td>}
 				</tr>
 				}
 			</tbody>
@@ -162,7 +192,7 @@
 		</table>
 		<div id="myPager" class="pagination pagination-centered"></div>
 		</div>
-		  
+			@if(editFlag == false){</fieldset>}  
 
 		}
 	</div>
@@ -179,7 +209,7 @@
 		 jobPagination();
 		}, false); 
 	 $("#searchString").popover({placement:'bottom'}); 
-	
+	 premiumJobResult(1);
 	});
  
  
@@ -204,6 +234,7 @@
 	 var to=from + itemperpage - 1;
 	 showRecords(from,to);
 	 $('html, body').animate({ scrollTop: 0 }, 'fast');
+	 premiumJobResult(page+1);
 	 console.info(page);
 	}});
 	
@@ -227,11 +258,13 @@ function showRecords(from, to) {
 	    var removeWhiteSpaces=  clearString.replace(/\s{2,}/g, ' ');
 	    $.ajax({
 	        type : 'POST',
-	        url : '@routes.JobController.findAJob("' + removeWhiteSpaces + '","' + editflag + '")',
+	        url : '@routes.JobController.searchJobs("' + removeWhiteSpaces + '","' + editflag + '")',
 	        success : function(data) {
 	        	 $('#search-result').html(data);
 	        	 var myHilitor = new Hilitor("#results");
-	             myHilitor.apply(removeWhiteSpaces);
+	        	 if(removeWhiteSpaces != ' ')
+	            	 myHilitor.apply(removeWhiteSpaces);
+	             document.getElementById("premiumJobResult").style.display = 'none'
 	        }
 	    });
 	    return false;
