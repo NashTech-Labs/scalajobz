@@ -45,11 +45,11 @@ object PremiumJob {
   def jobType: Set[(String, String)] = {
     var PremiumJobType: Set[(String, String)] = Set()
     if (countPremiumJobsForAPage(1) < premiumJobsPerPage)
-      PremiumJobType ++= Seq("p1" -> "First Page Listing $298.00 USD")
+      PremiumJobType ++= Seq("p1" -> "First Page Listing $3.00 USD")
     if (countPremiumJobsForAPage(2) < premiumJobsPerPage)
-      PremiumJobType ++= Seq("p2" -> "Second Page Listing $198.00 USD")
+      PremiumJobType ++= Seq("p2" -> "Second Page Listing $2.00 USD")
     if (countPremiumJobsForAPage(3) < premiumJobsPerPage)
-      PremiumJobType ++= Seq("p3" -> "Third Page Listing $98.00 USD")
+      PremiumJobType ++= Seq("p3" -> "Third Page Listing $1.00 USD")
     PremiumJobType
   }
 
